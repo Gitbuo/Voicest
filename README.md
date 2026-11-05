@@ -278,7 +278,7 @@ Voicest is built with gratitude to the creators of open-source vocal synthesis t
 - **Data-Driven Documents (D3.js)**:
   - Mike Bostock (ISC License).
 - **Voicest Application**:
-  - Licensed under the Apache-2.0 License. Contributors: Gemini, LazioP, Claude, Devin. See [LICENSE](./LICENSE).
+  - Licensed under the Apache-2.0 License. Contributors: Gemini, Gitbuo, Claude, Devin. See [LICENSE](./LICENSE).
 
 ### Complete Verbatim License Texts & Legal Notices
 For 100% legal compliance and attribution, the complete, unabridged license texts for all components are provided in:

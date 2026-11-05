@@ -179,6 +179,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ---
 
 ### 3.7. Voicest v1.5x Application
-**Copyright (c) 2026 Gemini · LazioP · Claude · Devin**
+**Copyright (c) 2026 Gemini · Gitbuo · Claude · Devin**
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
 The full text of the Apache License 2.0 is provided in the `LICENSE` file located at the project root.
