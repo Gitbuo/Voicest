@@ -26,10 +26,10 @@ Voicest is an all-in-one browser-based singing voice synthesizer and digital aud
 
 ## Quick start
 
-Requirements: Node.js 22.6+ (see `.nvmrc`).
+Requirements: Node.js 22.6+.
 
 ```bash
-npm ci            # install dependencies
+npm install       # install dependencies
 npm run dev       # dev server on http://localhost:3000
 npm run lint      # type check (tsc --noEmit)
 npm test          # unit tests (node --test)
