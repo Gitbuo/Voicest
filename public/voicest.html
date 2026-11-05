@@ -2191,7 +2191,7 @@ VBS.pl.clear();cache.clear();tl();draw()}
       if(!$('#lp').checked&&rr>=n){ph=-1;movePh();clockPh();draw();return}
       ph=Math.max(0,rr)%n;
       const px=KW+ph*CW;
-      if(!FOLLOW&&(px<rw.scrollLeft||px>rw.scrollLeft+rw.clientWidth-40)){rw.scrollLeft=Math.max(0,px-60)}
+      if((typeof FOLLOW==='undefined'||!FOLLOW)&&(px<rw.scrollLeft||px>rw.scrollLeft+rw.clientWidth-40)){rw.scrollLeft=Math.max(0,px-60)}
       movePh();clockPh();
       requestAnimationFrame(tick)
     };
@@ -3272,7 +3272,7 @@ cimg=function(){bgUpdate()};
 {const b=$('#cit');if(b){b.textContent='Ảnh nền';b.title='Bật/tắt ảnh nền của nhân vật trong track đang chọn'}}
 
 // ---------- 5) Follow notes during playback: pan to center + bounce ----------
-let FOLLOW=true;try{FOLLOW=localStorage.getItem('voicest_fw')!=='0'}catch(e){}
+var FOLLOW=true;try{FOLLOW=localStorage.getItem('voicest_fw')!=='0'}catch(e){}
 {
   const tb=$('#cl')&&$('#cl').parentNode;
   if(tb){tb.insertAdjacentHTML('beforeend','<label id=fww title="Khi phát: khung nhìn tự lia để nốt đang hát nằm giữa màn hình"><input type=checkbox id=fwf> <b style="color:var(--ac)">Theo nốt</b></label>');
