@@ -14,5 +14,11 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Opened without a build (e.g. the source folder uploaded to a static host): open the editor directly.
+      addEventListener('load', () => setTimeout(() => {
+        if (!document.getElementById('root').hasChildNodes()) location.replace('public/voicest.html');
+      }, 1500));
+    </script>
   </body>
 </html>
