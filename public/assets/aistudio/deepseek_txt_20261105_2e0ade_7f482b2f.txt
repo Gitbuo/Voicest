@@ -1,0 +1,73 @@
+GitHub báo “Some checks were not successful” = có ít nhất 1 check tự động trên PR bị đỏ, nên PR có thể bị chặn merge. Làm theo thứ tự sau, đừng sửa bừa:
+
+1) Xác định check nào đỏ
+- Vào trang Pull Request.
+- Kéo xuống mục “Some checks were not successful” / “Checks”.
+- Nhìn danh sách:
+  - Dấu ❌ đỏ = check fail.
+  - Dấu 🟡 vàng = đang chạy/chưa báo kết quả.
+  - Dấu ✅ xanh = pass.
+- Bấm “Details” (hoặc tên check) của check đỏ.
+
+2) Đọc log lỗi
+- Trong log, tìm các dòng có: “error”, “failed”, “exit code 1”, “npm ERR”, “FAIL”, “Exception”, “not found”.
+- Xác định lỗi thuộc loại nào:
+  - Build/compile fail.
+  - Unit test fail.
+  - Lint/format fail.
+  - Security/static analysis fail.
+  - License header check fail.
+  - Check name mismatch (check đã chạy nhưng GitHub vẫn báo “Expected — Waiting for status to be reported”).
+  - Flaky test / lỗi runner GitHub.
+
+3) Nếu lỗi do code của mình
+- Ở máy local:
+  git checkout <tên-nhánh-PR>
+  git pull
+- Chạy lại đúng lệnh mà CI đang chạy, ví dụ:
+  npm test
+  npm run lint
+  npm run build
+  mvn clean install
+  pytest
+- Sửa lỗi.
+- Commit và push lại:
+  git add .
+  git commit -m "fix: ..."
+  git push
+- GitHub sẽ tự chạy lại check.
+
+4) Nếu là lỗi “Expected — Waiting for status to be reported” / tên check không khớp
+- Đây thường là lỗi cấu hình Branch protection, không phải code.
+- Vào Settings → Branches → Branch protection rules.
+- Tìm required status check đang bị lỗi.
+- Tên check phải khớp CHÍNH XÁC với tên job thực tế trên PR, kể cả chữ hoa/thường, khoảng trắng, tiền tố.
+- Nếu workflow gọi reusable workflow, tên có thể bị nối kiểu:
+  “Workflow cha / Job con / ...”
+- Sửa lại tên cho khớp, hoặc chuyển sang Settings → Rules → Rulesets để dễ quản lý hơn.
+- Nếu không có quyền admin repo thì nhắn maintainer sửa.
+
+5) Nếu là flaky test / lỗi hạ tầng
+- Vào tab Actions.
+- Tìm workflow run bị lỗi.
+- Bấm “Re-run failed jobs” hoặc “Re-run all jobs”.
+- Không sửa code nếu log cho thấy lỗi mạng/runner.
+
+6) Nếu là GitHub Pages build fail
+- Vào Settings → Pages, xem source đang là “Deploy from a branch” hay “GitHub Actions”.
+- Nếu là branch: phải push đúng nhánh và đúng thư mục nguồn (/ hoặc /docs).
+- Nếu là Actions: workflow phải trigger đúng nhánh, build phải thành công.
+- Build fail thì trang cũ vẫn hiển thị, trang mới không lên.
+- Lưu ý: commit do workflow dùng GITHUB_TOKEN push có thể KHÔNG kích hoạt build GitHub Pages.
+
+7) Lưu ý khi push
+- Không force push lên nhánh protected nếu không được phép.
+- Nếu buộc phải force, dùng:
+  git push --force-with-lease origin <branch>
+- Tốt nhất là commit sửa lỗi bình thường.
+
+8) Nếu không có quyền sửa check/settings
+Gửi maintainer đoạn này:
+“PR của em đang báo ‘Some checks were not successful’. Check bị đỏ là: <tên check>. Log lỗi chính: <copy 5–10 dòng lỗi>. Em đã thử <đã làm gì>. Anh/chị xem giúp em đây là lỗi code hay lỗi cấu hình required check / quyền runner ạ.”
+
+Tóm lại: vào PR → bấm Details của check đỏ → đọc log → sửa code hoặc sửa tên check → push lại; nếu lỗi hệ thống thì Re-run; không có quyền thì nhắn maintainer kèm tên check + log lỗi.
