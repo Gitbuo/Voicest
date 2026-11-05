@@ -1081,11 +1081,11 @@ k:{k:'stop',v:0,clo:.035,vot:.065,bf:0,bq:1.6,ba:.20,as:1.1},
 b:{k:'stop',v:1,clo:.040,vot:.014,bf:800,bq:1.1,ba:.15,as:.15},
 d:{k:'stop',v:1,clo:.040,vot:.014,bf:3800,bq:1.3,ba:.15,as:.15},
 g:{k:'stop',v:1,clo:.040,vot:.018,bf:0,bq:1.6,ba:.15,as:.15},
-ch:{k:'aff',v:0,clo:.030,fr:.080,fc:3700,fq:1.1,fa:.16,ba:.10},
-ts:{k:'aff',v:0,clo:.030,fr:.075,fc:6500,fq:1.2,fa:.11,ba:.10},
+ch:{k:'aff',v:0,clo:.030,fr:.080,fc:3700,fq:1.1,fa:.135,ba:.10},
+ts:{k:'aff',v:0,clo:.030,fr:.075,fc:6500,fq:1.2,fa:.09,ba:.10},
 j:{k:'aff',v:1,clo:.030,fr:.060,fc:3300,fq:1.1,fa:.12,ba:.06},
-s:{k:'fric',v:0,fr:.110,fc:7200,fq:1.2,fa:.13},
-sh:{k:'fric',v:0,fr:.120,fc:3400,fq:1.0,fa:.14},
+s:{k:'fric',v:0,fr:.110,fc:7200,fq:1.2,fa:.105},
+sh:{k:'fric',v:0,fr:.120,fc:3400,fq:1.0,fa:.12},
 f:{k:'fric',v:0,fr:.085,fc:5500,fq:.5,fa:.15},
 T:{k:'fric',v:0,fr:.085,fc:6500,fq:.5,fa:.13},
 dh:{k:'fric',v:1,fr:.060,fc:5500,fq:.5,fa:.08},
@@ -1133,8 +1133,8 @@ voice=function(c,d,t,dur,p,txt,hh){
   const co=artCo(m,P,tfin-tv-.05,en,O),tvE=Math.max(tv+.03,tfin-co.L),ts=Math.max(0,tc-.008),e=tfin+rel+.15;
   const g=c.createGain(),bus=c.createGain(),vs=c.createGain(),s=c.createOscillator(),fp=s.frequency;s.type='sawtooth';
   const gp=1.8*(VGN[m.nas?'n':m.v]||1)*Math.min(3,Math.max(.4,(261.6/f)**.72));
-  g.gain.setValueAtTime(0,ts);g.gain.linearRampToValueAtTime(gp,Math.max(ts+.004,tc+.006));g.gain.setValueAtTime(gp,Math.max(tc+.01,tfin));g.gain.linearRampToValueAtTime(0,Math.max(tc+.01,tfin)+rel);
-  {const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=6500;lp.Q.value=.5;g.connect(lp);lp.connect(d)}
+  g.gain.setValueAtTime(0,ts);g.gain.linearRampToValueAtTime(gp,Math.max(ts+.01,tc+.012));g.gain.setValueAtTime(gp,Math.max(tc+.01,tfin));g.gain.linearRampToValueAtTime(0,Math.max(tc+.01,tfin)+rel);
+  {const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=6000;lp.Q.value=.5;g.connect(lp);lp.connect(d)}
   // ----- pitch: automatic smooth legato glide like UTAU & OpenUTAU -----
   if(pc){fp.setValueAtTime(fq(pcv[0][1])*f/fq(O.p),0);bend(fp,y=>fq(y)*f/fq(O.p))}
   else if(lk&&Math.abs(t-(lk.s+lk.l)*sd)<=0.05){
@@ -1153,7 +1153,7 @@ voice=function(c,d,t,dur,p,txt,hh){
   const nzs=(t0,du,fc,Q,rms,type,att,dec)=>{if(du<.004||t0<0)return;const x=nz(c),b=c.createBiquadFilter(),kk=c.createGain();b.type=type||'bandpass';b.frequency.value=fc;b.Q.value=Q;
     const bw=type=='highpass'?Math.max(3000,22050-fc):Math.min(20000,fc/Q),A=Math.min(10,rms*ca/(.577*Math.sqrt(bw/22050)));att=Math.min(att||.004,du*.5);dec=Math.min(dec==null?.015:dec,du*.6);
     kk.gain.setValueAtTime(0,t0);kk.gain.linearRampToValueAtTime(A,t0+att);kk.gain.setValueAtTime(A,Math.max(t0+att,t0+du-dec));kk.gain.linearRampToValueAtTime(0,t0+du);x.connect(b);b.connect(kk);kk.connect(d);x.start(t0,Math.abs(Math.sin(t0*127.1))*.8);x.stop(t0+du+.02)};
-  const frica=(sp,a,du,sc)=>{const hp=sp.fc>6000;nzs(a,du,sp.fc,sp.fq,sp.fa*(sc||1),'bandpass',.012,.02);if(hp)nzs(a,du,3500,.7,sp.fa*.25*(sc||1),'highpass',.012,.02)};
+  const frica=(sp,a,du,sc)=>{const hp=sp.fc>6000;nzs(a,du,sp.fc,sp.fq,sp.fa*(sc||1),'bandpass',.012,.02);if(hp)nzs(a,du,3500,.7,sp.fa*.14*(sc||1),'highpass',.018,.03)};
   const burstAt=(lab,sp,tb,vfv,sc)=>{const bf=sp.bf||(vfv[1]>1700?3300:vfv[1]<1000?1400:2200);nzs(tb,.016,bf,sp.bq||1.2,sp.ba*(sc||1),'bandpass',.001,.012)};
   // ----- per-parameter schedule -----
   let sg=[],a=tc+on.g;for(const x of on.s){const r={...x,a,b:a+x.d};a=r.b;
@@ -1203,8 +1203,8 @@ voice=function(c,d,t,dur,p,txt,hh){
 {const v0=voice,EQ=new WeakMap();
  const bq=(c,type,f,q,g)=>{const b=c.createBiquadFilter();b.type=type;b.frequency.value=f;b.Q.value=q;if(g!=null)b.gain.value=g;return b};
  const chain=(c,d,P)=>{let n=EQ.get(d);if(n)return n;const cl=P.cl==null?.7:P.cl,
-   hp=bq(c,'highpass',90,.7),mud=bq(c,'peaking',280,1,-1.5-2.5*cl),pres=bq(c,'peaking',2600,1,1+2.5*cl),air=bq(c,'highshelf',6500,.7,-4);
-   hp.connect(mud);mud.connect(pres);pres.connect(air);air.connect(d);EQ.set(d,hp);return hp};
+   hp=bq(c,'highpass',90,.7),mud=bq(c,'peaking',280,1,-1.5-2.5*cl),pres=bq(c,'peaking',2600,1,1+2.5*cl),art=bq(c,'peaking',3600,1.2,1+1.5*cl),ess=bq(c,'peaking',7200,1.6,-3.5),air=bq(c,'highshelf',9500,.7,-2);
+   hp.connect(mud);mud.connect(pres);pres.connect(art);art.connect(ess);ess.connect(air);air.connect(d);EQ.set(d,hp);return hp};
  voice=function(c,d,t,dur,p,txt,hh){return v0.call(this,c,chain(c,d,chVP(hh)),t,dur,p,txt,hh)}}
 
 // ===== v7.2 · Phoneme UI: the phoneme strip shows the real timing (onset before the beat, coda at the end of the note) =====

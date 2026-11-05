@@ -8,6 +8,22 @@ Voicest is an all-in-one browser-based singing voice synthesizer and digital aud
 
 **Open it in your browser: https://gitbuo.github.io/Voicest/**
 
+## Highlights
+
+| Feature | What it does | Details |
+| --- | --- | --- |
+| UTAU voicebanks | Load `.zip` / `.rar` / `.uar` archives or folders (CV, VCV, CVVC, multi-pitch), `oto.ini` and `prefix.map` in Shift-JIS or UTF-8 | [Vocal engines & voicebanks](#5-vocal-engines--voicebanks) |
+| Saved voicebanks | Imported voicebanks are kept in the browser (IndexedDB) and restored on the next visit | [Saved voicebanks](#5-vocal-engines--voicebanks) |
+| Online voicebanks | Host big voicebanks as ≤ 50 MB hashed parts; the browser downloads only the WAVs a song uses (HTTP Range), verifies SHA-256 and caches them | [Online voicebanks](#online-voicebanks-in-detail), [Hosting](#hosting-voicebanks) |
+| Auto-tune (frq) | Natural pitch curves (glide, overshoot, end-of-note fall) computed from the voicebank `.frq` files, updated in the background as you edit | [Auto-tune (frq)](#auto-tune-frq) |
+| Cestloid | Built-in formant singing voice (no voicebank needed) with clarity EQ and editable k-a phoneme timing | [Cestloid](#cestloid-built-in-voice) |
+| Auto-Oto (CV) | Record or upload CV samples and generate `oto.ini` automatically | [Auto-Oto](#6-auto-oto-generator-cv-voicebanks) |
+| WORLD vocoder | WebAssembly WORLD resampler for pitch / formant shifting | [Vocal engines](#5-vocal-engines--voicebanks) |
+| Export / import | WAV, MP3, OGG audio export; UST, USTX, SVP and MIDI projects | [Export & import](#7-export--import-formats) |
+| 5 languages | English (default), Tiếng Việt, 日本語, 中文, 한국어 — UI and messages follow the selected language | — |
+| Offline | Service worker caches the app; saved and downloaded voicebanks work without a connection | [Online voicebanks](#online-voicebanks-in-detail) |
+| 100 MB import limit | Every local import is ≤ 100 MB; `scripts/clean-voicebank.mjs` shrinks a voicebank below it | [Import size limit](#5-vocal-engines--voicebanks) |
+
 ## Quick start
 
 Requirements: Node.js 22.6+ (see `.nvmrc`).
@@ -92,7 +108,7 @@ Every push to `main` is checked by CI and published to GitHub Pages. To host voi
 - **Built-in Cestloid Voice**:
   - Formant synthesis singing in Japanese romaji or kana (`ka`, `か`, `kya`, `がっこう`).
   - Sliders for Brightness, Breathiness, Vibrato, Formant, Gender, and Vocal Tension.
-  - Clarity EQ on the voice (high-pass, less low-mid mud, presence boost around 3 kHz, softer sibilance, low-passed voiced buzz); the presence amount follows the Clarity slider.
+  - Clarity EQ on the voice: high-pass at 90 Hz, less low-mid mud (280 Hz), presence boosts at 2.6 kHz and 3.6 kHz that follow the **Clarity** slider, a de-esser band at 7.2 kHz and a gentle high shelf; voiced buzz is low-passed at 6 kHz, note attacks fade in over about 10 ms and the s / sh / ts / ch noise is kept soft.
   - English-to-Kana phonemizer (EN2JA+).
 - **UTAU Voicebank Support**:
   - Load folders, `.zip`, `.uar`, and `.rar` archives.
@@ -145,6 +161,50 @@ Every request stays below the 100 MB per-request limit of Cloudflare Tunnel (Fre
 Re-packing a changed voicebank gives the changed parts new names; browsers pick up the new manifest on their next visit and only download what changed.
 
 Not included: server-side rendering of UTAU voices to Opus (needs a VPS running a UTAU resampler); with the setup above the browser still renders everything locally.
+
+## Online voicebanks in detail
+
+**Why:** UTAU voicebanks are often 200 MB – 2 GB and full of desktop-engine cache files. Downloading a whole archive on every visit wastes bandwidth and breaks per-request limits such as Cloudflare Tunnel Free (100 MB). Online voicebanks are downloaded sample by sample and kept in the browser.
+
+**Pack** (on your computer, Node.js 18+, no extra packages):
+```bash
+node scripts/pack-voicebank.mjs "path/to/My Voicebank" public/voicebanks --name "My Voicebank"
+```
+| Output | Purpose |
+| --- | --- |
+| `public/voicebanks/<slug>/manifest.json` | Name, total size and, for every file, its part, byte offset, size and SHA-256 |
+| `public/voicebanks/<slug>/part001-<hash>.bin`, … | The voicebank files concatenated into parts of at most 50 MB (`--chunk-mb 1…95`); the name contains the content hash, so parts can be cached forever |
+| `public/voicebanks/index.json` | List of voicebanks hosted on the site, shown under **Available on this site** |
+
+Cache files (`.llsm`, `.mrq`, `.pmk`, `.uwf`, `.uwf2`, and `.frq` unless `--keep-frq`) are removed; WAV files are copied byte for byte.
+
+**Use:** open **Saved voicebanks → Online voicebanks** and either click a voicebank under **Available on this site**, paste a `manifest.json` URL, or share a link like `https://gitbuo.github.io/Voicest/?vb=<manifest URL>`.
+
+**What is downloaded**
+| Moment | Network |
+| --- | --- |
+| Adding the voicebank | `manifest.json` + `oto.ini`, `character.txt`, `prefix.map`, images (a few KB) |
+| A note needs a sample for the first time | Only that WAV, through an HTTP `Range` request inside its part; checked against the SHA-256 in the manifest |
+| Next visits | Only `manifest.json` (revalidated); every sample already used comes from Cache Storage (`voicest-vb-files-v1`) |
+| **⤓** (download for offline) | Every part, one request each (≤ 50 MB) |
+| **✕** | Forgets the voicebank and deletes its cached files |
+
+Hosts without Range support still work: the whole part is fetched once and cached. Updating a voicebank only changes the parts whose content changed.
+
+## Auto-tune (frq)
+
+The **Auto-tune (frq)** checkbox in the Tools bar (on by default, remembered in the browser) gives Voice notes a natural pitch curve without drawing it by hand:
+
+- **Glide between notes:** when a note directly follows another at a different pitch, the pitch moves with a cosine curve whose length grows with the interval (40 ms + 9 ms per semitone, at most 140 ms or half the note).
+- **Voicing-aware start:** the glide starts when the sample actually becomes voiced. Voicest reads the sample's UTAU `.frq` file (`FREQ0003`: f0 and amplitude per frame) and finds the first frame with f0 > 40 Hz and enough amplitude after the oto offset.
+- **Overshoot:** jumps of 3 semitones or more overshoot slightly (up to 0.18 semitone) and settle within about 90 ms.
+- **End-of-note fall:** on long notes (≥ 1 beat) that are not followed by a connected note, if the recording itself drifts down at the end (median f0 of the tail vs. the middle, below −15 cents) the last 20 % of the note falls a little, like the singer did.
+- **Background and incremental:** the first run processes every note; afterwards only the edited note and its two neighbours are recalculated. Notes whose pitch curve you drew yourself (Pitch pts / Tuning brush) are never overwritten.
+- Notes without a `.frq` file still get the glide and overshoot; only the voicing-aware start and the fall need it. Keep `.frq` files with `--keep-frq` when packing an online voicebank if you rely on them.
+
+## Cestloid (built-in voice)
+
+Cestloid is a formant synthesizer that sings Japanese romaji / kana (and English through EN2JA+) with no voicebank. Sliders: Brightness, Breathiness, Vibrato, Formant, Gender, Tension and **Clarity**. See the clarity EQ in [Vocal engines](#5-vocal-engines--voicebanks) and the editable consonant / vowel timing below.
 
 ## 6. Auto-Oto Generator (CV Voicebanks)
 - **Dedicated CV Tool**: Specially tailored for raw CV (Consonant + Vowel / 単独音) recordings.
