@@ -1,6 +1,39 @@
-# Voicest v1.5x — All Features Documentation
+# Voicest
+
+[![CI](https://github.com/Gitbuo/Voicest/actions/workflows/ci.yml/badge.svg)](https://github.com/Gitbuo/Voicest/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/Gitbuo/Voicest/actions/workflows/pages.yml/badge.svg)](https://github.com/Gitbuo/Voicest/actions/workflows/pages.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 
 Voicest is an all-in-one browser-based singing voice synthesizer and digital audio workstation (DAW) inspired by UTAU. It runs 100% client-side in the browser using Web Audio, WebAssembly, and modern Web APIs with no server requirement.
+
+**Open it in your browser: https://gitbuo.github.io/Voicest/**
+
+## Quick start
+
+Requirements: Node.js 22.6+ (see `.nvmrc`).
+
+```bash
+npm ci            # install dependencies
+npm run dev       # dev server on http://localhost:3000
+npm run lint      # type check (tsc --noEmit)
+npm test          # unit tests (node --test)
+npm run build     # production build in dist/
+npm run preview   # serve dist/ locally
+```
+
+| Path | Contents |
+| --- | --- |
+| `public/voicest.html` | The editor itself (engines, piano roll, voicebank loader, i18n), loaded in an iframe |
+| `src/` | React shell (`App.tsx`), pitch visualizer and tested helpers in `src/lib/` |
+| `scripts/` | `clean-voicebank.mjs` (shrink + zip a voicebank) and `pack-voicebank.mjs` (pack a voicebank for hosting) |
+| `public/sw.js` | Service worker: app shell cache for offline use |
+| `.github/workflows/` | `ci.yml` (lint, test, build on every push / PR) and `pages.yml` (deploy to GitHub Pages from `main`) |
+
+Every push to `main` is checked by CI and published to GitHub Pages. To host voicebanks on the Pages site, pack them into `public/voicebanks/` (see [Hosting voicebanks](#hosting-voicebanks)); keep each file under GitHub's 100 MB limit (parts are 50 MB by default).
+
+---
+
+# Voicest v1.5x — All Features Documentation
 
 ---
 

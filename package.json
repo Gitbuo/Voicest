@@ -2,13 +2,25 @@
   "name": "voicest",
   "private": true,
   "version": "1.7.0",
+  "description": "Browser-based UTAU vocal synthesizer and editor (WebUTAU engine, Cestloid voice, Auto-Oto, online voicebanks).",
+  "license": "Apache-2.0",
+  "homepage": "https://gitbuo.github.io/Voicest/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gitbuo/Voicest.git"
+  },
+  "engines": {
+    "node": ">=22.6"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
     "test": "node --experimental-strip-types --test src/lib/*.test.ts",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "pack-voicebank": "node scripts/pack-voicebank.mjs",
+    "clean-voicebank": "node scripts/clean-voicebank.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
