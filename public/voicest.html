@@ -100,7 +100,7 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)un()
 w.addEventListener('unhandledrejection',function(e){try{console.warn('Voicest:',e.reason)}catch(x){}});
 })();
 </script></head><body>
-<div id=cred><b>&gt;LazioP&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gemini · LazioP · Claude</small></div>
+<div id=cred><b>&gt;LazioP&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gemini · LazioP · Claude · Devin</small></div>
 <header><h1><img id=logo alt="" src="./logo.png">Voicest v1.5x</h1>
 <button id=pl>Phát</button><button id=st title="Dừng">Dừng</button>
 BPM<input id=bpm type=number min=40 max=240 value=120 style="width:56px">
@@ -2854,7 +2854,7 @@ if(tb){
    ['Phonemizer','EN2JA+','Cadlaxa (MIT)','https://github.com/Cadlaxa','Chuyển tiếng Anh sang kana; tích hợp trong phonemizer “En to Ja” của OpenUtau.','English → kana conversion; merged into OpenUtau’s “En to Ja” phonemizer.'],
    ['MP3 Encoder','lamejs','Janez Stupar (LGPL-3.0 / MIT)','https://github.com/zhuker/lamejs','Bộ mã hóa MP3 LAME thuần JavaScript chạy 100% trong trình duyệt.','Pure JavaScript LAME MP3 audio encoder running 100% in browser.'],
    ['Data Visualization','D3.js','Mike Bostock (ISC License)','https://d3js.org','Thư viện vẽ đường cong cao độ F0 và tọa độ thời gian thực.','Data visualization library powering the bottom F0 pitch visualizer.'],
-   ['Application','Voicest v1.5x','Gemini · LazioP · Claude (Apache-2.0)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép Apache-2.0.','Voicest v1.5x application codebase licensed under Apache-2.0.']
+   ['Application','Voicest v1.5x','Gemini · LazioP · Claude · Devin (Apache-2.0)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép Apache-2.0.','Voicest v1.5x application codebase licensed under Apache-2.0.']
   ];
   const SC=[
    ['Space',T('Phát / dừng','Play / stop')],
@@ -2880,15 +2880,14 @@ if(tb){
      '<h3>'+T('Tính năng nổi bật (Features Overview)','Features & Capabilities Overview')+'</h3>'+
      '<div style="font-size:12px;line-height:1.6;margin-bottom:10px;padding:8px 12px;background:var(--pn);border-radius:8px;border:1px solid var(--ln)">'+
      '<div>• <b>Piano Roll & Tuning:</b> '+T('Cọ vẽ cao độ tự do, điểm tune, vibrato và legato S-curve mượt mà.','Freehand pitch brush, pitch points, vibrato, and S-curve legato.')+'</div>'+
-     '<div>• <b>Dịch cao độ (Pitch Shift):</b> '+T('Từng nửa cung (C4→C#4) qua phím ↑/↓ và quãng tám qua Shift+↑/↓.','Semitone step-by-step (C4→C#4) via ↑/↓ and octave via Shift+↑/↓.')+'</div>'+
-     '<div>• <b>Màu nốt trực quan:</b> '+T('Theo màu kênh, cầu vồng 12 nửa cung (C, D, E...) và bảng 8 màu tùy chọn.','Track color, 12-semitone pitch rainbow, and 8-color custom palette.')+'</div>'+
-     '<div>• <b>Nhạc cụ 7 kênh:</b> '+T('Chuyển đổi tức thì giữa Piano, Musicbox, Violin, Guitar, Chip (8-bit), Voice, Sample.','Instant switching for Piano, Musicbox, Violin, Guitar, Chip (8-bit), Voice, Sample.')+'</div>'+
-     '<div>• <b>Auto-Gain (Chạy ngầm):</b> '+T('Tự động cân bằng âm lượng các kênh, chống vỡ tiếng và khuếch đại kênh quá nhỏ.','Automatically balances track levels, prevents clipping and boosts quiet tracks in the background.')+'</div>'+
+     '<div>• <b>'+T('Dịch cao độ','Pitch Shift')+':</b> '+T('Từng nửa cung (C4→C#4) qua phím ↑/↓ và quãng tám qua Shift+↑/↓.','Semitone step-by-step (C4→C#4) via ↑/↓ and octave via Shift+↑/↓.')+'</div>'+
+     '<div>• <b>'+T('Màu nốt trực quan','Note Colors')+':</b> '+T('Theo màu kênh, cầu vồng 12 nửa cung (C, D, E...) và bảng 8 màu tùy chọn.','Track color, 12-semitone pitch rainbow, and 8-color custom palette.')+'</div>'+
+     '<div>• <b>'+T('Nhạc cụ 7 kênh','7 Instruments')+':</b> '+T('Chuyển đổi tức thì giữa Piano, Musicbox, Violin, Guitar, Chip (8-bit), Voice, Sample.','Instant switching for Piano, Musicbox, Violin, Guitar, Chip (8-bit), Voice, Sample.')+'</div>'+
      '<div>• <b>Lasso Tool:</b> '+T('Bôi đen tự do để chọn, dịch cao độ, tô màu hoặc xóa hàng loạt nốt cùng lúc.','Marquee selection box to batch-transpose, color, or delete multiple notes.')+'</div>'+
      '<div>• <b>Auto-Oto Generator (CV):</b> '+T('Thu âm mic trực tiếp hoặc nạp WAV thô, tự động quét năng lượng RMS để tạo oto.ini.','Direct mic recording or raw WAV energy (RMS) analysis for automatic CV oto.ini generation.')+'</div>'+
      '<div>• <b>Voicebank Multi-pitch:</b> '+T('Tự động nhận diện tier cao độ và fallback thông minh về tier gần nhất.','Automatic pitch tier detection and closest-pitch fallback.')+'</div>'+
      '<div>• <b>Cestloid k-a timing:</b> '+T('Dải Phát âm hiển thị từng nốt dạng k-a: kéo đầu phụ âm, ranh giới k|a và ranh giới nguyên âm|phụ âm cuối; nguyên âm chính nằm giữa. Shift + kéo k|a để dời cả phụ âm.','The Phoneme strip shows every note as k-a: drag the consonant start, the k|a boundary and the vowel|coda boundary; the main vowel sits in the middle. Shift + drag k|a moves the whole consonant.')+'</div>'+
-      '<div>• <b>Xuất âm thanh đa định dạng:</b> '+T('Một hộp thoại duy nhất: chọn WAV, MP3 (lamejs) hoặc OGG, chỉnh cân bằng trái–phải rồi tải xuống.','One dialog: pick WAV, MP3 (lamejs) or OGG, set the left–right balance, then download.')+'</div>'+
+      '<div>• <b>'+T('Xuất âm thanh đa định dạng','Multi-format Audio Export')+':</b> '+T('Một hộp thoại duy nhất: chọn WAV, MP3 (lamejs) hoặc OGG, chỉnh cân bằng trái–phải rồi tải xuống.','One dialog: pick WAV, MP3 (lamejs) or OGG, set the left–right balance, then download.')+'</div>'+
      '</div>'+
      '<h3>'+T('Giấy phép & Nguồn mở (Licenses & Attributions)','Open Source Licenses & Attributions')+'</h3>'+CR.map(r=>'<div class=cr><span class=k>'+e(r[0])+'</span><span>'+(r[3]?'<a href="'+e(r[3])+'" target=_blank rel="noopener noreferrer">'+e(r[1])+'</a>':'<b>'+e(r[1])+'</b>')+(r[2]?' · '+e(r[2]):'')+'</span><small>'+e(L()==='vi'?r[4]:r[5])+'</small></div>').join('')+
      '<h3>'+T('Phím tắt (Shortcuts)','Keyboard Shortcuts')+'</h3><div class=sc>'+SC.map(r=>'<span><kbd>'+e(r[0])+'</kbd></span><span>'+e(r[1])+'</span>').join('')+'</div></div>';
