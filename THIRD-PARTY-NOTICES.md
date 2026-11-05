@@ -179,5 +179,5 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 ---
 
 ### 3.7. Voicest v1.5x Application
-**Copyright (c) 2026 Gemini · Gitbuo · Claude · Devin**
+**Copyright (c) 2026 Gitbuo · Gemini**
 Licensed under the MIT License. The full text of the MIT License is provided in the `LICENSE` file located at the project root.

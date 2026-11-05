@@ -2,7 +2,7 @@
 <style>
 :root{--bg:#e0f7ee;--tx:#2d3b44;--ac:#ff8fbf;--pn:color-mix(in srgb,#ffd9ea 65%,var(--bg));--ln:#f2b2cd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16141d;--tx:#eee;--pn:color-mix(in srgb,var(--bg),var(--tx) 7%);--ln:color-mix(in srgb,var(--bg),var(--tx) 18%)}}
-:root[data-theme="dark"]{--bg:#16141d;--tx:#eee;--pn:color-mix(in srgb,var(--bg),var(--tx) 7%);--ln:color-mix(in srgb,var(--bg),var(--tx) 18%)}html,body{margin:0;background:var(--bg);color:var(--tx);font:13px system-ui,sans-serif}header{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;background:var(--pn);border-bottom:1px solid var(--ln)}h1{font-size:18px;margin:0 8px 0 0;color:var(--ac);letter-spacing:1px}button,select,input{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:4px 7px}button{cursor:pointer}button:hover,.on{background:var(--ac);color:#fff}input[type=range]{padding:0;width:80px}input[type=color]{padding:0;width:26px;height:26px}#main{display:flex;flex-wrap:wrap}#side{width:290px;max-width:100%;padding:8px;background:var(--pn);border-right:1px solid var(--ln)}.chr{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px;margin-bottom:5px;border:1px solid var(--ln);border-left:6px solid;border-radius:6px;background:var(--bg);cursor:pointer}.chr.sel{outline:2px solid var(--ac)}.chr input[type=text]{width:70px}#rw{position:relative;flex:1;min-width:0;overflow:auto;max-height:560px}canvas{display:block}#phl{position:absolute;top:0;left:0;width:2px;height:100%;pointer-events:none;z-index:4;background:var(--tx);box-shadow:0 0 0 1px color-mix(in srgb,var(--bg) 70%,transparent);will-change:transform;display:none}#lb{position:absolute;display:none;width:130px;z-index:5;border:2px solid var(--ac)}#pgw{height:8px;background:var(--ln);border-radius:4px;margin:6px 0}#pg{height:100%;width:0;background:var(--ac);border-radius:4px}.s{display:flex;justify-content:space-between;align-items:center;margin:3px 0}small{opacity:.7}header{position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}#side{max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px;align-self:flex-start}button{transition:.12s}button:active{transform:scale(.95)}.chr:hover{filter:brightness(1.06)}#vc{border-radius:6px}#logo{height:28px;vertical-align:middle;margin-right:6px}
+:root[data-theme="dark"]{--bg:#16141d;--tx:#eee;--pn:color-mix(in srgb,var(--bg),var(--tx) 7%);--ln:color-mix(in srgb,var(--bg),var(--tx) 18%)}html,body{margin:0;background:var(--bg);color:var(--tx);font:13px system-ui,sans-serif}header{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;background:var(--pn);border-bottom:1px solid var(--ln)}h1{font-size:18px;margin:0 8px 0 0;color:var(--ac);letter-spacing:1px}button,select,input{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:4px 7px}button{cursor:pointer}button:hover,.on{background:var(--ac);color:#fff}input[type=range]{padding:0;width:80px}input[type=color]{padding:0;width:26px;height:26px}#main{display:flex;flex-wrap:wrap}#side{width:290px;max-width:100%;padding:8px;background:var(--pn);border-right:1px solid var(--ln)}.chr{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px;margin-bottom:5px;border:1px solid var(--ln);border-left:6px solid;border-radius:6px;background:var(--bg);cursor:pointer}.chr.sel{outline:2px solid var(--ac)}.chr input[type=text]{width:70px}#rw{position:relative;flex:1;min-width:0;overflow:auto;max-height:560px}canvas{display:block}#phl{position:absolute;top:0;left:0;width:2px;height:100%;pointer-events:none;z-index:4;background:var(--tx);box-shadow:0 0 0 1px color-mix(in srgb,var(--bg) 70%,transparent);will-change:transform;display:none}#lb{position:absolute;display:none;width:130px;z-index:5;border:2px solid var(--ac)}#pgw{height:8px;background:var(--ln);border-radius:4px;margin:6px 0;overflow:hidden}#pg{height:100%;width:0;background:var(--ac);border-radius:4px;transition:width .12s ease}#hpgw{position:absolute;left:0;right:0;bottom:0;height:3.5px;background:color-mix(in srgb,var(--ln) 55%,transparent);pointer-events:none;opacity:0;transition:opacity .2s ease}#hpg{height:100%;width:0;background:var(--ac);transition:width .12s ease}.s{display:flex;justify-content:space-between;align-items:center;margin:3px 0}small{opacity:.7}header{position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}#side{max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px;align-self:flex-start}button{transition:.12s}button:active{transform:scale(.95)}.chr:hover{filter:brightness(1.06)}#vc{border-radius:6px}#logo{height:28px;vertical-align:middle;margin-right:6px}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) #logo{filter:invert(1) hue-rotate(180deg)}}
 :root[data-theme=dark] #logo{filter:invert(1) hue-rotate(180deg)}details>summary{cursor:pointer;font-weight:600;padding:3px 0}#advd{flex-basis:100%}#vad,#vbd{margin:4px 0}*{scrollbar-color:var(--ln) var(--bg)}:root[data-theme=classic]{color-scheme:light}:root[data-theme=classic] #logo{filter:none}:root[data-theme=classic]{--bg:#f0f0f0;--tx:#000;--ac:#3a5bd0;--pn:#f0f0f0;--ln:#a0a0a0}:root[data-theme=classic] *{font-family:"MS UI Gothic",Tahoma,"Segoe UI",sans-serif}:root[data-theme=classic] header{background:#f0f0f0;border-bottom:1px solid #a0a0a0}:root[data-theme=classic] button,:root[data-theme=classic] select,:root[data-theme=classic] input{background:#e1e1e1;border:1px solid #707070;border-radius:0}:root[data-theme=classic] button:hover,:root[data-theme=classic] .on{background:#cfe0ff;color:#000}:root[data-theme=classic] #side{background:#f0f0f0}:root[data-theme=classic] .chr{border-radius:0}
 #no_overlap_badge{display:none!important}
@@ -100,7 +100,7 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)un()
 w.addEventListener('unhandledrejection',function(e){try{console.warn('Voicest:',e.reason)}catch(x){}});
 })();
 </script></head><body>
-<div id=cred><b>&gt;Gitbuo&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gemini · Gitbuo · Claude · Devin</small></div>
+<div id=cred><b>&gt;Gitbuo&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gitbuo · Gemini</small></div>
 <header><h1><img id=logo alt="" src="./logo.png">Voicest v1.5x</h1>
 <button id=pl>Phát</button><button id=st title="Dừng">Dừng</button>
 BPM<input id=bpm type=number min=40 max=240 value=120 style="width:56px">
@@ -118,7 +118,7 @@ Dài nốt<select id=len><option>1<option selected>2<option>4<option>8<option>16
 <span class="tool-sep"></span>
 <button id=bOtoGen title="Auto-generate oto.ini from raw CV recordings using RMS analysis">Auto-Oto (CV)</button>
 </div>
-<input type=file id=fj accept=".ust,.mid,.midi,.ustx,.svp" hidden><input type=file id=fm accept=".mid,.midi,.ust,.ustx,.svp" hidden><input type=file id=fw accept="audio/*" hidden></header>
+<input type=file id=fj accept=".ust,.mid,.midi,.ustx,.svp" hidden><input type=file id=fm accept=".mid,.midi,.ust,.ustx,.svp" hidden><input type=file id=fw accept="audio/*" hidden><div id=hpgw><div id=hpg></div></div></header>
 <div id=main><div id=side><div id=chl></div>
 <div class=s><select id=ni><option>Piano<option>Musicbox<option>Violin<option>Guitar<option>Chip<option value=Voice>Voice · Cestloid<option>Sample</select><button id=ad>+ Kênh</button></div>
 <hr><b>Cestloid</b><small id=kh>Gõ romaji hoặc kana: ka, か, kya, がっこう</small>
@@ -314,7 +314,7 @@ else if(k=='Violin'){const g=env(c,d,t,dur,.09,.25,.12),b=c.createBiquadFilter()
 else if(k=='Guitar'){const g=dec(c,d,t,.4,dur+.6),b=c.createBiquadFilter();b.type='lowpass';b.frequency.setValueAtTime(4500,t);b.frequency.exponentialRampToValueAtTime(500,t+.5);b.connect(g);osc(c,'sawtooth',f,t,e,b);osc(c,'triangle',f,t,e,b)}
 else{const g=env(c,d,t,dur,.003,.2,.03);osc(c,h.cw||'square',f,t,e,g)}}
 // ===== render =====
-const prog=x=>$('#pg').style.width=(x*100)+'%',ss=()=>60/S.bpm/4,N=()=>S.bars*16;
+const prog=x=>{const pct=Math.max(0,Math.min(100,(x||0)*100))+'%';const pg=$('#pg');if(pg)pg.style.width=pct;const hpg=$('#hpg'),hpgw=$('#hpgw');if(hpg)hpg.style.width=pct;if(hpgw)hpgw.style.opacity=(x>0&&x<1)?'1':(x>=1?'0.45':'0')},ss=()=>60/S.bpm/4,N=()=>S.bars*16;
 function stop(){if(src){src.onended=null;try{src.stop()}catch(e){}src=null}ph=-1;draw()}
 function wav(b){
   const nCh=b.numberOfChannels||1,n=b.length;
@@ -834,7 +834,7 @@ $('#rw').scrollTop=(HI-76)*CH;
 // ===== v2: fixes, i18n, formats, Cestloid 2 =====
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 let tkId=0;function lyr(o){return o.t&&o.t[0]=='~'?((o.w||'a').replace(/^-+(?=[^-])|(?<=[^-])-+$/g,'')||'a'):(o.t||'a')}function msg(t){$('#ms').textContent=t}
-const VPD={b:.5,br:.15,v:.4,f:1,g:0,t:.5,rs:0,pw:0,wh:0,vb:1,vd:.25,pt:.06,pre:.6,hu:0,at:1,rob:0,use:0};
+const VPD={b:.5,br:.12,v:.4,f:1,g:0,t:.5,rs:0,pw:0,wh:0,vb:1,vd:.25,pt:.06,pre:.48,hu:0,at:1,rob:0,use:0,cl:.85,asp:.42};
 function hz(o){return(((o.s*2654435761)^(o.p*40503))>>>0)%1000/1000-.5}
 function prevOf(h,o){let b=null;for(const q of h.n){const e=q.s+q.l;if(q!==o&&q.s<o.s&&e>=o.s-1&&e<=o.s+1&&(!b||q.s>b.s))b=q}return b}
 
@@ -951,14 +951,14 @@ try{const r=localStorage.getItem('voicest');let ok=false;if(r&&r.length>2){try{l
 $('#th').value='light';sync();tl();
 
 // ===== v5: clarity · Auto-tune · KO/ZH · VCV · visuals · QOL =====
-{const chVP0=chVP;chVP=function(h){const P=chVP0(h);if(P.cl==null)P.cl=.7;return P};VPD.cl=.7}
+{const chVP0=chVP;chVP=function(h){const P=chVP0(h);if(P.cl==null)P.cl=.85;return P};VPD.cl=.85}
 // 1) Clarity: push vowel formants away from the neutral zone + higher Q, less breath masking
 // ---- Auto-tune ----
 // ---- VCV: alias "a ka" -> '@a|ka'; used when notes are joined legato ----
 vbKey=function(a){a=a.trim();const p=a.split(/\s+/);if(p.length==2&&p[0]!='-'&&p[0]!='R'){const m=morae(p[0]),n=morae(p[1]);if(m.length&&n.length==1&&n[0].t!='ー'){const l=m[m.length-1];return'@'+(l.nas?'n':VJ[l.v]||'a')+'|'+(n[0].nas?'n':n[0].c+n[0].v)}return null}const m=morae(a.replace(/^[-\s]+/,''));return m.length==1&&m[0].t!='ー'?(m[0].nas?'n':m[0].c+m[0].v):null};
 
 // ---- UI ----
-{const h=document.createElement('div');h.innerHTML='<hr><div class=s>Rõ âm<input type=range data-v=cl min=0 max=1 step=.05 value=.7></div><div class=s>Vang<input type=range id=ec min=0 max=.6 step=.05 value=0></div><canvas id=vc width=280 height=120 style="width:100%" title="Biểu đồ nguyên âm F1/F2"></canvas>';$('#side').insertBefore(h,$('#pgw'))}
+{const h=document.createElement('div');h.innerHTML='<hr><div class=s>Rõ âm<input type=range data-v=cl min=0 max=1 step=.05 value=.85></div><div class=s>Vang<input type=range id=ec min=0 max=.6 step=.05 value=0></div><canvas id=vc width=280 height=120 style="width:100%" title="Biểu đồ nguyên âm F1/F2"></canvas>';$('#side').insertBefore(h,$('#pgw'))}
 $('#ps').insertAdjacentHTML('beforeend','<option value=4>Cest rõ âm');PS[4]={b:.7,br:.05,v:.4,f:1,g:0,t:.8,cl:1};
 $('[data-v=cl]').oninput=e=>chVP(S.ch[sel]).cl=+e.target.value;$('#ec').oninput=e=>S.echo=+e.target.value;
 const cur_=()=>S.ch[sel],sorted=h=>[...h.n].sort((a,b)=>a.s-b.s);
@@ -1001,7 +1001,7 @@ document.head.insertAdjacentHTML('beforeend','<link rel=icon href="'+$('#logo').
 // ---- Import: "+", "+~", "-" = extend vowel; "R" = rest ----
 sync();
 // ===== v7: remove Cestloid 2 · pitch-tuning style vibrato · phoneme/timing =====
-VPD.asp=.6;
+VPD.asp=.42;
 function effPc(o){if(!o)return null;if(!o.vb)return o.pc&&o.pc.length?o.pc:null;const v=o.vb,st=ss(),b=o.pc&&o.pc.length>1?o.pc:[[o.s,o.p],[o.s+o.l,o.p]],r=[],ds=o.l*st;let j=0;
 for(let u=0;u<=o.l+1e-9;u+=.25){const x=o.s+u;while(j<b.length-2&&b[j+1][0]<x)j++;const a=b[j],c=b[Math.min(j+1,b.length-1)],w=c[0]>a[0]?Math.max(0,Math.min(1,(x-a[0])/(c[0]-a[0]))):0,t=u*st;let y=a[1]+(c[1]-a[1])*w;
 if(t>v.d){const tt=t-v.d,q=Math.min(1,tt/Math.max(.05,ds-v.d)),sh=v.sh|0,ev=sh==1?.15+.85*q:sh==2?Math.sin(Math.PI*q):sh==3?Math.sin(Math.PI*q*(v.sw||2))**2:Math.min(1,tt/(v.f||.01))*Math.min(1,Math.max(0,ds-t)/(v.o||.01));y+=v.a*ev*Math.sin(6.2832*(v.r*tt+(v.ra||0)*v.r*tt*tt/(2*Math.max(.3,ds-v.d))))}r.push([x,y])}return r}
@@ -1026,7 +1026,7 @@ if(u.length>1)msg(b.value.trim()+' → '+u.map(x=>x.w||x.t).join(' · '));draw()
 // ---- UI: remove Cestloid 2, Cestloid panel only for Cestloid channels ----
 {$('[data-v=v]').parentNode.remove();const sd=$('#side'),f0=$('[data-v=b]').parentNode,cp=document.createElement('div');cp.id='cp';f0.before(cp);
 const hb=[...sd.querySelectorAll('b')].find(b=>b.textContent=='Cestloid');cp.append(hb,' ',hb.nextElementSibling);['b','br','f','g','t'].forEach(k=>cp.append($('[data-v='+k+']').parentNode));cp.append($('[data-v=cl]').parentNode);
-cp.insertAdjacentHTML('beforeend','<div class=s>Phụ âm<input type=range data-v=pre min=0 max=1.5 step=.05 value=.6></div><div class=s>Bật hơi<input type=range data-v=asp min=0 max=1.5 step=.05 value=.6></div>');
+cp.insertAdjacentHTML('beforeend','<div class=s>Phụ âm<input type=range data-v=pre min=0 max=1.5 step=.05 value=.48></div><div class=s>Bật hơi<input type=range data-v=asp min=0 max=1.5 step=.05 value=.42></div>');
 cp.querySelectorAll('[data-v]').forEach(i=>i.oninput=()=>S.vp[i.dataset.v]=+i.value);
 $('#ps').innerHTML='<option value=0>Cest mặc định<option value=1>Cest nữ<option value=4>Cest rõ âm';PS[5]={b:.7,br:.05,g:0,t:.85,cl:1,pre:.9,asp:1};
 rc=(r0=>function(){r0();const h=S.ch[sel],cest=h&&h.k=='Voice'&&!h.vb,vo=h&&h.k=='Voice';$('#cp').style.display=$('#ps').style.display=cest?'':'none';$('#kh').style.display=vo?'':'none'})(rc);
@@ -1121,8 +1121,8 @@ function artCo(m,P,room,en,O){
 function leadOf(h,o){const t=o.t||'a',sd=ss(),L=artOn(vm(t),chVP(h),o.l*sd,9,o,t[0]=='~').L;return Math.max(0,L-Math.max(-2,Math.min(o.cp||0,o.l*.8))*sd)}
 function TL(par,v0,t0){let ct=Math.max(0,t0),cv=v0;par.setValueAtTime(v0,ct);return{to(tm,val,rl){tm=Math.max(ct,tm);rl=Math.max(0,Math.min(rl||0,tm-ct));const a=tm-rl;if(a>ct)par.setValueAtTime(cv,a);if(rl>0)par.linearRampToValueAtTime(val,tm);else par.setValueAtTime(val,tm);ct=tm;cv=val}}}
 voice=function(c,d,t,dur,p,txt,hh){
-  const O=curO||{p},P=chVP(hh),m=vm(txt),sd=ss(),T=P.t==null?.5:P.t,cl=Math.max(P.cl==null?.7:P.cl,.55),G=P.g||0,kf=P.f*(1+.2*G),f=fq(p),
-    asp=P.asp==null?.6:P.asp,pt=Math.max(.03,P.pt||.06),en=!!txt&&txt[0]=='~',ca=.8+.5*cl;
+  const O=curO||{p},P=chVP(hh),m=vm(txt),sd=ss(),T=P.t==null?.5:P.t,cl=Math.max(P.cl==null?.85:P.cl,.55),G=P.g||0,kf=P.f*(1+.2*G),f=fq(p),
+    asp=P.asp==null?.42:P.asp,pt=Math.max(.03,P.pt||.06),en=!!txt&&txt[0]=='~',ca=.55+.22*cl;
   const lk=hh&&curO?prevOf(hh,curO):null,nx=hh&&curO?nextOf(hh,curO):null,pcv=effPc(curO),pc=!!pcv;
   const nb0=nx&&vm(nx.t||'a').c,NASF=/^[bpm]/.test(nb0||'')?CG.m:/^[kg]/.test(nb0||'')?LOCX.N:CG.n;  // ん changes place of articulation based on the following sound: m / ŋ / n
   const F=x=>x.map(y=>y*kf),PV=x=>(x.nas?NASF:V[x.v])||V.AH,vf=F(PV(m));if(f>vf[0]*.8)vf[0]=Math.max(vf[0],Math.min(f*.9,vf[0]*1.5));
@@ -1134,7 +1134,7 @@ voice=function(c,d,t,dur,p,txt,hh){
   const g=c.createGain(),bus=c.createGain(),vs=c.createGain(),s=c.createOscillator(),fp=s.frequency;s.type='sawtooth';
   const gp=1.8*(VGN[m.nas?'n':m.v]||1)*Math.min(3,Math.max(.4,(261.6/f)**.72));
   g.gain.setValueAtTime(0,ts);g.gain.linearRampToValueAtTime(gp,Math.max(ts+.01,tc+.012));g.gain.setValueAtTime(gp,Math.max(tc+.01,tfin));g.gain.linearRampToValueAtTime(0,Math.max(tc+.01,tfin)+rel);
-  {const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=6000;lp.Q.value=.5;g.connect(lp);lp.connect(d)}
+  {const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=7800;lp.Q.value=.5;g.connect(lp);lp.connect(d)}
   // ----- pitch: automatic smooth legato glide like UTAU & OpenUTAU -----
   if(pc){fp.setValueAtTime(fq(pcv[0][1])*f/fq(O.p),0);bend(fp,y=>fq(y)*f/fq(O.p))}
   else if(lk&&Math.abs(t-(lk.s+lk.l)*sd)<=0.05){
@@ -1144,11 +1144,11 @@ voice=function(c,d,t,dur,p,txt,hh){
   }else{const f0=P.at?f*2**(-.35/12):f;fp.setValueAtTime(f0,ts);if(f0!=f)fp.setTargetAtTime(f,tc+.002,.045/3)}
   const jn=nz(c),jf=c.createBiquadFilter(),jg=c.createGain();jf.type='lowpass';jf.frequency.value=100;jg.gain.value=f*.03;jn.connect(jf);jf.connect(jg);jg.connect(fp);jn.start(ts);jn.stop(e);
   s.connect(vs);vs.connect(bus);s.start(ts);s.stop(e);
-  const nzz=nz(c),gn=c.createGain(),g0=P.br*.5*(1-.7*cl)*(1-.5*T)+(P.rs||0)*.35;nzz.connect(gn);gn.connect(bus);nzz.start(ts);nzz.stop(e);
+  const nzz=nz(c),gn=c.createGain(),g0=P.br*.38*(1-.75*cl)*(1-.5*T)+(P.rs||0)*.28;nzz.connect(gn);gn.connect(bus);nzz.start(ts);nzz.stop(e);
   // ----- formant bank -----
   const FR=vf.concat([3600*P.f,4800*P.f]),BQ=[],QG=[],QB=[];
-  FR.forEach((fr,i)=>{const b=c.createBiquadFilter();b.type='bandpass';const bw=Math.max((i<4?BW[i]:400)*(1.5-.8*cl)*(1.25-.5*T),i<3?f*BWF[i]:0);b.Q.value=Math.max(1.2,fr/bw);
-    const q=c.createGain(),qb=[1,.95,.7,.4,.3,.2][i]*(i>1?.5+P.b+T*.4:1)*Math.sqrt(Math.max(1,fr/bw)/8)*Math.sqrt(bw/BWR[i]);q.gain.value=qb;bus.connect(b);b.connect(q);q.connect(g);BQ.push(b);QG.push(q);QB.push(qb)});
+  FR.forEach((fr,i)=>{const b=c.createBiquadFilter();b.type='bandpass';const bw=Math.max((i<4?BW[i]:360)*(1.35-.78*cl)*(1.2-.48*T),i<3?f*BWF[i]:0);b.Q.value=Math.max(1.2,fr/bw);
+    const q=c.createGain(),qb=[1,1.02,.78,.48,.34,.22][i]*(i>1?.55+P.b+T*.4:1)*Math.sqrt(Math.max(1,fr/bw)/8)*Math.sqrt(bw/BWR[i]);q.gain.value=qb;bus.connect(b);b.connect(q);q.connect(g);BQ.push(b);QG.push(q);QB.push(qb)});
   // ----- consonants: generate noise directly (burst/fricative) -----
   const nzs=(t0,du,fc,Q,rms,type,att,dec)=>{if(du<.004||t0<0)return;const x=nz(c),b=c.createBiquadFilter(),kk=c.createGain();b.type=type||'bandpass';b.frequency.value=fc;b.Q.value=Q;
     const bw=type=='highpass'?Math.max(3000,22050-fc):Math.min(20000,fc/Q),A=Math.min(10,rms*ca/(.577*Math.sqrt(bw/22050)));att=Math.min(att||.004,du*.5);dec=Math.min(dec==null?.015:dec,du*.6);
@@ -1171,10 +1171,10 @@ voice=function(c,d,t,dur,p,txt,hh){
     vsT.to(x.a+.006,va,.006);
     const mu=k=='nas'?MUTE.nas:k=='stop'&&sp.v?MUTE.vst:x.lab=='l'?MUTE.l:null;
     if(qt)qt.forEach((z,i)=>z.to(x.a+.008,QB[i]*(mu?mu[i]:1),.008));
-    if(k=='stop'){burstAt(x.lab,sp,x.tb,vf);const A=asp*1.3*sp.as;nsT.to(x.tb+.003,g0+A,.003);nsT.to(tv+.03,g0,1);if(sp.v)vsT.to(x.tb+.012,.6,.012)}
-    else if(k=='aff'){frica(sp,x.tb,x.b-x.tb+.014);burstAt(x.lab,sp,x.tb,vf);if(sp.v)vsT.to(x.tb+.012,.6,.012)}
-    else if(k=='fric'){frica(sp,x.a,x.d+.014)}
-    else if(k=='asp'){nsT.to(x.a+.01,g0+asp*1.3,.01);nsT.to(tv+.02,g0,1)}}
+    if(k=='stop'){burstAt(x.lab,sp,x.tb,vf,.82);const A=asp*.85*sp.as;nsT.to(x.tb+.003,g0+A,.003);nsT.to(tv+.03,g0,1);if(sp.v)vsT.to(x.tb+.012,.6,.012)}
+    else if(k=='aff'){frica(sp,x.tb,x.b-x.tb+.014,.82);burstAt(x.lab,sp,x.tb,vf,.82);if(sp.v)vsT.to(x.tb+.012,.6,.012)}
+    else if(k=='fric'){frica(sp,x.a,x.d+.014,.82)}
+    else if(k=='asp'){nsT.to(x.a+.01,g0+asp*.85,.01);nsT.to(tv+.02,g0,1)}}
   // transition to the vowel
   {const k=last?last.sp.k:'',tr=!last?(lk?Math.max(.05,pt*1.1):0):k=='stop'||k=='aff'?.05:last.lab=='r'?.09:last.lab=='w'?.1:last.lab=='y'?.085:last.lab=='l'?.06:k=='nas'?.05:.03;
     const ts0=last?(k=='stop'||k=='aff'?last.tb:last.a+last.d*.6):tv,rl=Math.max(.01,tv+tr-ts0);
@@ -1191,10 +1191,10 @@ voice=function(c,d,t,dur,p,txt,hh){
     if(loc)ft.forEach((z,i)=>z.to(a0+mv,F(loc)[i],mv));
     if(k=='nas'){vsT.to(a0+.02,.6,.02);if(qt)qt.forEach((z,i)=>z.to(a0+.03,QB[i]*MUTE.nas[i],.03))}
     else if(k=='liq'||k=='gl'){vsT.to(a0+.03,.85,.03)}
-    else if(k=='stop'){const tb=a0+x.d*(sp.clo*.9)/(sp.clo*.9+.05);vsT.to(a0+.015,sp.v?.22:0,.015);burstAt(x.lab,sp,tb,vf,.85);if(!sp.v){const A=asp*.9;nsT.to(tb+.003,g0+A,.003);nsT.to(b0+.03,g0,1)}else vsT.to(tb+.02,0,.02)}
-    else if(k=='aff'){const tb=a0+x.d*sp.clo/(sp.clo+sp.fr);vsT.to(a0+.015,sp.v?.3:0,.015);frica(sp,tb,b0-tb);burstAt(x.lab,sp,tb,vf,.8)}
-    else if(k=='fric'){vsT.to(a0+.015,sp.v?.45:0,.015);frica(sp,a0+.01,x.d-.01)}
-    else if(k=='asp'){vsT.to(a0+.015,0,.015);nsT.to(a0+.02,g0+asp*1.6,.02);nsT.to(b0,g0,1)}}
+    else if(k=='stop'){const tb=a0+x.d*(sp.clo*.9)/(sp.clo*.9+.05);vsT.to(a0+.015,sp.v?.22:0,.015);burstAt(x.lab,sp,tb,vf,.65);if(!sp.v){const A=asp*.65;nsT.to(tb+.003,g0+A,.003);nsT.to(b0+.03,g0,1)}else vsT.to(tb+.02,0,.02)}
+    else if(k=='aff'){const tb=a0+x.d*sp.clo/(sp.clo+sp.fr);vsT.to(a0+.015,sp.v?.3:0,.015);frica(sp,tb,b0-tb,.65);burstAt(x.lab,sp,tb,vf,.65)}
+    else if(k=='fric'){vsT.to(a0+.015,sp.v?.45:0,.015);frica(sp,a0+.01,x.d-.01,.65)}
+    else if(k=='asp'){vsT.to(a0+.015,0,.015);nsT.to(a0+.02,g0+asp*.95,.02);nsT.to(b0,g0,1)}}
   if(co.s.length){const lx=co.s[co.s.length-1].sp.k;vsT.to(ca0+(lx=='nas'||lx=='liq'||lx=='gl'?.0:.0)+.02,0,.03)}
   else if(nx&&nl<=0&&!(co.s.length)){const nm=vm(nx.t),nf=F(PV(nm));ft.forEach((z,i)=>z.to(tfin+.03,nf[i],.07))}
 };
@@ -1202,8 +1202,8 @@ voice=function(c,d,t,dur,p,txt,hh){
 // ===== Cestloid clarity EQ: high-pass, de-mud, presence (singer's formant), softer sibilance, shared per output node =====
 {const v0=voice,EQ=new WeakMap();
  const bq=(c,type,f,q,g)=>{const b=c.createBiquadFilter();b.type=type;b.frequency.value=f;b.Q.value=q;if(g!=null)b.gain.value=g;return b};
- const chain=(c,d,P)=>{let n=EQ.get(d);if(n)return n;const cl=P.cl==null?.7:P.cl,
-   hp=bq(c,'highpass',90,.7),mud=bq(c,'peaking',280,1,-1.5-2.5*cl),pres=bq(c,'peaking',2600,1,1+2.5*cl),art=bq(c,'peaking',3600,1.2,1+1.5*cl),ess=bq(c,'peaking',7200,1.6,-3.5),air=bq(c,'highshelf',9500,.7,-2);
+ const chain=(c,d,P)=>{let n=EQ.get(d);if(n)return n;const cl=P.cl==null?.85:P.cl,
+   hp=bq(c,'highpass',105,.7),mud=bq(c,'peaking',270,1,-2.0-2.8*cl),pres=bq(c,'peaking',2700,1,1.5+3.0*cl),art=bq(c,'peaking',3700,1.2,1.2+2.0*cl),ess=bq(c,'peaking',7200,1.6,-4.5),air=bq(c,'highshelf',9500,.7,-1.5);
    hp.connect(mud);mud.connect(pres);pres.connect(art);art.connect(ess);ess.connect(air);air.connect(d);EQ.set(d,hp);return hp};
  voice=function(c,d,t,dur,p,txt,hh){return v0.call(this,c,chain(c,d,chVP(hh)),t,dur,p,txt,hh)}}
 
@@ -2854,7 +2854,7 @@ if(tb){
    ['Phonemizer','EN2JA+','Cadlaxa (MIT)','https://github.com/Cadlaxa','Chuyển tiếng Anh sang kana; tích hợp trong phonemizer “En to Ja” của OpenUtau.','English → kana conversion; merged into OpenUtau’s “En to Ja” phonemizer.'],
    ['MP3 Encoder','lamejs','Janez Stupar (LGPL-3.0 / MIT)','https://github.com/zhuker/lamejs','Bộ mã hóa MP3 LAME thuần JavaScript chạy 100% trong trình duyệt.','Pure JavaScript LAME MP3 audio encoder running 100% in browser.'],
    ['Data Visualization','D3.js','Mike Bostock (ISC License)','https://d3js.org','Thư viện vẽ đường cong cao độ F0 và tọa độ thời gian thực.','Data visualization library powering the bottom F0 pitch visualizer.'],
-   ['Application','Voicest v1.5x','Gemini · Gitbuo · Claude · Devin (MIT)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép MIT.','Voicest v1.5x application codebase licensed under the MIT License.']
+   ['Application','Voicest v1.5x','Gitbuo · Gemini (MIT)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép MIT.','Voicest v1.5x application codebase licensed under the MIT License.']
   ];
   const SC=[
    ['Space',T('Phát / dừng','Play / stop')],
@@ -2969,10 +2969,29 @@ function frqOf(bk,bkName,r){
     const mh=med(head),m2=med(tail);
     const attackCents=m1>0&&mh>0?Math.max(-60,Math.min(40,1200*Math.log2(mh/m1))):0;
     const drift=m1>0&&m2>0?Math.max(-60,Math.min(40,1200*Math.log2(m2/m1))):0;
-    return{vOn,off,pre:r.pre||0,attackCents,drift}
+    // extract a 16-bin smoothed relative pitch contour (in semitones) from the voiced body of .frq
+    const bins=new Float32Array(16);
+    if(m1>0){
+      const bCnt=new Int16Array(16);
+      for(let i=i0;i<=i1;i++){
+        const t=ms(i);if(t<v0||t>end||f[i]<50||f[i]>1200||a[i]<=localAm*.14)continue;
+        const c=1200*Math.log2(f[i]/m1);if(Math.abs(c)>350)continue;
+        const bi=Math.min(15,Math.max(0,Math.floor((t-v0)/span*16)));
+        bins[bi]+=Math.max(-65,Math.min(45,c))/100;bCnt[bi]++;
+      }
+      for(let b=0;b<16;b++)if(bCnt[b]>0)bins[b]/=bCnt[b];
+      // 3-point smoothing pass
+      const smB=new Float32Array(16);
+      for(let b=0;b<16;b++){
+        const p=bins[Math.max(0,b-1)],c=bins[b],nx=bins[Math.min(15,b+1)];
+        smB[b]=(p+2*c+nx)/4;
+      }
+      bins.set(smB);
+    }
+    return{vOn,off,pre:r.pre||0,attackCents,drift,bins}
   }catch(e){return null}})();
   AT.fr.set(key,pr);return pr}
-// pitch curve for 1 note: natural attack scoop on phrase start, smooth voiced-onset glide from previous note, subtle overshoot, and natural end drift
+// pitch curve for 1 note: natural attack scoop, smooth voiced-onset glide, subtle overshoot, .frq micro-contour, and natural end drift
 function atCurve(o,pv,adj,nadj,fr){
   const sm=15e3/S.bpm,lenMs=o.l*sm,n=Math.min(400,Math.max(3,Math.round(o.l/.25)+1)),pts=[];
   let glide=0,iv=0,g0=0,scoop=0,scoopMs=0;
@@ -2986,9 +3005,10 @@ function atCurve(o,pv,adj,nadj,fr){
     scoopMs=Math.min(48,lenMs*.25);
   }
   const fall=(!nadj&&o.l>=4&&fr&&fr.drift<-12)?Math.min(.25,-fr.drift/100*.5):0;
+  const bins=fr&&fr.bins?fr.bins:null;
   let any=false;
   for(let k=0;k<n;k++){
-    const u=k*o.l/(n-1),t=u*sm;let d=0;
+    const u=k*o.l/(n-1),t=u*sm,frac=k/(n-1);let d=0;
     if(glide>0){
       if(t<g0)d=-iv;
       else if(t<g0+glide)d=-iv*(1+Math.cos(Math.PI*(t-g0)/glide))/2;
@@ -2996,7 +3016,14 @@ function atCurve(o,pv,adj,nadj,fr){
     }else if(scoop>0&&t<scoopMs){
       d=-scoop*(1+Math.cos(Math.PI*t/scoopMs))/2;
     }
-    if(fall>0){const q=(u/o.l-.8)/.2;if(q>0)d-=fall*(1-Math.cos(Math.PI*Math.min(1,q)))/2}
+    // subtle natural .frq pitch contour in the steady-state body (faded in/out at note edges)
+    if(bins&&lenMs>=120){
+      const pos=frac*15,bi=Math.min(14,Math.floor(pos)),f0=pos-bi;
+      const cVal=bins[bi]*(1-f0)+bins[bi+1]*f0;
+      const env=Math.min(1,frac/.2)*Math.min(1,(1-frac)/.2);
+      d+=cVal*0.32*env;
+    }
+    if(fall>0){const q=(frac-.8)/.2;if(q>0)d-=fall*(1-Math.cos(Math.PI*Math.min(1,q)))/2}
     if(Math.abs(d)>.01)any=true;
     pts.push([Math.round((o.s+u)*1e4)/1e4,Math.round((o.p+d)*1e3)/1e3])}
   return any?pts:null}
