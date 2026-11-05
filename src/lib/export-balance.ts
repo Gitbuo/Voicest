@@ -1,6 +1,6 @@
 /**
  * @license
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: MIT
  *
  * Stereo balance used by the "Export Audio" dialog (mirrors expGains / expApplyBalance
  * in public/voicest.html). The balance only attenuates the opposite channel, so it is

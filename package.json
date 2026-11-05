@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.7.0",
   "description": "Browser-based UTAU vocal synthesizer and editor (WebUTAU engine, Cestloid voice, Auto-Oto, online voicebanks).",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "homepage": "https://gitbuo.github.io/Voicest/",
   "repository": {
     "type": "git",

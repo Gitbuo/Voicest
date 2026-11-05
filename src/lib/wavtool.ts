@@ -1,6 +1,6 @@
 /**
  * @license
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: MIT
  * 
  * Organum-0.0.8 Inspired High-Speed Wavtool & Concatenator
  * Implements:

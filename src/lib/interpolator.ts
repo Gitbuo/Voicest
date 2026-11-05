@@ -1,6 +1,6 @@
 /**
  * @license
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: MIT
  *
  * Interpolator module inspired by Straycat & Rust-WORLD
  * Provides smooth curve mathematics for pitch bends and legato portamento.

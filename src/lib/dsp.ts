@@ -1,6 +1,6 @@
 /**
  * @license
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-License-Identifier: MIT
  *
  * Rust-WORLD inspired DSP Utilities
  * Provides DC blocking, soft saturation limiting, and equal-power crossfading.

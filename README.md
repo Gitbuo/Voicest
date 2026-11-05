@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Gitbuo/Voicest/actions/workflows/ci.yml/badge.svg)](https://github.com/Gitbuo/Voicest/actions/workflows/ci.yml)
 [![Deploy to GitHub Pages](https://github.com/Gitbuo/Voicest/actions/workflows/pages.yml/badge.svg)](https://github.com/Gitbuo/Voicest/actions/workflows/pages.yml)
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Voicest is an all-in-one browser-based singing voice synthesizer and digital audio workstation (DAW) inspired by UTAU. It runs 100% client-side in the browser using Web Audio, WebAssembly, and modern Web APIs with no server requirement.
 
@@ -278,11 +278,11 @@ Voicest is built with gratitude to the creators of open-source vocal synthesis t
 - **Data-Driven Documents (D3.js)**:
   - Mike Bostock (ISC License).
 - **Voicest Application**:
-  - Licensed under the Apache-2.0 License. Contributors: Gemini, Gitbuo, Claude, Devin. See [LICENSE](./LICENSE).
+  - Licensed under the MIT License. Contributors: Gemini, Gitbuo, Claude, Devin. See [LICENSE](./LICENSE).
 
 ### Complete Verbatim License Texts & Legal Notices
 For 100% legal compliance and attribution, the complete, unabridged license texts for all components are provided in:
-- **Application License**: [`LICENSE`](./LICENSE) (Apache License 2.0 full text)
+- **Application License**: [`LICENSE`](./LICENSE) (MIT License full text)
 - **Third-Party Notices**: [`THIRD-PARTY-NOTICES.md`](./THIRD-PARTY-NOTICES.md) (Verbatim BSD, MIT, ISC, and dual-license declarations)
 
 ---

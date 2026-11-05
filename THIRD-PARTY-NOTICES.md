@@ -20,7 +20,7 @@ This document contains full attribution notices and verbatim license texts for t
 ## 2. Dual-Licensing Choice Declaration (lamejs)
 
 `lamejs` is distributed under a dual license: GNU Lesser General Public License version 3.0 (LGPL-3.0) and the MIT License.
-For the Voicest application, **the MIT License has been explicitly selected** to allow seamless client-side bundle compilation under Apache-2.0 compatibility. The full verbatim text of the MIT License applying to `lamejs` is included below.
+For the Voicest application, **the MIT License has been explicitly selected** to allow seamless client-side bundle compilation. The full verbatim text of the MIT License applying to `lamejs` is included below.
 
 ---
 
@@ -180,5 +180,4 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ### 3.7. Voicest v1.5x Application
 **Copyright (c) 2026 Gemini · Gitbuo · Claude · Devin**
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
-The full text of the Apache License 2.0 is provided in the `LICENSE` file located at the project root.
+Licensed under the MIT License. The full text of the MIT License is provided in the `LICENSE` file located at the project root.
