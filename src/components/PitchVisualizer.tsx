@@ -25,13 +25,13 @@ export interface PitchVisualizerProps {
 }
 
 const COLOR = {
-  bg: '#e0f7ee',
-  panel: '#f3e6ee',
-  line: '#f2b2cd',
-  ink: '#2d3b44',
-  pink: '#ff8fbf',
-  mint: '#7fdcc0',
-  mintDeep: '#3fbf9d',
+  bg: '#eaf3f8',
+  panel: '#dce8f0',
+  line: '#b4cad8',
+  ink: '#243442',
+  pink: '#4a90b8',
+  mint: '#6ba8c9',
+  mintDeep: '#3b789c',
 };
 
 const TEXT: Record<Language, { title: string; notes: string; legato: string; open: string; close: string }> = {

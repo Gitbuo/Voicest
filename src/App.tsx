@@ -87,13 +87,13 @@ export default function App() {
   }, [toggleFullscreen]);
 
   return (
-    <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', background: '#e0f7ee', overflow: 'hidden' }}>
+    <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', background: '#eaf3f8', overflow: 'hidden' }}>
       <iframe
         ref={iframeRef}
         title="Voicest"
         src={`./voicest.html${window.location.search}`}
         allow="autoplay; fullscreen; microphone"
-        style={{ flex: 1, minHeight: 0, width: '100%', border: 0, background: '#e0f7ee' }}
+        style={{ flex: 1, minHeight: 0, width: '100%', border: 0, background: '#eaf3f8' }}
       />
       <PitchVisualizer
         notes={notes}
