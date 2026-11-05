@@ -1133,7 +1133,8 @@ voice=function(c,d,t,dur,p,txt,hh){
   const co=artCo(m,P,tfin-tv-.05,en,O),tvE=Math.max(tv+.03,tfin-co.L),ts=Math.max(0,tc-.008),e=tfin+rel+.15;
   const g=c.createGain(),bus=c.createGain(),vs=c.createGain(),s=c.createOscillator(),fp=s.frequency;s.type='sawtooth';
   const gp=1.8*(VGN[m.nas?'n':m.v]||1)*Math.min(3,Math.max(.4,(261.6/f)**.72));
-  g.gain.setValueAtTime(0,ts);g.gain.linearRampToValueAtTime(gp,Math.max(ts+.004,tc+.006));g.gain.setValueAtTime(gp,Math.max(tc+.01,tfin));g.gain.linearRampToValueAtTime(0,Math.max(tc+.01,tfin)+rel);g.connect(d);
+  g.gain.setValueAtTime(0,ts);g.gain.linearRampToValueAtTime(gp,Math.max(ts+.004,tc+.006));g.gain.setValueAtTime(gp,Math.max(tc+.01,tfin));g.gain.linearRampToValueAtTime(0,Math.max(tc+.01,tfin)+rel);
+  {const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=6500;lp.Q.value=.5;g.connect(lp);lp.connect(d)}
   // ----- pitch: automatic smooth legato glide like UTAU & OpenUTAU -----
   if(pc){fp.setValueAtTime(fq(pcv[0][1])*f/fq(O.p),0);bend(fp,y=>fq(y)*f/fq(O.p))}
   else if(lk&&Math.abs(t-(lk.s+lk.l)*sd)<=0.05){
@@ -1197,6 +1198,14 @@ voice=function(c,d,t,dur,p,txt,hh){
   if(co.s.length){const lx=co.s[co.s.length-1].sp.k;vsT.to(ca0+(lx=='nas'||lx=='liq'||lx=='gl'?.0:.0)+.02,0,.03)}
   else if(nx&&nl<=0&&!(co.s.length)){const nm=vm(nx.t),nf=F(PV(nm));ft.forEach((z,i)=>z.to(tfin+.03,nf[i],.07))}
 };
+
+// ===== Cestloid clarity EQ: high-pass, de-mud, presence (singer's formant), softer sibilance, shared per output node =====
+{const v0=voice,EQ=new WeakMap();
+ const bq=(c,type,f,q,g)=>{const b=c.createBiquadFilter();b.type=type;b.frequency.value=f;b.Q.value=q;if(g!=null)b.gain.value=g;return b};
+ const chain=(c,d,P)=>{let n=EQ.get(d);if(n)return n;const cl=P.cl==null?.7:P.cl,
+   hp=bq(c,'highpass',90,.7),mud=bq(c,'peaking',280,1,-1.5-2.5*cl),pres=bq(c,'peaking',2600,1,1+2.5*cl),air=bq(c,'highshelf',6500,.7,-4);
+   hp.connect(mud);mud.connect(pres);pres.connect(air);air.connect(d);EQ.set(d,hp);return hp};
+ voice=function(c,d,t,dur,p,txt,hh){return v0.call(this,c,chain(c,d,chVP(hh)),t,dur,p,txt,hh)}}
 
 // ===== v7.2 · Phoneme UI: the phoneme strip shows the real timing (onset before the beat, coda at the end of the note) =====
 phW=function(o){const h=S.ch[sel]||{},t=o.t||'a',m=vm(t),P=chVP(h),sd=ss(),en=t[0]=='~';return[artOn(m,P,o.l*sd,9,o,en).L/sd,artCo(m,P,o.l*sd,en,o).L/sd]};
@@ -1400,7 +1409,7 @@ function nnMidi(s){const m=String(s).trim().match(/^([A-Ga-g])([#b♯♭]?)(-?\d
 // ---------- load voicebank: only read oto.ini/prefix.map, WAVs are loaded on demand ----------
 loadVB=async function(items,name){
   const tot=items.reduce((a,i)=>a+(/\.wav$/.test(i.n)?i.size:0),0);
-  const VBMAX={low:200,mid:600,high:1500}[DEV.tier]||400;if(tot>VBMAX*2**20){vbm(_T('v_big',(tot/1048576).toFixed(0),VBMAX));return}
+  const VBMAX=Math.min(100,{low:200,mid:600,high:1500}[DEV.tier]||400);if(!window.VB_REMOTE&&tot>VBMAX*2**20){vbm(_T('v_big',(tot/1048576).toFixed(0),VBMAX));return}
   const F=new Map(),Bn=new Map(),FQ=new Map(),IM=[];items.forEach(i=>{if(/\.wav$/.test(i.n)){F.set(i.p||i.n,i);if(!Bn.has(i.n))Bn.set(i.n,i)}else if(/\.(png|jpe?g|gif|webp|bmp)$/.test(i.n)){IM.push(i)}else if(/_wav\.frq$/.test(i.n)){FQ.set(i.p||i.n,i);if(!FQ.has('~'+i.n))FQ.set('~'+i.n,i)}});
   const A=new Map(),AL=new Map();let miss=0,bad=0;
   for(const o of items.filter(i=>i.n=='oto.ini')){
@@ -3478,6 +3487,23 @@ $('#otoFileInput').onchange=async e=>{
   msg(_T('n_oto_analyzed',files.length));
 };
 })();
+// ===================== Upload size limit: one import may not exceed 100 MB =====================
+// Keeps memory use reasonable and stays under the 100 MB per-request limit of Cloudflare Tunnel (Free).
+(()=>{
+const MAX=100*2**20,USEFUL=/\.(wav|ini|map|txt|frq|png|jpe?g|bmp|gif|webp)$/i;
+AX('n_toobig','File quá lớn: {0} MB (tối đa {1} MB). Hãy xoá file cache (.llsm, .mrq, .pmk, .uwf) và file không cần, hoặc chia nhỏ voicebank rồi thử lại.',
+ 'File too large: {0} MB (limit {1} MB). Remove cache files (.llsm, .mrq, .pmk, .uwf) and unused files, or split the voicebank, then try again.',
+ 'ファイルが大きすぎます: {0} MB (上限 {1} MB)。キャッシュファイル (.llsm, .mrq, .pmk, .uwf) や不要なファイルを削除するか、ボイスバンクを分割してから再試行してください。',
+ '文件过大：{0} MB（上限 {1} MB）。请删除缓存文件（.llsm、.mrq、.pmk、.uwf）和不需要的文件，或拆分音源后重试。',
+ '파일이 너무 큽니다: {0} MB (최대 {1} MB). 캐시 파일(.llsm, .mrq, .pmk, .uwf)과 불필요한 파일을 지우거나 보이스뱅크를 나눈 뒤 다시 시도하세요.');
+// folders: only the files Voicest actually reads count; archives and other files count in full
+const size=fs=>{let n=0;for(const f of fs)if(!f.webkitRelativePath||USEFUL.test(f.name))n+=f.size;return n};
+const block=(e,fs)=>{const n=size(fs);if(n<=MAX)return false;e.preventDefault();e.stopImmediatePropagation();
+  const t=_T('n_toobig',(n/1048576).toFixed(0),MAX/1048576);try{vbm(t)}catch(_){}try{msg(t)}catch(_){alert(t)}return true};
+document.addEventListener('change',e=>{const i=e.target;if(i&&i.type=='file'&&i.files&&block(e,[...i.files]))i.value=''},true);
+addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files;if(f&&f.length)block(e,[...f])},true);
+window.VOICEST_MAX_UPLOAD=MAX;
+})();
 // ===================== Voicebank library: keep imported voicebanks in this browser (IndexedDB) =====================
 // Imported voicebank files (the original .zip/.rar/.uar archive, or the useful files of a folder) are stored as Blobs
 // in IndexedDB and re-imported automatically on the next visit, so the user does not need to load them again and no
@@ -3583,7 +3609,150 @@ async function restore(){
   if(n){vbm(_T('vbl_restored',n));try{rc()}catch(e){}cache.clear();try{draw()}catch(e){}}
   render();
 }
-window.VoicestVoicebanks={list:listBanks,remove:async n=>{await delBank(n);render()},restore};
-setTimeout(restore,0);
+window.VoicestVoicebanks={list:listBanks,remove:async n=>{await delBank(n);render()},restore,ready:new Promise(r=>setTimeout(()=>restore().finally(r),0))};
+})();
+// ===================== Online voicebanks: packed voicebanks served over HTTP, fetched sample by sample =====================
+// A voicebank packed with scripts/pack-voicebank.mjs is a manifest.json plus parts of <= 50 MB. Adding one downloads only
+// oto.ini & co.; each WAV is fetched with an HTTP Range request the first time a song needs it and kept in Cache Storage,
+// so later visits use (almost) no bandwidth. "Download everything" fetches whole parts (one request each, < 100 MB).
+(()=>{
+'use strict';
+const CN='voicest-vb-files-v1',LS='voicest_vb_remote',INDEX='voicebanks/index.json';
+[['vbo_title','Voicebank trực tuyến','Online voicebanks','オンラインボイスバンク','在线音源','온라인 보이스뱅크'],
+['vbo_add','Nạp','Load','読み込む','加载','불러오기'],
+['vbo_url_tip','Dán link manifest.json của voicebank đã đóng gói bằng scripts/pack-voicebank.mjs. Chỉ tải các sample mà bài hát cần, và giữ lại trong trình duyệt.','Paste the manifest.json link of a voicebank packed with scripts/pack-voicebank.mjs. Only the samples a song needs are downloaded, and they are kept in this browser.','scripts/pack-voicebank.mjs でパックしたボイスバンクの manifest.json のリンクを貼り付けてください。曲に必要なサンプルだけをダウンロードし、ブラウザに保存します。','粘贴用 scripts/pack-voicebank.mjs 打包的音源的 manifest.json 链接。只下载歌曲需要的采样，并保存在浏览器中。','scripts/pack-voicebank.mjs로 패키징한 보이스뱅크의 manifest.json 링크를 붙여 넣으세요. 노래에 필요한 샘플만 내려받아 브라우저에 보관합니다.'],
+['vbo_loading','Đang nạp voicebank trực tuyến: {0}…','Loading online voicebank: {0}…','オンラインボイスバンクを読み込み中: {0}…','正在加载在线音源：{0}…','온라인 보이스뱅크 불러오는 중: {0}…'],
+['vbo_fail','Không nạp được voicebank trực tuyến: {0}','Could not load online voicebank: {0}','オンラインボイスバンクを読み込めません: {0}','无法加载在线音源：{0}','온라인 보이스뱅크를 불러올 수 없습니다: {0}'],
+['vbo_bad','Không phải manifest voicebank của Voicest','Not a Voicest voicebank manifest','Voicest のボイスバンク manifest ではありません','不是 Voicest 音源的 manifest','Voicest 보이스뱅크 manifest가 아닙니다'],
+['vbo_hash','Sai checksum (SHA-256): {0}','Checksum (SHA-256) mismatch: {0}','チェックサム (SHA-256) が一致しません: {0}','校验和 (SHA-256) 不匹配：{0}','체크섬(SHA-256)이 일치하지 않습니다: {0}'],
+['vbo_offline','Tải hết để dùng offline','Download everything for offline use','オフライン用にすべてダウンロード','全部下载以便离线使用','오프라인용으로 모두 내려받기'],
+['vbo_dl','Đang tải {0}: phần {1}/{2}…','Downloading {0}: part {1}/{2}…','{0} をダウンロード中: パート {1}/{2}…','正在下载 {0}：第 {1}/{2} 部分…','{0} 내려받는 중: 파트 {1}/{2}…'],
+['vbo_offline_done','"{0}" đã dùng được offline','"{0}" is now available offline','「{0}」をオフラインで使えるようになりました','“{0}”现在可以离线使用','"{0}"을(를) 이제 오프라인에서 사용할 수 있습니다'],
+['vbo_cached','{0} / {1} MB đã lưu','{0} of {1} MB cached','{0} / {1} MB キャッシュ済み','已缓存 {0} / {1} MB','{0} / {1} MB 캐시됨'],
+['vbo_del','Bỏ voicebank và xoá file đã lưu','Forget and delete cached files','削除してキャッシュを消去','移除并删除缓存文件','제거하고 캐시 파일 삭제'],
+['vbo_del_q','Bỏ voicebank trực tuyến "{0}" và xoá các file đã lưu của nó? (Voicebank vẫn dùng được đến khi tải lại trang)','Forget online voicebank "{0}" and delete its cached files? (It stays usable until the page is reloaded)','オンラインボイスバンク「{0}」を削除し、キャッシュも消去しますか？ (ページを再読み込みするまでは使用できます)','要移除在线音源“{0}”并删除其缓存文件吗？（在刷新页面之前仍可使用）','온라인 보이스뱅크 "{0}"을(를) 제거하고 캐시 파일도 삭제할까요? (페이지를 새로 고치기 전까지는 사용할 수 있습니다)'],
+['vbo_hosted','Có trên trang này','Available on this site','このサイトで利用可能','本站提供','이 사이트에서 제공']].forEach(r=>AX(...r));
+
+const hasCache=typeof caches!=='undefined';
+const mb=n=>(n/1048576).toFixed(1);
+const abs=u=>new URL(u,location.href).href;
+const loadList=()=>{try{return JSON.parse(localStorage.getItem(LS)||'[]').filter(x=>typeof x=='string')}catch(e){return[]}};
+const saveList=l=>{try{localStorage.setItem(LS,JSON.stringify([...new Set(l)]))}catch(e){}};
+const MF=new Map();   // manifest URL -> manifest
+const stats={net:0,cache:0,requests:0};
+const openC=()=>hasCache?caches.open(CN).catch(()=>null):Promise.resolve(null);
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const check=async(buf,h,what)=>{if(!h||!(self.crypto&&crypto.subtle))return;if(hex(await crypto.subtle.digest('SHA-256',buf))!==h)throw new Error(_T('vbo_hash',what))};
+const valid=m=>m&&m.format=='voicest-voicebank'&&Array.isArray(m.chunks)&&Array.isArray(m.files)&&typeof m.name=='string'&&m.name;
+// part names contain their hash, so a part URL + byte range always means the same bytes
+const partUrl=(base,ch)=>new URL(ch.file,base).href;
+const partKey=(base,ch)=>partUrl(base,ch)+'?vbpart';
+const fileKey=(base,ch,f)=>partUrl(base,ch)+'?vbfile='+f.offset+'-'+f.size;
+
+// network first (picks up a re-packed voicebank), cached copy when offline
+async function getManifest(url){
+  const c=await openC();let m;
+  try{const r=await fetch(url,{cache:'no-cache'});if(!r.ok)throw new Error(r.status+' '+r.statusText);
+    const t=await r.text();m=JSON.parse(t);
+    if(c&&valid(m))await c.put(url,new Response(t,{headers:{'content-type':'application/json'}})).catch(()=>{})}
+  catch(e){const hit=c&&await c.match(url);if(!hit)throw e;m=await hit.json()}
+  if(!valid(m))throw new Error(_T('vbo_bad'));
+  return m}
+
+async function readFile(base,m,f){
+  const ch=m.chunks[f.chunk];if(!ch)throw new Error(_T('vbo_bad'));
+  const c=await openC(),fk=fileKey(base,ch,f);
+  if(c){let hit=await c.match(fk);if(hit){stats.cache+=f.size;return hit.arrayBuffer()}
+    hit=await c.match(partKey(base,ch));if(hit){stats.cache+=f.size;return(await hit.blob()).slice(f.offset,f.offset+f.size).arrayBuffer()}}
+  stats.requests++;
+  const r=await fetch(partUrl(base,ch),{headers:{Range:`bytes=${f.offset}-${f.offset+f.size-1}`}});
+  if(!r.ok)throw new Error(r.status+' '+r.statusText);
+  const buf=await r.arrayBuffer();stats.net+=buf.byteLength;
+  if(r.status!=206){   // the server ignored Range and sent the whole part: keep all of it
+    await check(buf,ch.sha256,ch.file);if(c)await c.put(partKey(base,ch),new Response(buf)).catch(()=>{});
+    return buf.slice(f.offset,f.offset+f.size)}
+  if(buf.byteLength!==f.size)throw new Error('Range '+f.path);
+  await check(buf,f.sha256,f.path);
+  if(c)await c.put(fk,new Response(buf)).catch(()=>{});
+  return buf}
+
+async function addRemote(url){
+  url=abs(url);vbm(_T('vbo_loading',decodeURIComponent(url.split('/').slice(-2,-1)[0]||url)));
+  try{
+    const m=await getManifest(url);MF.set(url,m);
+    const items=m.files.map(f=>{const p=String(f.path).replace(/\\/g,'/').toLowerCase();return{n:p.split('/').pop(),p,size:+f.size||0,get:()=>readFile(url,m,f)}});
+    window.VB_REMOTE=true;try{await loadVB(items,m.name)}finally{window.VB_REMOTE=false}
+    if(!(VBK[m.name]&&VBK[m.name].A)){render();return false}
+    saveList([...loadList(),url]);render();return true
+  }catch(e){console.warn(e);vbm(_T('vbo_fail',String(e&&e.message||e)));render();return false}}
+
+async function offline(url){
+  try{const m=MF.get(url)||await getManifest(url),c=await openC();if(!c)return;
+    for(let i=0;i<m.chunks.length;i++){const ch=m.chunks[i],k=partKey(url,ch);if(await c.match(k))continue;
+      vbm(_T('vbo_dl',m.name,i+1,m.chunks.length));stats.requests++;
+      const r=await fetch(partUrl(url,ch));if(!r.ok)throw new Error(r.status+' '+r.statusText);
+      const b=await r.arrayBuffer();stats.net+=b.byteLength;await check(b,ch.sha256,ch.file);await c.put(k,new Response(b));
+      for(const f of m.files)if(f.chunk===i)await c.delete(fileKey(url,ch,f))}   // now covered by the whole part
+    vbm(_T('vbo_offline_done',m.name))}
+  catch(e){console.warn(e);vbm(_T('vbo_fail',String(e&&e.message||e)))}
+  render()}
+
+// cached bytes of one voicebank, read from the cache keys only (no need to open the entries)
+async function cachedSize(url,m){
+  const c=await openC();if(!c)return{n:0,full:false};
+  const parts=new Map(m.chunks.map(ch=>[partUrl(url,ch),ch]));let n=0,whole=0;
+  for(const k of await c.keys()){const u=new URL(k.url),ch=parts.get(u.origin+u.pathname);if(!ch)continue;
+    if(u.search=='?vbpart'){n+=ch.size;whole++}else{const x=u.search.match(/^\?vbfile=\d+-(\d+)$/);if(x)n+=+x[1]}}
+  return{n:Math.min(n,m.totalSize||n),full:whole===m.chunks.length}}
+
+async function forget(url){
+  saveList(loadList().filter(u=>u!==url));
+  const m=MF.get(url),c=await openC();
+  if(c){await c.delete(url);if(m){const parts=new Set(m.chunks.map(ch=>partUrl(url,ch)));
+    for(const k of await c.keys()){const u=new URL(k.url);if(parts.has(u.origin+u.pathname))await c.delete(k)}}}
+  MF.delete(url);render()}
+
+// ---- UI: inside the "Saved voicebanks" panel ----
+$('#vblu').insertAdjacentHTML('afterend','<div id=vbo style="margin-top:6px"><b id=vbot></b><div class=s><input id=vbou type=url placeholder="https://…/manifest.json" style="flex:1;min-width:0"><button id=vboa></button></div><div id=vbol></div><div id=vboh></div></div>');
+const inp=$('#vbou');
+$('#vboa').onclick=()=>{const v=inp.value.trim();if(v)addRemote(v).then(ok=>{if(ok)inp.value=''})};
+inp.onkeydown=e=>{if(e.key=='Enter')$('#vboa').click()};
+let hosted=null;
+const row=(text,btns)=>{const r=document.createElement('div');r.className='s';r.style.justifyContent='space-between';
+  const l=document.createElement('span');l.textContent=text;l.style.overflow='hidden';l.style.textOverflow='ellipsis';r.append(l);
+  for(const[t,tip,fn]of btns){const b=document.createElement('button');b.textContent=t;b.title=tip;b.onclick=fn;r.append(b)}return r};
+let rendering=null,again=false;
+async function render(){
+  if(rendering){again=true;return rendering}
+  rendering=(async()=>{await null;try{   // the await lets `rendering` be assigned before `finally` clears it
+    $('#vbot').textContent=_T('vbo_title');$('#vboa').textContent=_T('vbo_add');inp.title=_T('vbo_url_tip');
+    const box=$('#vbol'),list=loadList(),rows=[];
+    for(const url of list){const m=MF.get(url);if(!m)continue;const s=await cachedSize(url,m);
+      rows.push(row(`${m.name} · ${_T('vbo_cached',mb(s.n),mb(m.totalSize||0))}${s.full?' ✓':''}`,[
+        ...(s.full?[]:[['⤓',_T('vbo_offline'),()=>offline(url)]]),
+        ['✕',_T('vbo_del'),()=>{if(confirm(_T('vbo_del_q',m.name)))forget(url)}]]))}
+    box.replaceChildren(...rows);
+    const hb=$('#vboh'),hr=[];
+    if(hosted&&hosted.length){const added=new Set(list);
+      for(const v of hosted){const u=abs(new URL(v.path,abs(INDEX)).href);if(added.has(u))continue;
+        hr.push(row(`${v.name} · ${mb(v.size||0)} MB`,[[_T('vbo_add'),_T('vbo_hosted'),()=>addRemote(u)]]))}
+      if(hr.length){const t=document.createElement('small');t.textContent=_T('vbo_hosted');hr.unshift(t)}}
+    hb.replaceChildren(...hr);
+  }catch(e){console.warn(e)}finally{rendering=null;if(again){again=false;render()}}})();
+  return rendering}
+const tl0=tl;tl=function(){const r=tl0.apply(this,arguments);try{render()}catch(e){}return r};
+
+// ---- startup: voicebanks hosted next to Voicest (voicebanks/index.json), remembered ones, and ?vb=<manifest URL> ----
+async function start(){
+  try{await(window.VoicestVoicebanks&&VoicestVoicebanks.ready)}catch(e){}
+  try{const r=await fetch(INDEX,{cache:'no-cache'});if(r.ok){const j=await r.json();hosted=Array.isArray(j.voicebanks)?j.voicebanks.filter(v=>v&&v.name&&v.path):null}}catch(e){}
+  const list=loadList(),q=new URLSearchParams(location.search).get('vb');if(q&&!list.includes(abs(q)))list.push(abs(q));
+  let n=0;for(const u of list)if(await addRemote(u))n++;
+  if(n){try{cache.clear();draw()}catch(e){}}
+  render()}
+window.VoicestOnline={add:addRemote,offline,forget,list:loadList,stats,ready:new Promise(r=>setTimeout(()=>start().finally(r),0))};
+
+// service worker: app shell cache for fast repeat visits and offline use (needs https or localhost)
+try{if('serviceWorker' in navigator&&isSecureContext)navigator.serviceWorker.register('sw.js').catch(e=>console.warn('service worker',e))}catch(e){}
 })();
 </script></body></html>

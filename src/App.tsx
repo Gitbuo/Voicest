@@ -91,7 +91,7 @@ export default function App() {
       <iframe
         ref={iframeRef}
         title="Voicest"
-        src="./voicest.html"
+        src={`./voicest.html${window.location.search}`}
         allow="autoplay; fullscreen; microphone"
         style={{ flex: 1, minHeight: 0, width: '100%', border: 0, background: '#e0f7ee' }}
       />

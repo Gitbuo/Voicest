@@ -59,6 +59,7 @@ Voicest is an all-in-one browser-based singing voice synthesizer and digital aud
 - **Built-in Cestloid Voice**:
   - Formant synthesis singing in Japanese romaji or kana (`ka`, `か`, `kya`, `がっこう`).
   - Sliders for Brightness, Breathiness, Vibrato, Formant, Gender, and Vocal Tension.
+  - Clarity EQ on the voice (high-pass, less low-mid mud, presence boost around 3 kHz, softer sibilance, low-passed voiced buzz); the presence amount follows the Clarity slider.
   - English-to-Kana phonemizer (EN2JA+).
 - **UTAU Voicebank Support**:
   - Load folders, `.zip`, `.uar`, and `.rar` archives.
@@ -69,6 +70,18 @@ Voicest is an all-in-one browser-based singing voice synthesizer and digital aud
   - Archives are stored as-is; folders keep only the files Voicest needs (`.wav`, `.ini`, `.map`, `.txt`, `.frq`, images), skipping desktop-engine caches such as `.llsm`, `.mrq`, `.pmk`, `.uwf`.
   - The **Saved voicebanks** panel under the import buttons lists stored voicebanks with their size, lets you remove them, shows browser storage usage, and has a **Keep voicebanks in this browser** switch.
   - Data stays on the user's device only; clearing site data in the browser removes it.
+- **Import size limit (100 MB)**:
+  - Any single import (voicebank archive, voicebank folder, audio or project file) may be at most **100 MB**. Larger files are refused with a message, which keeps memory use low and stays under the 100 MB per-request limit of Cloudflare Tunnel (Free).
+  - For folders, only the files Voicest reads are counted; desktop-engine cache files are ignored.
+- **Shrinking a voicebank below 100 MB**: `node scripts/clean-voicebank.mjs <voicebank-folder> [output.zip] [--keep-frq]`
+  - Removes cache files (`.llsm`, `.mrq`, `.pmk`, `.uwf`, `.uwf2`, `.frq`) and unused text files, keeps every WAV untouched, prints the size before/after and writes a `.zip` ready to import. Needs only Node.js 18+, no extra packages.
+  - If the ZIP is still over 100 MB, split the voicebank (for example one ZIP per pitch folder) and import each part.
+- **Online voicebanks (low bandwidth hosting)**:
+  - Large voicebanks (hundreds of MB or more) can be hosted next to Voicest or on any static host / object storage instead of being imported. Pack them with `node scripts/pack-voicebank.mjs <voicebank-folder> [out-dir] [--name "Display name"] [--chunk-mb 50] [--keep-frq]`.
+  - The script removes cache files, keeps every WAV byte-for-byte, and writes `<out-dir>/<name>/manifest.json` (every file with its part, offset, size and SHA-256) plus `part001-<hash>.bin`, … of at most 50 MB each, and updates `<out-dir>/index.json`.
+  - In Voicest, open **Saved voicebanks → Online voicebanks** and paste the `manifest.json` link, click a voicebank listed under **Available on this site** (read from `voicebanks/index.json`), or open `voicest.html?vb=<manifest URL>`.
+  - Adding a voicebank downloads only the manifest, `oto.ini`, `character.txt` and `prefix.map`. Each WAV is fetched with an HTTP Range request the first time a song uses it, checked against its SHA-256, and kept in the browser (Cache Storage). Repeat visits download only the small manifest. **⤓** downloads all parts for offline use (one request per part); **✕** forgets the voicebank and deletes its cached files.
+  - A service worker (`public/sw.js`) caches the app itself, so Voicest also opens offline after the first visit (https or localhost only).
 - **Multi-pitch Voicebank Support**:
   - Auto-detects pitch tiers (e.g. `_A3`, `_C4`, `_F4`, `_A4`, `↑`, `↓`) directly from oto aliases even when `prefix.map` is missing.
   - Resolves note pitches to the nearest available pitch tier, ensuring seamless fallback without muted notes.
@@ -77,6 +90,28 @@ Voicest is an all-in-one browser-based singing voice synthesizer and digital aud
   - Optimized LRU analysis cache and synthesis memoization for lag-free playback and rendering.
 
 ---
+
+## Hosting voicebanks
+
+Every request stays below the 100 MB per-request limit of Cloudflare Tunnel (Free): a WAV range is a few hundred KB, a whole part at most 50 MB.
+
+**Same server as Voicest (Cloudflare Tunnel, Cloudflare Pages, any static host)**
+1. `node scripts/pack-voicebank.mjs "path/to/My Voicebank" public/voicebanks`
+2. `npm run build` (the voicebanks are copied to `dist/voicebanks/`).
+3. Serve `dist/` with a server that supports Range requests, e.g. `npx vite preview --port 3000 --host 0.0.0.0`, then `cloudflared tunnel --url http://localhost:3000`.
+4. Cache headers: part files can be cached forever (`Cache-Control: public, max-age=31536000, immutable`, their name contains their hash); `*.json` and `sw.js` should use `Cache-Control: no-cache`. `public/_headers` already sets this on Cloudflare Pages.
+
+**Object storage (Cloudflare R2, S3, Backblaze B2)**
+1. Pack to a folder, e.g. `node scripts/pack-voicebank.mjs "My Voicebank" out`, and upload `out/` keeping the folder layout (e.g. `rclone copy out r2:my-bucket/voicebanks`). R2 has no egress fees.
+2. Allow Voicest's site to read it with CORS (R2: bucket → Settings → CORS policy):
+   ```json
+   [{"AllowedOrigins":["https://your-voicest-site"],"AllowedMethods":["GET","HEAD"],"AllowedHeaders":["Range"],"ExposeHeaders":["Content-Length","Content-Range","Accept-Ranges"],"MaxAgeSeconds":86400}]
+   ```
+3. Use the public URL of `manifest.json` in **Online voicebanks**, or link to `https://your-voicest-site/?vb=https://…/manifest.json`.
+
+Re-packing a changed voicebank gives the changed parts new names; browsers pick up the new manifest on their next visit and only download what changed.
+
+Not included: server-side rendering of UTAU voices to Opus (needs a VPS running a UTAU resampler); with the setup above the browser still renders everything locally.
 
 ## 6. Auto-Oto Generator (CV Voicebanks)
 - **Dedicated CV Tool**: Specially tailored for raw CV (Consonant + Vowel / 単独音) recordings.
