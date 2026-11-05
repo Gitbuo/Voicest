@@ -1,0 +1,6 @@
+{
+  "name": "Voicest",
+  "description": "Trình tổng hợp giọng hát và biên tập vocal UTAU trực tuyến với engine WebTau, Auto-Oto generator, multipitch voicebank, Auto-Gain staging và xuất MP3/OGG.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
