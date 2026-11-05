@@ -998,7 +998,7 @@ const ad=mkd('advd','Nâng cao'),A=document.createElement('div');A.className='s'
 const put=(id,tx)=>{const e=$('#'+id),l=document.createElement('label');l.append(tx+' ',e);A.append(l)};
 put('bit','Bit');put('sr','Tần số lấy mẫu');put('cw','Sóng Chip');put('cb','Màu nền');put('ca','Màu nhấn');A.append($('#sw').parentNode,$('#mt').parentNode,$('#tp'),$('#rd'),$('#cc'),$('#ec').parentNode);
 ['mo','uo','xo','so','mi'].forEach(i=>{const el=$('#'+i);if(el)el.style.display='none'});
-$('#sv').insertAdjacentHTML('afterend','<select id=xf title="Định dạng xuất"><option value=uo>UST<option value=wv>WAV<option value=mo>MIDI<option value=xo>USTX<option value=so>SVP<option value=vqo>VSQX<option value=vpo2>VPR</select><button id=xb>Xuất</button>');
+$('#sv').insertAdjacentHTML('afterend','<select id=xf title="Định dạng xuất"><option value=uo>UST<option value=mo>MIDI<option value=xo>USTX<option value=so>SVP<option value=vqo>VSQX<option value=vpo2>VPR</select><button id=xb>Xuất</button>');
 $('#xb').onclick=()=>$('#'+$('#xf').value).click();$('#ld').textContent='Mở';$('#ld').title='UST · MIDI · USTX · SVP';
 
 const vb=$('#vf').parentNode.parentNode,vd=mkd('vbd','Voicebank UTAU');vb.querySelector('hr')?.remove();vd.append(...vb.childNodes);vb.append(vd);
@@ -3039,87 +3039,119 @@ function frqOf(bk,bkName,r){
     return{vOn,off,pre:r.pre||0,attackCents,drift,bins}
   }catch(e){return null}})();
   AT.fr.set(key,pr);return pr}
-// pitch curve for 1 note: natural attack scoop, smooth voiced-onset glide, subtle overshoot, .frq micro-contour, and natural end drift
+// pitch curve for 1 note: expressive asymmetric portamento, same-pitch re-articulation, overshoot, .frq micro-contour, natural vibrato, and phrase-end release
 function atCurve(o,pv,adj,nadj,fr){
-  const sm=15e3/S.bpm,lenMs=o.l*sm,n=Math.min(400,Math.max(3,Math.round(o.l/.25)+1)),pts=[];
-  let glide=0,iv=0,g0=0,scoop=0,scoopMs=0;
+  const sm=15e3/S.bpm,lenMs=o.l*sm,n=Math.min(400,Math.max(4,Math.round(o.l/.25)+1)),pts=[];
+  const tTxt=(o.t||'a').trim(),isSlur=tTxt==='-'||tTxt==='ー'||tTxt==='+';
+  let glide=0,iv=0,g0=0,scoop=0,scoopMs=0,reArt=0,reArtMs=0;
   if(adj&&pv.p!==o.p){
     iv=o.p-pv.p;
-    g0=fr&&fr.vOn>=0?Math.min(45,Math.max(0,fr.vOn-(fr.off+fr.pre)),lenMs*.2):0;
-    glide=Math.min(Math.max(40,40+8.5*Math.abs(iv)),135,Math.max(25,lenMs*.55-g0));
-  }else if(!adj&&lenMs>=90){
-    const rawScoop=fr&&fr.attackCents<-8?-fr.attackCents/100:0.20;
-    scoop=Math.min(0.42,Math.max(0.12,rawScoop));
-    scoopMs=Math.min(48,lenMs*.25);
+    g0=fr&&fr.vOn>=0?Math.min(42,Math.max(0,fr.vOn-(fr.off+fr.pre)),lenMs*.18):0;
+    glide=Math.min(Math.max(42,42+9.5*Math.abs(iv))*(isSlur?1.35:1),isSlur?190:145,Math.max(25,lenMs*.6-g0));
+  }else if(adj&&pv.p===o.p&&!isSlur&&lenMs>=95){
+    reArt=0.14;
+    reArtMs=Math.min(34,lenMs*.22);
+  }else if(!adj&&lenMs>=85){
+    const rawScoop=fr&&fr.attackCents<-8?-fr.attackCents/100:0.24;
+    scoop=Math.min(0.48,Math.max(0.15,rawScoop));
+    scoopMs=Math.min(52,lenMs*.26);
   }
-  const fall=(!nadj&&o.l>=4&&fr&&fr.drift<-12)?Math.min(.25,-fr.drift/100*.5):0;
+  const fall=(!nadj&&o.l>=3)?Math.min(.30,Math.max(.14,fr&&fr.drift<-10?-fr.drift/100*.65:.18)):0;
   const bins=fr&&fr.bins?fr.bins:null;
+  const hasVib=!o.vb&&o.l>=4&&lenMs>=440;
   let any=false;
   for(let k=0;k<n;k++){
     const u=k*o.l/(n-1),t=u*sm,frac=k/(n-1);let d=0;
     if(glide>0){
       if(t<g0)d=-iv;
-      else if(t<g0+glide)d=-iv*(1+Math.cos(Math.PI*(t-g0)/glide))/2;
-      else if(Math.abs(iv)>=3){const q=(t-g0-glide)/85;if(q<1)d=Math.sign(iv)*Math.min(.15,.018*Math.abs(iv))*Math.sin(Math.PI*q)*(1-q)}
+      else if(t<g0+glide){
+        const p=(t-g0)/glide,ease=1-Math.pow(1-p,2.35);
+        d=-iv*(1-ease);
+      }else if(!isSlur&&Math.abs(iv)>=2){
+        const q=(t-g0-glide)/90;
+        if(q<1)d=Math.sign(iv)*Math.min(.22,.024*Math.abs(iv))*Math.sin(Math.PI*q)*(1-q);
+      }
+    }else if(reArt>0&&t<reArtMs){
+      d=-reArt*Math.sin(Math.PI*t/reArtMs);
     }else if(scoop>0&&t<scoopMs){
-      d=-scoop*(1+Math.cos(Math.PI*t/scoopMs))/2;
+      const p=t/scoopMs;
+      d=-scoop*(1-Math.pow(p,0.65));
     }
-    // subtle natural .frq pitch contour in the steady-state body (faded in/out at note edges)
-    if(bins&&lenMs>=120){
+    // Expressive .frq pitch contour in the steady-state body
+    if(bins&&lenMs>=110){
       const pos=frac*15,bi=Math.min(14,Math.floor(pos)),f0=pos-bi;
       const cVal=bins[bi]*(1-f0)+bins[bi+1]*f0;
-      const env=Math.min(1,frac/.2)*Math.min(1,(1-frac)/.2);
-      d+=cVal*0.32*env;
+      const env=Math.min(1,frac/.18)*Math.min(1,(1-frac)/.18);
+      d+=cVal*0.52*env;
     }
-    if(fall>0){const q=(frac-.8)/.2;if(q>0)d-=fall*(1-Math.cos(Math.PI*Math.min(1,q)))/2}
+    // Natural organic vibrato on held notes when no manual vibrato is set
+    if(hasVib&&frac>0.32){
+      const vEnv=Math.min(1,(frac-0.32)/0.20)*Math.min(1,(1-frac)/0.15);
+      const hz=5.25+0.35*frac;
+      d+=0.16*vEnv*Math.sin(2*Math.PI*hz*(t/1000));
+    }
+    if(fall>0){const q=(frac-.82)/.18;if(q>0)d-=fall*(1-Math.cos(Math.PI*Math.min(1,q)))/2}
     if(Math.abs(d)>.01)any=true;
     pts.push([Math.round((o.s+u)*1e4)/1e4,Math.round((o.p+d)*1e3)/1e3])}
   return any?pts:null}
-// Dedicated Cestloid Auto-Tune: high-res 10ms sampling, on-beat portamento, melisma slurs, re-articulation dip, and Append-tailored vibrato
+// Dedicated Cestloid Auto-Tune: high-res 10ms sampling, asymmetric vocal portamento, phonetic F0 inflection, melisma slurs, re-articulation dip, and Append-tailored living vibrato
 function cestAtCurve(o,pv,adj,nadj,h){
   const sm=15e3/S.bpm,lenMs=o.l*sm,n=Math.min(400,Math.max(4,Math.round(lenMs/10)+1)),pts=[];
   const P=chVP(h),ap=(P.append||'default').toLowerCase(),t=(o.t||'a').trim();
   const isSlur=t==='-'||t==='ー'||t==='+';
-  const gScale=(ap==='child'?.78:ap==='power'?.82:ap==='mature'?1.18:ap==='weak'?1.15:ap==='whisper'?1.22:1.0)*(isSlur?1.35:1.0);
-  const overMax=isSlur?0:(ap==='child'?.20:ap==='power'?.18:ap==='mature'?.11:(ap==='weak'||ap==='whisper')?.04:.14);
-  const scoopBase=ap==='child'?.26:ap==='mature'?.18:ap==='weak'?.14:ap==='power'?.22:ap==='whisper'?.10:.18;
-  const fallBase=ap==='weak'?.24:ap==='whisper'?.20:ap==='mature'?.18:ap==='child'?.10:.14;
+  const gScale=(ap==='child'?.80:ap==='power'?.85:ap==='mature'?1.20:ap==='weak'?1.18:ap==='whisper'?1.25:1.0)*(isSlur?1.40:1.0);
+  const overMax=isSlur?0:(ap==='child'?.26:ap==='power'?.24:ap==='mature'?.14:ap==='clear'?.18:(ap==='weak'||ap==='whisper')?.06:.18);
+  const scoopBase=ap==='child'?.30:ap==='mature'?.22:ap==='weak'?.16:ap==='power'?.26:ap==='whisper'?.12:.22;
+  const fallBase=ap==='weak'?.28:ap==='whisper'?.24:ap==='mature'?.22:ap==='power'?.20:ap==='child'?.12:.17;
+  // Phonetic F0 micro-prosody: voiceless onset consonants slightly raise F0 at vowel start; voiced/nasals scoop from below
+  const m=vm(t),onC=m.c0||m.c||'';
+  const phInf=!adj&&!isSlur&&lenMs>=90?(/^(p|t|k|s|sh|ch|ts|f|h)$/.test(onC)?.16:/^(b|d|g|m|n|r|l|w|y)$/.test(onC)?-.14:0):0;
   let glide=0,iv=0,scoop=0,scoopMs=0,reArt=0,reArtMs=0;
   if(adj&&pv.p!==o.p){
     iv=o.p-pv.p;
-    glide=Math.min(Math.max(36,(40+9*Math.abs(iv))*gScale),isSlur?185:140,lenMs*.65);
+    glide=Math.min(Math.max(38,(42+9.5*Math.abs(iv))*gScale),isSlur?210:155,lenMs*.68);
   }else if(adj&&pv.p===o.p&&!isSlur&&lenMs>=90){
-    reArt=ap==='power'?.14:ap==='child'?.12:ap==='whisper'?.06:.10;
-    reArtMs=Math.min(34,lenMs*.22);
+    reArt=ap==='power'?.18:ap==='child'?.15:ap==='mature'?.13:ap==='whisper'?.08:.13;
+    reArtMs=Math.min(36,lenMs*.22);
   }else if(!adj&&lenMs>=80){
-    scoop=scoopBase;
-    scoopMs=Math.min(46,lenMs*.25);
+    scoop=Math.max(0,scoopBase-phInf);
+    scoopMs=Math.min(50,lenMs*.26);
   }
-  const fall=(!nadj&&o.l>=4)?fallBase:0;
-  const vibCfg=!o.vb&&o.l>=4?(
-    ap==='mature'?{amp:.22,hz:5.0,del:.30}:
-    ap==='power'?{amp:.20,hz:5.8,del:.35}:
-    ap==='child'?{amp:.13,hz:6.0,del:.40}:
-    ap==='weak'?{amp:.14,hz:4.6,del:.35}:
-    ap==='whisper'?{amp:.08,hz:4.5,del:.45}:
-    {amp:.15,hz:5.4,del:.35}
+  const fall=(!nadj&&o.l>=3)?fallBase:0;
+  const vibCfg=!o.vb&&o.l>=3.5&&lenMs>=400?(
+    ap==='mature'?{amp:.28,hz:5.1,del:.26}:
+    ap==='power'?{amp:.25,hz:5.9,del:.30}:
+    ap==='child'?{amp:.16,hz:6.3,del:.36}:
+    ap==='weak'?{amp:.19,hz:4.7,del:.30}:
+    ap==='clear'?{amp:.18,hz:5.5,del:.34}:
+    ap==='whisper'?{amp:.11,hz:4.4,del:.40}:
+    {amp:.20,hz:5.5,del:.30}
   ):null;
   let any=false;
   for(let k=0;k<n;k++){
     const u=k*o.l/(n-1),tMs=u*sm,frac=k/(n-1);let d=0;
     if(glide>0){
-      if(tMs<glide)d=-iv*(1+Math.cos(Math.PI*tMs/glide))/2;
-      else if(overMax>0&&Math.abs(iv)>=2){const q=(tMs-glide)/80;if(q<1)d=Math.sign(iv)*Math.min(overMax,.018*Math.abs(iv))*Math.sin(Math.PI*q)*(1-q)}
+      if(tMs<glide){
+        const p=tMs/glide,ease=1-Math.pow(1-p,2.3);
+        d=-iv*(1-ease);
+      }else if(overMax>0&&Math.abs(iv)>=2){
+        const q=(tMs-glide)/85;
+        if(q<1)d=Math.sign(iv)*Math.min(overMax,.024*Math.abs(iv))*Math.sin(Math.PI*q)*(1-q);
+      }
     }else if(reArt>0&&tMs<reArtMs){
       d=-reArt*Math.sin(Math.PI*tMs/reArtMs);
     }else if(scoop>0&&tMs<scoopMs){
-      d=-scoop*(1+Math.cos(Math.PI*tMs/scoopMs))/2;
+      const p=tMs/scoopMs;
+      d=-scoop*(1-Math.pow(p,0.65));
+    }else if(phInf>0&&tMs<42){
+      d=phInf*(1-tMs/42);
     }
     if(vibCfg&&frac>vibCfg.del){
-      const vEnv=Math.min(1,(frac-vibCfg.del)/.18)*Math.min(1,(1-frac)/.15);
-      d+=vibCfg.amp*vEnv*Math.sin(2*Math.PI*vibCfg.hz*(tMs/1000));
+      const vEnv=Math.min(1,(frac-vibCfg.del)/.18)*Math.min(1,(1-frac)/.14);
+      const hz=vibCfg.hz+0.4*frac;
+      d+=vibCfg.amp*vEnv*Math.sin(2*Math.PI*hz*(tMs/1000));
     }
-    if(fall>0){const q=(frac-.8)/.2;if(q>0)d-=fall*(1-Math.cos(Math.PI*Math.min(1,q)))/2}
+    if(fall>0){const q=(frac-.82)/.18;if(q>0)d-=fall*(1-Math.cos(Math.PI*Math.min(1,q)))/2}
     if(Math.abs(d)>.01)any=true;
     pts.push([Math.round((o.s+u)*1e4)/1e4,Math.round((o.p+d)*1e3)/1e3])}
   return any?pts:null}
