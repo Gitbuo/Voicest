@@ -5,7 +5,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { pitchToNoteName } from './pitch-contour';
+import { pitchToNoteName } from './pitch-contour.ts';
 
 test('semitone transposition shifts step-by-step: C4 -> C#4 -> D4', () => {
   const c4 = 60;

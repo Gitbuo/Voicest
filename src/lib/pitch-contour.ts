@@ -30,7 +30,7 @@ export interface LegatoTransition {
   toLyric: string;
 }
 
-/** Cùng ngưỡng liền kề với timing.ts (ADJACENT_GAP_MS = 50 ms). */
+/** Same adjacency threshold as timing.ts (ADJACENT_GAP_MS = 50 ms). */
 export const ADJACENT_GAP_SEC = 0.05;
 
 export const MIDI_NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -128,7 +128,7 @@ export function generatePitchContour(
       if (note.pc && note.pc.length > 1) {
         const customStep = (t - noteStartSec) / stepSec + note.s;
         if (customStep < note.pc[0][0]) {
-          // trước điểm đầu của đường tune (vd. 25ms lướt vào): giữ cao độ điểm đầu, tránh gai nhọn
+          // before the first point of the tune curve (e.g. a 25ms glide-in): hold the first point pitch to avoid spikes
           effectivePitch = note.pc[0][1];
         } else if (customStep > note.pc[note.pc.length - 1][0]) {
           effectivePitch = note.pc[note.pc.length - 1][1];

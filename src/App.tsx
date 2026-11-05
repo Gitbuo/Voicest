@@ -19,7 +19,7 @@ interface VoicestState {
   lang: Language;
 }
 
-/** Chữ ký rẻ để biết danh sách nốt có thật sự đổi hay không (tránh render lại mỗi 150ms). */
+/** Cheap signature to tell whether the note list actually changed (avoids re-rendering every 150ms). */
 function notesSignature(notes: readonly VocalNote[]): string {
   let sig = `${notes.length}`;
   for (const n of notes) {
@@ -57,7 +57,7 @@ export default function App() {
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      // chỉ nhận tin từ chính iframe Voicest, cùng origin
+      // only accept messages from our own Voicest iframe, same origin
       if (e.source !== iframeRef.current?.contentWindow) return;
       if (e.origin !== window.location.origin) return;
       const d = e.data;

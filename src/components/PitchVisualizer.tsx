@@ -82,7 +82,7 @@ export default function PitchVisualizer({
       .domain([pitchDomain[0] - 2, pitchDomain[1] + 2])
       .range([innerH, 0]);
 
-    // lưới ngang theo nửa cung
+    // horizontal grid per semitone
     for (let p = Math.ceil(pitchDomain[0] - 2); p <= pitchDomain[1] + 2; p++) {
       g.append('line')
         .attr('x1', 0)
@@ -93,7 +93,7 @@ export default function PitchVisualizer({
         .attr('stroke-width', p % 12 === 0 ? 1 : 0.5);
     }
 
-    // trục
+    // axes
     g.append('g')
       .attr('transform', `translate(0,${innerH})`)
       .call(d3.axisBottom(x).ticks(Math.max(4, Math.floor(innerW / 90))).tickFormat((v) => `${v}s`))
@@ -109,7 +109,7 @@ export default function PitchVisualizer({
       .call((a) => a.selectAll('text').attr('fill', COLOR.ink).attr('font-size', 10))
       .call((a) => a.selectAll('path,line').attr('stroke', COLOR.line));
 
-    // vùng chuyển legato
+    // legato transition regions
     transitions.forEach((tr) => {
       g.append('rect')
         .attr('x', x(tr.fromTime))
@@ -120,7 +120,7 @@ export default function PitchVisualizer({
         .attr('opacity', 0.22);
     });
 
-    // đường cong F0
+    // F0 curve
     const line = d3
       .line<(typeof points)[number]>()
       .defined((p) => p.hz > 0)
@@ -134,7 +134,7 @@ export default function PitchVisualizer({
       .attr('stroke', COLOR.mintDeep)
       .attr('stroke-width', 2.4);
 
-    // lời nốt
+    // note lyrics
     const stepSec = 60 / bpm / 4;
     [...notes].forEach((n) => {
       g.append('text')
@@ -145,7 +145,7 @@ export default function PitchVisualizer({
         .text(n.t || 'a');
     });
 
-    // playhead + click để tua
+    // playhead + click to seek
     g.append('line')
       .attr('x1', x(currentTime))
       .attr('x2', x(currentTime))

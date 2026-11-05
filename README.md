@@ -64,6 +64,11 @@ Voicest is an all-in-one browser-based singing voice synthesizer and digital aud
   - Load folders, `.zip`, `.uar`, and `.rar` archives.
   - Auto-reads `oto.ini` and `prefix.map` with support for Shift-JIS and UTF-8 encodings.
   - Reclist formats: CV, VCV, and CVVC with automatic alias detection.
+- **Saved Voicebanks (browser storage)**:
+  - Imported voicebanks are kept in the browser (IndexedDB) and loaded again automatically the next time Voicest opens, so they never need to be imported or downloaded again.
+  - Archives are stored as-is; folders keep only the files Voicest needs (`.wav`, `.ini`, `.map`, `.txt`, `.frq`, images), skipping desktop-engine caches such as `.llsm`, `.mrq`, `.pmk`, `.uwf`.
+  - The **Saved voicebanks** panel under the import buttons lists stored voicebanks with their size, lets you remove them, shows browser storage usage, and has a **Keep voicebanks in this browser** switch.
+  - Data stays on the user's device only; clearing site data in the browser removes it.
 - **Multi-pitch Voicebank Support**:
   - Auto-detects pitch tiers (e.g. `_A3`, `_C4`, `_F4`, `_A4`, `↑`, `↓`) directly from oto aliases even when `prefix.map` is missing.
   - Resolves note pitches to the nearest available pitch tier, ensuring seamless fallback without muted notes.

@@ -19,7 +19,7 @@ export interface NoteTiming {
   fade_out: number;    // fade-out duration, ms
 }
 
-/** Hai nốt cách nhau không quá ngần này (ms) được coi là liền kề/legato — dùng chung với engine và biểu đồ F0. */
+/** Two notes no further apart than this (ms) are considered adjacent/legato — shared by the engine and the F0 chart. */
 export const ADJACENT_GAP_MS = 50.0;
 export const DEFAULT_FADE_IN_MS = 5.0;
 export const DEFAULT_FADE_OUT_MS = 35.0;
