@@ -100,7 +100,7 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)un()
 w.addEventListener('unhandledrejection',function(e){try{console.warn('Voicest:',e.reason)}catch(x){}});
 })();
 </script></head><body>
-<div id=cred><b>&gt;Gitbuo&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gitbuo · Gemini</small></div>
+<div id=cred><b>&gt;Gitbuo&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gitbuo · Gemini · Claude · Devin</small></div>
 <header><h1><img id=logo alt="" src="./logo.png">Voicest v1.5x</h1>
 <button id=pl>Phát</button><button id=st title="Dừng">Dừng</button>
 BPM<input id=bpm type=number min=40 max=240 value=120 style="width:56px">
@@ -970,7 +970,7 @@ vbKey=function(a){a=a.trim();const p=a.split(/\s+/);if(p.length==2&&p[0]!='-'&&p
 $('#ps').insertAdjacentHTML('beforeend','<option value=4>Cest rõ âm');PS[4]={b:.7,br:.05,v:.4,f:1,g:0,t:.8,cl:1};
 $('[data-v=cl]').oninput=e=>chVP(S.ch[sel]).cl=+e.target.value;$('#ec').oninput=e=>S.echo=+e.target.value;
 const cur_=()=>S.ch[sel],sorted=h=>[...h.n].sort((a,b)=>a.s-b.s);
-addEventListener('keydown',e=>{if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey)return;const k=e.key;if('1234'.includes(k)&&k)$('#t'+(k-1)).click();else if(k=='l')$('#lp').click();else if(k=='m'){$('#mt').click()}else if(k=='['||k==']'){const v=[1,2,4,8,16],i=Math.max(0,Math.min(4,v.indexOf(S.len)+(k==']'?1:-1)));S.len=v[i];$('#len').value=S.len}else if(k=='f'){const h=cur_(),o=h&&sorted(h)[0];if(o){const r=$('#rw');r.scrollLeft=KW+o.s*CW-100;r.scrollTop=(HI-o.p)*CH-150}}});
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();$('#sv').click();return}if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey)return;const k=e.key;if('1234'.includes(k)&&k)$('#t'+(k-1)).click();else if(k=='l')$('#lp').click();else if(k=='m'){$('#mt').click()}else if(k=='Home'){e.preventDefault();startAt=0;const r=$('#rw');if(r)r.scrollLeft=0;draw()}else if(k=='['||k==']'){const v=[1,2,4,8,16],i=Math.max(0,Math.min(4,v.indexOf(S.len)+(k==']'?1:-1)));S.len=v[i];$('#len').value=S.len}else if(k=='f'){const h=cur_(),o=h&&sorted(h)[0];if(o){const r=$('#rw');r.scrollLeft=KW+o.s*CW-100;r.scrollTop=(HI-o.p)*CH-150}}});
 $('#mt').onclick=()=>{S.mt=$('#mt').checked};
 cvs.addEventListener('pointerdown',e=>{const r=cvs.getBoundingClientRect(),X=(e.clientX-r.left-KW)/CW;if(e.clientY-r.top<12&&X>=0){e.stopImmediatePropagation();startAt=Math.floor(X);draw()}},true);
 cvs.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();CW=Math.max(5,Math.min(44,CW+(e.deltaY<0?2:-2)));$('#zm').value=CW;draw()}},{passive:false});
@@ -978,7 +978,7 @@ cvs.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();CW=Math.max(5,
 const VCH=['i','e','a','o','u'];
 function vchart(code){const c=$('#vc'),g=c.getContext('2d'),W=c.width=280,H=c.height=120,cs=getComputedStyle(document.body),ac=cs.getPropertyValue('--ac')||'#e0568a',X=f=>W-16-(f-700)/1900*(W-32),Y=f=>10+(f-250)/650*(H-20);g.font='10px system-ui';g.fillStyle=cs.color;g.globalAlpha=.07;g.fillRect(0,0,W,H);
 for(const k of VCH){const f=V[k];if(!f)continue;g.globalAlpha=k==code?1:.5;g.fillStyle=k==code?ac:cs.color;g.fillText(k,X(f[1])-6,Y(f[0]));if(k==code){g.beginPath();g.arc(X(f[1]),Y(f[0])-3,9,0,7);g.strokeStyle=ac;g.stroke()}}g.globalAlpha=.5;g.fillStyle=cs.color;g.fillText('F2 ←  → F1 ↓',4,H-3)}
-cvs.addEventListener('pointermove',e=>{const h=cur_();if(!h||h.k!='Voice')return;const[x,y]=pos(e),p=Math.round(y),o=h.n.find(o=>o.p==p&&x>=o.s&&x<o.s+o.l);if(o){const m=vm(o.t),tn=(o.t||'').split('.')[3];vchart(VJ[m.v]&&V[m.v]?m.v:'AA');$('#hv').textContent+=' · /'+(m.c||'')+'·'+(m.nas?'N':m.v||'')+(m.e?'·'+m.e:'')+'/'+(tn?' thanh '+tn:'')}});
+cvs.addEventListener('pointermove',e=>{const h=cur_();if(!h)return;const[x,y]=pos(e),p=Math.round(y),o=h.n.find(o=>o.p==p&&x>=o.s&&x<o.s+o.l);const nn=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'][((p%12)+12)%12]+((p/12|0)-1);const hz=fq(p).toFixed(1);if(o){if(h.k=='Voice'){const m=vm(o.t),tn=(o.t||'').split('.')[3];vchart(VJ[m.v]&&V[m.v]?m.v:'AA');$('#hv').textContent=nn+' ('+hz+'Hz) · '+(o.w||o.t||'a')+' · /'+(m.c||'')+'·'+(m.nas?'N':m.v||'')+(m.e?'·'+m.e:'')+'/'+(tn?' thanh '+tn:'')}else{$('#hv').textContent=nn+' ('+hz+'Hz) · '+o.l+' steps'}}else if(x>=0){$('#hv').textContent=nn+' ('+hz+'Hz)'}});
 const draw0=draw;draw=function(){draw0();const h=S.ch[sel],x=$('#r').getContext('2d'),ac=getComputedStyle(document.documentElement).getPropertyValue('--ac')||'#e0568a';
 x.globalAlpha=1;const s=(ph>=0?ph:startAt)*ss();$('#tm').textContent=(s/60|0)+':'+(s%60).toFixed(1).padStart(4,'0')};
 $('#pl').insertAdjacentHTML('afterend','<b id=tm style="min-width:48px;font-variant-numeric:tabular-nums">0:00.0</b>');
@@ -1148,7 +1148,7 @@ voice=function(c,d,t,dur,p,txt,hh){
     asp=P.asp==null?.42:P.asp,pt=Math.max(.03,P.pt||.06),en=!!txt&&txt[0]=='~',ca=.55+.22*cl;
   const lk=hh&&curO?prevOf(hh,curO):null,nx=hh&&curO?nextOf(hh,curO):null,pcv=effPc(curO),pc=!!pcv;
   const nb0=nx&&vm(nx.t||'a').c,NASF=/^[bpm]/.test(nb0||'')?CG.m:/^[kg]/.test(nb0||'')?LOCX.N:CG.n;
-  const F=x=>x.map(y=>y*kf),PV=x=>(x.nas?NASF:V[x.v])||V.AH,vf=F(PV(m));if(f>vf[0]*.8)vf[0]=Math.max(vf[0],Math.min(f*.9,vf[0]*1.5));
+  const F=x=>x.map(y=>y*kf),PV=x=>(x.nas?NASF:V[x.v])||V.AH,vf=F(PV(m));if(f>vf[0]*.8)vf[0]=Math.max(vf[0],Math.min(f*.9,vf[0]*1.5));if(f>440)vf[0]=Math.max(vf[0],Math.min(f*1.12,vf[0]+(f-440)*.45));
   const av=Math.min(t,curAvail==null?1e9:curAvail);
   const nl=nx?Math.min(leadOf(hh,nx),dur*.45):0;
   const on=artOn(m,P,dur,lk&&lk.l?lk.l*sd:9,curO,en),L=on.L,cpS=Math.max(-2*sd,Math.min((O.cp||0)*sd,dur*.8)),tc=Math.max(t+cpS-L,t-av),tv=tc+L;
@@ -2902,7 +2902,7 @@ if(tb){
    ['Phonemizer','EN2JA+','Cadlaxa (MIT)','https://github.com/Cadlaxa','Chuyển tiếng Anh sang kana; tích hợp trong phonemizer “En to Ja” của OpenUtau.','English → kana conversion; merged into OpenUtau’s “En to Ja” phonemizer.'],
    ['MP3 Encoder','lamejs','Janez Stupar (LGPL-3.0 / MIT)','https://github.com/zhuker/lamejs','Bộ mã hóa MP3 LAME thuần JavaScript chạy 100% trong trình duyệt.','Pure JavaScript LAME MP3 audio encoder running 100% in browser.'],
    ['Data Visualization','D3.js','Mike Bostock (ISC License)','https://d3js.org','Thư viện vẽ đường cong cao độ F0 và tọa độ thời gian thực.','Data visualization library powering the bottom F0 pitch visualizer.'],
-   ['Application','Voicest v1.5x','Gitbuo · Gemini (MIT)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép MIT.','Voicest v1.5x application codebase licensed under the MIT License.']
+   ['Application','Voicest v1.5x','Gitbuo · Gemini · Claude · Devin (MIT)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép MIT.','Voicest v1.5x application codebase licensed under the MIT License.']
   ];
   const SC=[
    ['Space',T('Phát / dừng','Play / stop')],
@@ -3047,7 +3047,7 @@ function atCurve(o,pv,adj,nadj,fr){
   if(adj&&pv.p!==o.p){
     iv=o.p-pv.p;
     g0=fr&&fr.vOn>=0?Math.min(42,Math.max(0,fr.vOn-(fr.off+fr.pre)),lenMs*.18):0;
-    glide=Math.min(Math.max(42,42+9.5*Math.abs(iv))*(isSlur?1.35:1),isSlur?190:145,Math.max(25,lenMs*.6-g0));
+    glide=Math.min(Math.max(42,42+9.5*Math.abs(iv))*(isSlur?1.35:1),isSlur?190:145,Math.max(20,lenMs*(lenMs<75?.42:.6)-g0));
   }else if(adj&&pv.p===o.p&&!isSlur&&lenMs>=95){
     reArt=0.14;
     reArtMs=Math.min(34,lenMs*.22);
@@ -3109,7 +3109,7 @@ function cestAtCurve(o,pv,adj,nadj,h){
   let glide=0,iv=0,scoop=0,scoopMs=0,reArt=0,reArtMs=0;
   if(adj&&pv.p!==o.p){
     iv=o.p-pv.p;
-    glide=Math.min(Math.max(38,(42+9.5*Math.abs(iv))*gScale),isSlur?210:155,lenMs*.68);
+    glide=Math.min(Math.max(38,(42+9.5*Math.abs(iv))*gScale),isSlur?210:155,lenMs*(lenMs<75?.44:.68));
   }else if(adj&&pv.p===o.p&&!isSlur&&lenMs>=90){
     reArt=ap==='power'?.18:ap==='child'?.15:ap==='mature'?.13:ap==='whisper'?.08:.13;
     reArtMs=Math.min(36,lenMs*.22);
