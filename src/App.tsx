@@ -6,7 +6,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PitchVisualizer from './components/PitchVisualizer';
 import { VocalNote } from './lib/pitch-contour';
-import { Language } from './lib/i18n';
+import { Language, t } from './lib/i18n';
+import { matchGlobalShortcut, SHORTCUT_DEFINITIONS, ShortcutAction } from './lib/shortcuts';
+import { recordTapTempo } from './lib/tap-tempo';
 
 const LANGS: Language[] = ['vi', 'en', 'ja', 'zh', 'ko'];
 
@@ -33,6 +35,8 @@ export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const sigRef = useRef('');
+  const toastTimerRef = useRef<number | null>(null);
+  const tapTimesRef = useRef<number[]>([]);
 
   const [expanded, setExpanded] = useState(false);
   const [notes, setNotes] = useState<VocalNote[]>([]);
@@ -41,6 +45,23 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [lang, setLang] = useState<Language>('en');
+  const [toast, setToast] = useState<string | null>(null);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+
+  const showToast = useCallback((msg: string) => {
+    setToast(msg);
+    if (toastTimerRef.current !== null) {
+      window.clearTimeout(toastTimerRef.current);
+    }
+    toastTimerRef.current = window.setTimeout(() => {
+      setToast(null);
+      toastTimerRef.current = null;
+    }, 1600);
+  }, []);
+
+  const postToStudio = useCallback((payload: Record<string, unknown>) => {
+    iframeRef.current?.contentWindow?.postMessage(payload, window.location.origin);
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -51,9 +72,69 @@ export default function App() {
   }, []);
 
   const handleSeek = useCallback((timeSec: number) => {
-    iframeRef.current?.contentWindow?.postMessage({ type: 'SEEK_VOICEST', time: timeSec }, window.location.origin);
+    postToStudio({ type: 'SEEK_VOICEST', time: timeSec });
     setCurrentTime(timeSec);
-  }, []);
+  }, [postToStudio]);
+
+  const handleTapTempo = useCallback(() => {
+    const res = recordTapTempo(tapTimesRef.current, performance.now());
+    tapTimesRef.current = res.timestamps;
+    if (res.bpm !== null) {
+      setBpm(res.bpm);
+      postToStudio({ type: 'SET_BPM', bpm: res.bpm });
+      showToast(`BPM: ${res.bpm}`);
+    }
+  }, [postToStudio, showToast]);
+
+  const executeShortcut = useCallback((action: ShortcutAction) => {
+    const beatSec = 60 / (bpm || 120);
+    switch (action) {
+      case 'play_pause':
+        postToStudio({ type: 'TOGGLE_PLAY' });
+        showToast(t(isPlaying ? 'toast_pause' : 'toast_play', lang));
+        break;
+      case 'stop':
+        postToStudio({ type: 'STOP_PLAY' });
+        setIsPlaying(false);
+        setCurrentTime(0);
+        showToast(t('toast_stop', lang));
+        break;
+      case 'seek_home':
+        handleSeek(0);
+        showToast(t('toast_home', lang));
+        break;
+      case 'seek_end':
+        postToStudio({ type: 'SEEK_END' });
+        showToast(t('toast_end', lang));
+        break;
+      case 'seek_back':
+        handleSeek(Math.max(0, currentTime - beatSec));
+        break;
+      case 'seek_forward':
+        handleSeek(currentTime + beatSec);
+        break;
+      case 'prev_track':
+        postToStudio({ type: 'PREV_TRACK' });
+        break;
+      case 'next_track':
+        postToStudio({ type: 'NEXT_TRACK' });
+        break;
+      case 'toggle_help':
+        setShowShortcuts((v) => !v);
+        break;
+    }
+  }, [bpm, currentTime, handleSeek, isPlaying, lang, postToStudio, showToast]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const action = matchGlobalShortcut(e);
+      if (!action) return;
+      e.preventDefault();
+      executeShortcut(action);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [executeShortcut]);
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
@@ -77,6 +158,14 @@ export default function App() {
         if (LANGS.includes(incoming.lang)) setLang(incoming.lang);
       } else if (d.type === 'VOICEST_LANG_CHANGE') {
         if (LANGS.includes(d.lang)) setLang(d.lang);
+      } else if (d.type === 'VOICEST_TRACK_CHANGED') {
+        if (typeof d.trackName === 'string' && d.trackName) {
+          setTrackName(d.trackName);
+          showToast(t('toast_track', lang, d.trackName));
+        }
+      } else if (d.type === 'VOICEST_KEY_SHORTCUT') {
+        const action = matchGlobalShortcut(d);
+        if (action) executeShortcut(action);
       } else if (d.type === 'VOICEST_CMD') {
         if (d.cmd === 'f0') setExpanded((v) => !v);
         else if (d.cmd === 'fullscreen') toggleFullscreen();
@@ -84,10 +173,102 @@ export default function App() {
     };
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
-  }, [toggleFullscreen]);
+  }, [executeShortcut, lang, showToast, toggleFullscreen]);
 
   return (
-    <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', background: '#eaf3f8', overflow: 'hidden' }}>
+    <div ref={containerRef} style={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100vh', width: '100vw', background: '#eaf3f8', overflow: 'hidden' }}>
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          style={{
+            position: 'fixed',
+            top: 12,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 400,
+            background: 'rgba(21, 29, 36, 0.88)',
+            color: '#eaf3f8',
+            padding: '6px 14px',
+            borderRadius: 8,
+            fontSize: 12.5,
+            fontWeight: 600,
+            boxShadow: '0 4px 16px rgba(0,0,0,0.22)',
+            pointerEvents: 'none',
+          }}
+        >
+          {toast}
+        </div>
+      )}
+      {showShortcuts && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={t('modal_title_shortcuts', lang)}
+          onClick={() => setShowShortcuts(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 450,
+            background: 'rgba(15, 23, 32, 0.55)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 16,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#eaf3f8',
+              color: '#243442',
+              border: '2px solid #4a90b8',
+              borderRadius: 14,
+              maxWidth: 420,
+              width: '100%',
+              padding: '18px 20px',
+              boxShadow: '0 14px 42px rgba(0,0,0,0.32)',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <h2 style={{ margin: 0, fontSize: 17, color: '#4a90b8' }}>{t('modal_title_shortcuts', lang)}</h2>
+              <button
+                type="button"
+                onClick={() => setShowShortcuts(false)}
+                style={{ background: '#d6e4ee', color: '#243442', border: '1px solid #b4cad8', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontWeight: 600 }}
+              >
+                {t('close', lang)}
+              </button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {SHORTCUT_DEFINITIONS.map((item) => (
+                <div key={item.action} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 13, paddingBottom: 6, borderBottom: '1px dashed #b4cad8' }}>
+                  <span>{t(item.labelKey, lang)}</span>
+                  <span style={{ display: 'inline-flex', gap: 4 }}>
+                    {item.keys.map((k) => (
+                      <kbd
+                        key={k}
+                        style={{
+                          background: '#ffffff',
+                          border: '1px solid #b4cad8',
+                          borderRadius: 5,
+                          padding: '2px 7px',
+                          fontSize: 11.5,
+                          fontWeight: 700,
+                          fontFamily: 'ui-monospace, monospace',
+                        }}
+                      >
+                        {k}
+                      </kbd>
+                    ))}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <iframe
         ref={iframeRef}
         title="Voicest"
@@ -105,6 +286,7 @@ export default function App() {
         expanded={expanded}
         onToggle={() => setExpanded((v) => !v)}
         onSeek={handleSeek}
+        onTapTempo={handleTapTempo}
       />
     </div>
   );
