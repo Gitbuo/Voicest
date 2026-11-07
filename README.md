@@ -63,7 +63,8 @@ Every push to `main` is checked by CI and published to GitHub Pages. To host voi
 - **Auto-Quantize & Quantize (Q)**: Grid snapping for 1/4, 1/8, 1/16, 1/32, 1/64, and triplets (1/8T, 1/16T).
 - **Legato Smoothing**: Automatic cosine S-curve pitch glide between adjacent notes (gap ≤ 50ms).
 - **Note Overlap Prevention**: Intelligent avoidance of overlapping notes on the same melodic track.
-- **Timeline & Transport**: BPM (40–240), Metronome, Tap Tempo, Bars (2–256), Loop mode, Swing timing, Master Volume.
+- **OpenUTAU Playback Cursor & Position Marker**: Persistent triangular marker head atop the ruler, vertical stem spanning down all tracks, does not vanish when playback stops (remains at `startAt`), interactive timeline scrubbing across ruler with real-time measure badge (`M3.1 · 0:04.5`).
+- **Timeline & Transport**: BPM (40–240), Metronome, Bars (2–256), Loop mode, Swing timing, Master Volume.
 - **Scale & Key Snapping**: Chromatic, Major, Minor, Pentatonic with key root selector.
 
 ---
@@ -108,6 +109,7 @@ Every push to `main` is checked by CI and published to GitHub Pages. To host voi
 - **Built-in Cestloid Voice**:
   - Formant synthesis singing in Japanese romaji or kana (`ka`, `か`, `kya`, `がっこう`).
   - Sliders for Brightness, Breathiness, Vibrato, Formant, Gender, and Vocal Tension.
+  - **Cestloid Cross-Synthesis (XSY)**: Vocaloid 4 and OpenUTAU standard equal-power timbre morphing between Cestloid Default and any target voice preset (Female / Child, Mature, Weak / Gentle, Clear, Power, Whisper). Features smooth cosine S-curve parameter easing across brightness, breathiness, glottal tension, vowel formants, gender factor, and clarity EQ.
   - Clarity EQ on the voice: high-pass at 90 Hz, less low-mid mud (280 Hz), presence boosts at 2.6 kHz and 3.6 kHz that follow the **Clarity** slider, a de-esser band at 7.2 kHz and a gentle high shelf; voiced buzz is low-passed at 6 kHz, note attacks fade in over about 10 ms and the s / sh / ts / ch noise is kept soft.
   - English-to-Kana phonemizer (EN2JA+).
 - **UTAU Voicebank Support**:

@@ -22,7 +22,8 @@ export interface PitchVisualizerProps {
   expanded: boolean;
   onToggle: () => void;
   onSeek?: (timeSec: number) => void;
-  onTapTempo?: () => void;
+  metronomeOn?: boolean;
+  onToggleMetronome?: () => void;
 }
 
 const COLOR = {
@@ -35,12 +36,12 @@ const COLOR = {
   mintDeep: '#3b789c',
 };
 
-const TEXT: Record<Language, { title: string; notes: string; legato: string; open: string; close: string; tap: string }> = {
-  vi: { title: 'Đường cong F0', notes: 'nốt', legato: 'legato', open: 'Mở', close: 'Đóng', tap: 'Gõ nhịp (Tap)' },
-  en: { title: 'F0 contour', notes: 'notes', legato: 'legato', open: 'Open', close: 'Close', tap: 'Tap Tempo' },
-  ja: { title: 'F0カーブ', notes: 'ノート', legato: 'レガート', open: '開く', close: '閉じる', tap: 'タップテンポ' },
-  zh: { title: 'F0 曲线', notes: '音符', legato: '连音', open: '展开', close: '收起', tap: '测速 (Tap)' },
-  ko: { title: 'F0 곡선', notes: '음표', legato: '레가토', open: '열기', close: '닫기', tap: '탭 템포' },
+const TEXT: Record<Language, { title: string; notes: string; legato: string; open: string; close: string; metroOn: string; metroOff: string }> = {
+  vi: { title: 'Đường cong F0', notes: 'nốt', legato: 'legato', open: 'Mở', close: 'Đóng', metroOn: 'Máy nhịp: BẬT', metroOff: 'Máy nhịp: TẮT' },
+  en: { title: 'F0 contour', notes: 'notes', legato: 'legato', open: 'Open', close: 'Close', metroOn: 'Metronome: ON', metroOff: 'Metronome: OFF' },
+  ja: { title: 'F0カーブ', notes: 'ノート', legato: 'レガート', open: '開く', close: '閉じる', metroOn: 'メトロノーム: ON', metroOff: 'メトロノーム: OFF' },
+  zh: { title: 'F0 曲线', notes: '音符', legato: '连音', open: '展开', close: '收起', metroOn: '节拍器: 开启', metroOff: '节拍器: 关闭' },
+  ko: { title: 'F0 곡선', notes: '음표', legato: '레가토', open: '열기', close: '닫기', metroOn: '메트로놈: 켜짐', metroOff: '메트로놈: 꺼짐' },
 };
 
 const CHART_HEIGHT = 170;
@@ -54,7 +55,8 @@ export default function PitchVisualizer({
   expanded,
   onToggle,
   onSeek,
-  onTapTempo,
+  metronomeOn = false,
+  onToggleMetronome,
 }: PitchVisualizerProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -199,8 +201,20 @@ export default function PitchVisualizer({
             </button>
           </>
         )}
-        <button type="button" style={btn} onClick={onTapTempo} title={tx.tap}>
-          {tx.tap} · {bpm} BPM
+        <button
+          type="button"
+          style={{
+            ...btn,
+            background: metronomeOn ? COLOR.pink : COLOR.bg,
+            color: metronomeOn ? '#ffffff' : COLOR.ink,
+            borderColor: metronomeOn ? COLOR.pink : COLOR.line,
+            fontWeight: metronomeOn ? 600 : 400,
+          }}
+          onClick={onToggleMetronome}
+          title={metronomeOn ? tx.metroOn : tx.metroOff}
+          aria-pressed={!!metronomeOn}
+        >
+          {metronomeOn ? tx.metroOn : tx.metroOff}
         </button>
         <button style={btn} onClick={onToggle}>
           {expanded ? tx.close : tx.open}

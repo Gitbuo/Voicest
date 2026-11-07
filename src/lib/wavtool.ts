@@ -228,12 +228,22 @@ export function concatenateParts(
       } else {
         if (fadeInSamples > 0 && i < fadeInSamples) {
           // Equal power sine fade in
-          gain *= Math.sin((Math.PI / 2) * (i / fadeInSamples));
+          const r = Math.max(0, Math.min(1, i / fadeInSamples));
+          gain *= Math.sin((Math.PI / 2) * r);
         }
         if (fadeOutSamples > 0 && i >= fadeOutStart) {
           // Equal power sine fade out
           const rem = mixLen - i;
-          gain *= Math.sin((Math.PI / 2) * Math.max(0, Math.min(1, rem / fadeOutSamples)));
+          const r = Math.max(0, Math.min(1, rem / fadeOutSamples));
+          gain *= Math.sin((Math.PI / 2) * r);
+        }
+        // Sub-millisecond boundary smoothing to prevent sample boundary clicks
+        if (i < 16) {
+          gain *= (0.5 - 0.5 * Math.cos((Math.PI * i) / 16));
+        }
+        const tailRem = mixLen - 1 - i;
+        if (tailRem < 16 && tailRem >= 0) {
+          gain *= (0.5 - 0.5 * Math.cos((Math.PI * tailRem) / 16));
         }
       }
 

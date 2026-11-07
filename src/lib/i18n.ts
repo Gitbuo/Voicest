@@ -73,8 +73,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fit_zoom: 'Vừa khung',
     click_to_seek: 'Nhấp để tua phát lại tại đây',
     legato_badge: '50ms S-Curve Cosine',
-    transition_tooltip: 'Chuyển âm Legato: {0} ➔ {1} ({2}ms)',
+    transition_tooltip: 'Chuyển âm Legato: {0} -> {1} ({2}ms)',
     note_tooltip: 'Nốt: {0} ({1}) | {2}s - {3}s ({4}s)',
+
+    // Metronome
+    metro_btn: 'Máy gõ nhịp',
+    metro_on: 'Máy gõ nhịp: BẬT',
+    metro_off: 'Máy gõ nhịp: TẮT',
+    metro_tooltip: 'Bật / Tắt máy gõ nhịp (Phím tắt: M)',
+    toast_metro_on: 'Máy gõ nhịp: BẬT',
+    toast_metro_off: 'Máy gõ nhịp: TẮT',
 
     // Modals
     close: 'Đóng',
@@ -111,6 +119,21 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     sc_note_len: 'Tăng / Giảm độ dài nốt mặc định',
     sc_loop: 'Bật / Tắt chế độ lặp',
     sc_metro: 'Bật / Tắt máy gõ nhịp',
+    sc_seek_marker: 'Kéo đầu tam giác vạch phát trên thước để tua (OpenUTAU)',
+
+    // Cestloid Appends & OpenUTAU Playback Cursor
+    cest_append: 'Chất giọng (Append)',
+    app_default: 'Tiêu chuẩn (Default)',
+    app_female: 'Cest Nữ / Trẻ em (Child)',
+    app_mature: 'Trưởng thành / Trầm (Mature)',
+    app_weak: 'Dịu nhẹ / Yếu (Weak)',
+    app_clear: 'Rõ âm / Trong sáng (Clear)',
+    app_power: 'Nội lực / Mạnh mẽ (Power)',
+    app_whisper: 'Thì thầm / Thoát khí (Whisper)',
+    app_robot: 'Robot / Cơ khí (Robot)',
+    cursor_marker: 'Vạch phát OpenUTAU',
+    cursor_tooltip: 'Kéo đầu tam giác hoặc thước để tua mượt mà với số ô nhịp (M1.1)',
+    github_link: 'GitHub Voicest',
 
     // Feedback messages
     toast_quantized: 'Đã căn lưới {0} nốt theo lưới {1}!',
@@ -122,6 +145,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     toast_home: 'Về đầu bài (0:00)',
     toast_end: 'Tới cuối bài',
     toast_track: 'Kênh: {0}',
+    toast_append_changed: 'Đã đổi chất giọng Cestloid: {0}',
+    toast_seek: 'Vị trí phát: {0} ({1})',
   },
   en: {
     // Brand & Header
@@ -175,8 +200,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fit_zoom: 'Fit View',
     click_to_seek: 'Click to seek playback here',
     legato_badge: '50ms S-Curve Cosine',
-    transition_tooltip: 'Legato Transition: {0} ➔ {1} ({2}ms)',
+    transition_tooltip: 'Legato Transition: {0} -> {1} ({2}ms)',
     note_tooltip: 'Note: {0} ({1}) | {2}s - {3}s ({4}s)',
+
+    // Metronome
+    metro_btn: 'Metronome',
+    metro_on: 'Metronome: ON',
+    metro_off: 'Metronome: OFF',
+    metro_tooltip: 'Toggle metronome (Shortcut: M)',
+    toast_metro_on: 'Metronome: ON',
+    toast_metro_off: 'Metronome: OFF',
 
     // Modals
     close: 'Close',
@@ -213,6 +246,21 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     sc_note_len: 'Increase / Decrease default note length',
     sc_loop: 'Toggle loop playback',
     sc_metro: 'Toggle metronome',
+    sc_seek_marker: 'Drag OpenUTAU marker head on ruler to scrub',
+
+    // Cestloid Appends & OpenUTAU Playback Cursor
+    cest_append: 'Vocal Append',
+    app_default: 'Default',
+    app_female: 'Female / Child',
+    app_mature: 'Mature / Deep',
+    app_weak: 'Weak / Gentle',
+    app_clear: 'Clear / Crisp',
+    app_power: 'Power / Strong',
+    app_whisper: 'Whisper / Airy',
+    app_robot: 'Robot / Electronic',
+    cursor_marker: 'OpenUTAU Playhead',
+    cursor_tooltip: 'Drag triangle head or ruler to scrub with measure-beat badge (M1.1)',
+    github_link: 'Voicest GitHub',
 
     // Feedback messages
     toast_quantized: 'Quantized {0} notes to {1} grid!',
@@ -224,6 +272,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     toast_home: 'Jumped to start (0:00)',
     toast_end: 'Jumped to end',
     toast_track: 'Track: {0}',
+    toast_append_changed: 'Cestloid append set to: {0}',
+    toast_seek: 'Position: {0} ({1})',
   },
   ja: {
     // Brand & Header
@@ -277,8 +327,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fit_zoom: '全体表示',
     click_to_seek: 'クリックしてシーク',
     legato_badge: '50ms S字コサインカーブ',
-    transition_tooltip: 'レガート遷移: {0} ➔ {1} ({2}ms)',
+    transition_tooltip: 'レガート遷移: {0} -> {1} ({2}ms)',
     note_tooltip: 'ノート: {0} ({1}) | {2}秒 - {3}秒 ({4}秒)',
+
+    // Metronome
+    metro_btn: 'メトロノーム',
+    metro_on: 'メトロノーム: ON',
+    metro_off: 'メトロノーム: OFF',
+    metro_tooltip: 'メトロノームの切り替え (ショートカット: M)',
+    toast_metro_on: 'メトロノーム: ON',
+    toast_metro_off: 'メトロノーム: OFF',
 
     // Modals
     close: '閉じる',
@@ -315,6 +373,21 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     sc_note_len: 'デフォルトノート長の増減',
     sc_loop: 'ループ再生の切り替え',
     sc_metro: 'メトロノームの切り替え',
+    sc_seek_marker: 'ルーラー上のOpenUTAUマーカーヘッドをドラッグしてシーク',
+
+    // Cestloid Appends & OpenUTAU Playback Cursor
+    cest_append: '声質 (Append)',
+    app_default: '標準 (Default)',
+    app_female: '女声 / 少女 (Child)',
+    app_mature: '大人 / 熟声 (Mature)',
+    app_weak: '優しい / 弱声 (Weak)',
+    app_clear: 'クリア / 明瞭 (Clear)',
+    app_power: 'パワー / 力強い (Power)',
+    app_whisper: 'ささやき / 息声 (Whisper)',
+    app_robot: 'ロボット / 電子音 (Robot)',
+    cursor_marker: 'OpenUTAU 再生ヘッド',
+    cursor_tooltip: '三角ヘッドまたはルーラーをドラッグして小節・拍表示付きで滑らかにシーク (M1.1)',
+    github_link: 'Voicest GitHub',
 
     // Feedback messages
     toast_quantized: '{0}個のノートを{1}グリッドに整列しました！',
@@ -326,6 +399,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     toast_home: '先頭へ移動 (0:00)',
     toast_end: '末尾へ移動',
     toast_track: 'トラック: {0}',
+    toast_append_changed: 'Cestloidの声を切り替えました: {0}',
+    toast_seek: '再生位置: {0} ({1})',
   },
   zh: {
     // Brand & Header
@@ -379,8 +454,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fit_zoom: '适应全屏',
     click_to_seek: '单击此处跳转播放',
     legato_badge: '50ms 余弦 S 曲线',
-    transition_tooltip: '连音过渡: {0} ➔ {1} ({2}ms)',
+    transition_tooltip: '连音过渡: {0} -> {1} ({2}ms)',
     note_tooltip: '音符: {0} ({1}) | {2}s - {3}s ({4}s)',
+
+    // Metronome
+    metro_btn: '节拍器',
+    metro_on: '节拍器: 开启',
+    metro_off: '节拍器: 关闭',
+    metro_tooltip: '切换节拍器 (快捷键: M)',
+    toast_metro_on: '节拍器: 开启',
+    toast_metro_off: '节拍器: 关闭',
 
     // Modals
     close: '关闭',
@@ -417,6 +500,21 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     sc_note_len: '增减默认音符长度',
     sc_loop: '切换循环播放',
     sc_metro: '切换节拍器',
+    sc_seek_marker: '在标尺上拖动 OpenUTAU 游标以快速定位',
+
+    // Cestloid Appends & OpenUTAU Playback Cursor
+    cest_append: '声线 (Append)',
+    app_default: '默认 (Default)',
+    app_female: '女声 / 少女 (Child)',
+    app_mature: '成熟 / 低沉 (Mature)',
+    app_weak: '柔和 / 弱声 (Weak)',
+    app_clear: '清晰 / 透亮 (Clear)',
+    app_power: '强力 / 爆发 (Power)',
+    app_whisper: '低语 / 气声 (Whisper)',
+    app_robot: '机器人 / 电子音 (Robot)',
+    cursor_marker: 'OpenUTAU 播放指针',
+    cursor_tooltip: '拖动三角形游标或标尺以带有小节/拍数标记平滑移动 (M1.1)',
+    github_link: 'Voicest GitHub',
 
     // Feedback messages
     toast_quantized: '已将 {0} 个音符按 {1} 网格量化！',
@@ -428,6 +526,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     toast_home: '回到开头 (0:00)',
     toast_end: '跳至结尾',
     toast_track: '音轨: {0}',
+    toast_append_changed: '已切换 Cestloid 声线：{0}',
+    toast_seek: '播放位置: {0} ({1})',
   },
   ko: {
     // Brand & Header
@@ -481,8 +581,16 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     fit_zoom: '화면 맞춤',
     click_to_seek: '클릭하여 해당 위치로 탐색',
     legato_badge: '50ms S-Curve 코사인',
-    transition_tooltip: '레가토 전환: {0} ➔ {1} ({2}ms)',
+    transition_tooltip: '레가토 전환: {0} -> {1} ({2}ms)',
     note_tooltip: '음표: {0} ({1}) | {2}초 - {3}초 ({4}초)',
+
+    // Metronome
+    metro_btn: '메트로놈',
+    metro_on: '메트로놈: 켜짐',
+    metro_off: '메트로놈: 꺼짐',
+    metro_tooltip: '메트로놈 켜기/끄기 (단축키: M)',
+    toast_metro_on: '메트로놈: 켜짐',
+    toast_metro_off: '메트로놈: 꺼짐',
 
     // Modals
     close: '닫기',
@@ -519,6 +627,21 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     sc_note_len: '기본 음표 길이 늘이기/줄이기',
     sc_loop: '반복 재생 켜기/끄기',
     sc_metro: '메트로놈 켜기/끄기',
+    sc_seek_marker: '눈금자 위의 OpenUTAU 마커 헤드를 드래그하여 탐색',
+
+    // Cestloid Appends & OpenUTAU Playback Cursor
+    cest_append: '음색 (Append)',
+    app_default: '기본 (Default)',
+    app_female: '여성 / 소녀 (Child)',
+    app_mature: '성숙 / 차분함 (Mature)',
+    app_weak: '부드러움 / 약한 소리 (Weak)',
+    app_clear: '또렷함 / 맑음 (Clear)',
+    app_power: '파워 / 강렬함 (Power)',
+    app_whisper: '속삭임 / 숨소리 (Whisper)',
+    app_robot: '로봇 / 전자음 (Robot)',
+    cursor_marker: 'OpenUTAU 재생 헤드',
+    cursor_tooltip: '삼각형 헤드 또는 눈금자를 드래그하여 마디/박자 표시와 함께 부드럽게 탐색 (M1.1)',
+    github_link: 'Voicest GitHub',
 
     // Feedback messages
     toast_quantized: '{0}개의 음표를 {1} 그리드에 정렬했습니다!',
@@ -530,6 +653,8 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     toast_home: '맨 앞으로 (0:00)',
     toast_end: '맨 끝으로',
     toast_track: '트랙: {0}',
+    toast_append_changed: 'Cestloid 음색을 변경했습니다: {0}',
+    toast_seek: '재생 위치: {0} ({1})',
   },
 };
 

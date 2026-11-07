@@ -2,7 +2,7 @@
 <style>
 :root{--bg:#eaf3f8;--tx:#243442;--ac:#4a90b8;--pn:color-mix(in srgb,#d6e4ee 72%,var(--bg));--ln:#b4cad8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151d24;--tx:#e3edf4;--ac:#63a6ce;--pn:color-mix(in srgb,var(--bg),var(--tx) 8%);--ln:color-mix(in srgb,var(--bg),var(--tx) 20%)}}
-:root[data-theme="dark"]{--bg:#151d24;--tx:#e3edf4;--ac:#63a6ce;--pn:color-mix(in srgb,var(--bg),var(--tx) 8%);--ln:color-mix(in srgb,var(--bg),var(--tx) 20%)}html,body{margin:0;background:var(--bg);color:var(--tx);font:13px system-ui,sans-serif}header{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;background:var(--pn);border-bottom:1px solid var(--ln)}h1{font-size:18px;margin:0 8px 0 0;color:var(--ac);letter-spacing:1px}button,select,input{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:4px 7px}button{cursor:pointer}button:hover,.on{background:var(--ac);color:#fff}input[type=range]{padding:0;width:80px}input[type=color]{padding:0;width:26px;height:26px}#main{display:flex;flex-wrap:wrap}#side{width:290px;max-width:100%;padding:8px;background:var(--pn);border-right:1px solid var(--ln)}.chr{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px;margin-bottom:5px;border:1px solid var(--ln);border-left:6px solid;border-radius:6px;background:var(--bg);cursor:pointer}.chr.sel{outline:2px solid var(--ac)}.chr input[type=text]{width:70px}#rw{position:relative;flex:1;min-width:0;overflow:auto;max-height:560px}canvas{display:block}#phl{position:absolute;top:0;left:0;width:2px;height:100%;pointer-events:none;z-index:4;background:var(--tx);box-shadow:0 0 0 1px color-mix(in srgb,var(--bg) 70%,transparent);will-change:transform;display:none}#lb{position:absolute;display:none;width:130px;z-index:5;border:2px solid var(--ac)}#pgw{height:8px;background:var(--ln);border-radius:4px;margin:6px 0;overflow:hidden}#pg{height:100%;width:0;background:var(--ac);border-radius:4px;transition:width .12s ease}#hpgw{position:absolute;left:0;right:0;bottom:0;height:3.5px;background:color-mix(in srgb,var(--ln) 55%,transparent);pointer-events:none;opacity:0;transition:opacity .2s ease}#hpg{height:100%;width:0;background:var(--ac);transition:width .12s ease}.s{display:flex;justify-content:space-between;align-items:center;margin:3px 0}small{opacity:.7}header{position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}#side{max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px;align-self:flex-start}button{transition:.12s}button:active{transform:scale(.95)}.chr:hover{filter:brightness(1.06)}#vc{border-radius:6px}#logo{height:28px;vertical-align:middle;margin-right:6px}
+:root[data-theme="dark"]{--bg:#151d24;--tx:#e3edf4;--ac:#63a6ce;--pn:color-mix(in srgb,var(--bg),var(--tx) 8%);--ln:color-mix(in srgb,var(--bg),var(--tx) 20%)}html,body{margin:0;background:var(--bg);color:var(--tx);font:13px system-ui,sans-serif}header{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;background:var(--pn);border-bottom:1px solid var(--ln)}h1{font-size:18px;margin:0 8px 0 0;color:var(--ac);letter-spacing:1px}button,select,input{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:5px;padding:4px 7px}button{cursor:pointer}button:hover,.on{background:var(--ac);color:#fff}input[type=range]{padding:0;width:80px}input[type=color]{padding:0;width:26px;height:26px}#main{display:flex;flex-wrap:wrap}#side{width:290px;max-width:100%;padding:8px;background:var(--pn);border-right:1px solid var(--ln)}.chr{display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:6px;margin-bottom:5px;border:1px solid var(--ln);border-left:6px solid;border-radius:6px;background:var(--bg);cursor:pointer}.chr.sel{outline:2px solid var(--ac)}.chr input[type=text]{width:70px}#rw{position:relative;flex:1;min-width:0;overflow:auto;max-height:560px}canvas{display:block}#phl{position:absolute;top:0;left:0;width:2px;height:100%;pointer-events:none;z-index:15;background:transparent;will-change:transform;display:block}#phm{position:absolute;top:0;left:50%;transform:translateX(-50%);width:14px;height:14px;cursor:ew-resize;pointer-events:auto;z-index:16;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}#phm polygon{fill:var(--ac);stroke:var(--bg);stroke-width:1}#phb{position:absolute;top:0;left:0;width:2px;height:100%;background:var(--ac);box-shadow:0 0 3px color-mix(in srgb,var(--ac) 70%,transparent)}#phl.playing #phb{background:var(--ac);box-shadow:0 0 6px var(--ac)}#phtip{position:absolute;top:15px;left:6px;background:var(--tx);color:var(--bg);font:600 10.5px/1 system-ui,sans-serif;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s ease;box-shadow:0 2px 8px rgba(0,0,0,.25);letter-spacing:.2px}#phl:hover #phtip,#phl.scrubbing #phtip{opacity:1}#lb{position:absolute;display:none;width:130px;z-index:5;border:2px solid var(--ac)}#pgw{height:8px;background:var(--ln);border-radius:4px;margin:6px 0;overflow:hidden}#pg{height:100%;width:0;background:var(--ac);border-radius:4px;transition:width .12s ease}#hpgw{position:absolute;left:0;right:0;bottom:0;height:3.5px;background:color-mix(in srgb,var(--ln) 55%,transparent);pointer-events:none;opacity:0;transition:opacity .2s ease}#hpg{height:100%;width:0;background:var(--ac);transition:width .12s ease}.s{display:flex;justify-content:space-between;align-items:center;margin:3px 0}small{opacity:.7}header{position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}#side{max-height:calc(100vh - 56px);overflow:auto;position:sticky;top:56px;align-self:flex-start}button{transition:.12s}button:active{transform:scale(.95)}.chr:hover{filter:brightness(1.06)}#vc{border-radius:6px}#logo{height:28px;vertical-align:middle;margin-right:6px}
 @media(prefers-color-scheme:dark){:root:not([data-theme=light]) #logo{filter:invert(1) hue-rotate(180deg)}}
 :root[data-theme=dark] #logo{filter:invert(1) hue-rotate(180deg)}details>summary{cursor:pointer;font-weight:600;padding:3px 0}#advd{flex-basis:100%}#vad,#vbd{margin:4px 0}*{scrollbar-color:var(--ln) var(--bg)}:root[data-theme=classic]{color-scheme:light}:root[data-theme=classic] #logo{filter:none}:root[data-theme=classic]{--bg:#f0f0f0;--tx:#000;--ac:#3a5bd0;--pn:#f0f0f0;--ln:#a0a0a0}:root[data-theme=classic] *{font-family:"MS UI Gothic",Tahoma,"Segoe UI",sans-serif}:root[data-theme=classic] header{background:#f0f0f0;border-bottom:1px solid #a0a0a0}:root[data-theme=classic] button,:root[data-theme=classic] select,:root[data-theme=classic] input{background:#e1e1e1;border:1px solid #707070;border-radius:0}:root[data-theme=classic] button:hover,:root[data-theme=classic] .on{background:#cfe0ff;color:#000}:root[data-theme=classic] #side{background:#f0f0f0}:root[data-theme=classic] .chr{border-radius:0}
 #no_overlap_badge{display:none!important}
@@ -119,11 +119,11 @@ document.addEventListener('visibilitychange',function(){if(!document.hidden)un()
 w.addEventListener('unhandledrejection',function(e){try{console.warn('Voicest:',e.reason)}catch(x){}});
 })();
 </script></head><body>
-<div id=devModal role="dialog" aria-modal="true" aria-labelledby="devTitle"><div id=devCard><h2 id=devTitle>Chào mừng đến với Voicest!</h2><p id=devDesc>Bạn đang sử dụng thiết bị nào? Voicest sẽ tự động ghi nhớ lựa chọn này cho các lần mở sau.</p><div class=dev-grid><button type=button class=dev-opt id=devPickDesktop><b>🖥 Máy tính (PC / Laptop)</b><small>Giao diện DAW đầy đủ · Phím tắt (Space, Ctrl+S, Home) · Kéo thả file &amp; chuột phải xoá nốt</small></button><button type=button class=dev-opt id=devPickMobile><b>📱 Điện thoại / Máy tính bảng</b><small>Nút bấm lớn dễ chạm · Chế độ vuốt cuộn Piano Roll · Thu gọn bảng điều khiển &amp; nhập MIDI/UST/UTAU VB 1 chạm</small></button></div></div></div>
-<div id=cred><b>&gt;Gitbuo&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><small>Gitbuo · Gemini · Claude · Devin</small></div>
+<div id=devModal role="dialog" aria-modal="true" aria-labelledby="devTitle"><div id=devCard><h2 id=devTitle>Chào mừng đến với Voicest!</h2><p id=devDesc>Bạn đang sử dụng thiết bị nào? Voicest sẽ tự động ghi nhớ lựa chọn này cho các lần mở sau.</p><div class=dev-grid><button type=button class=dev-opt id=devPickDesktop><b>Máy tính (PC / Laptop)</b><small>Giao diện DAW đầy đủ · Phím tắt (Space, Ctrl+S, Home) · Kéo thả file &amp; chuột phải xoá nốt</small></button><button type=button class=dev-opt id=devPickMobile><b>Điện thoại / Máy tính bảng</b><small>Nút bấm lớn dễ chạm · Chế độ vuốt cuộn Piano Roll · Thu gọn bảng điều khiển &amp; nhập MIDI/UST/UTAU VB 1 chạm</small></button></div></div></div>
+<div id=cred><b>&gt;Gitbuo&lt;</b><br><a href="https://github.com/YuzukiTsuru/World.JS/releases/tag/v0.1.15" target="_blank" rel="noopener noreferrer">World.JS</a> · Organum-0.0.8 · straycat-rs · EN2JA+<br><a href="https://github.com/straycat-sound/openutau" target="_blank" rel="noopener noreferrer">OpenUTAU</a> · <a href="https://github.com/straycat-sound/voicest-web" target="_blank" rel="noopener noreferrer">GitHub</a><br><small>Gitbuo · Gemini · Claude · Devin</small></div>
 <header><h1><img id=logo alt="" src="./logo.png">Voicest v1.5x</h1>
-<button id=sideToggle class=mobile-only type=button title="Ẩn/hiện bảng điều khiển &amp; Voicebank">☰ Bảng ĐK</button>
-<button id=mobImpBtn class=mobile-only type=button title="Nhập file MIDI, UST, USTX, SVP, VSQX...">📥 Nhập MIDI/UST</button>
+<button id=sideToggle class=mobile-only type=button title="Ẩn/hiện bảng điều khiển &amp; Voicebank">Bảng ĐK</button>
+<button id=mobImpBtn class=mobile-only type=button title="Nhập file MIDI, UST, USTX, SVP, VSQX...">Nhập MIDI/UST</button>
 <button id=pl>Phát</button><button id=st title="Dừng">Dừng</button>
 BPM<input id=bpm type=number min=40 max=240 value=120 style="width:56px">
 Ô nhịp<select id=bars><option>2<option selected>4<option>8<option>16<option>32<option>64<option>128<option>256</select>
@@ -135,7 +135,7 @@ Dài nốt<select id=len><option>1<option selected>2<option>4<option>8<option>16
 <button id=sv>Lưu</button><button id=ld title="Mở hoặc nhập file UST, MIDI, USTX, SVP, VSQX, VPR, CCS, MusicXML, LRC">Mở / Nhập</button><button id=mo>Xuất MIDI</button><button id=uo>Xuất UST</button>
 <select id=th title="Giao diện"><option value=auto>Tự động<option value=light>Sáng<option value=dark>Tối<option value=classic>Classic</select>
 <input type=color id=cb value="#eaf3f8" title="Màu nền"><input type=color id=ca value="#4a90b8" title="Màu nhấn">
-<button id=devToggle type=button title="Chuyển đổi giao diện Máy tính / Điện thoại">🖥 PC</button>
+<button id=devToggle type=button title="Chuyển đổi giao diện Máy tính / Điện thoại">PC</button>
 <div class="exp-bar" style="display:flex;align-items:center;gap:6px;width:100%;padding:4px 0;margin-top:2px;border-top:1px dashed var(--ln)">
 <button id=expOpen type=button aria-haspopup="dialog">Xuất âm thanh…</button>
 <span class="tool-sep"></span>
@@ -145,12 +145,25 @@ Dài nốt<select id=len><option>1<option selected>2<option>4<option>8<option>16
 <div id=main><div id=side><div id=chl></div>
 <div class=s><select id=ni><option>Piano<option>Musicbox<option>Violin<option>Guitar<option>Chip<option value=Voice>Voice · Cestloid<option>Sample</select><button id=ad>+ Kênh</button></div>
 <hr><b>Cestloid</b><small id=kh>Gõ romaji hoặc kana: ka, か, kya, がっこう</small>
+<div class="s" style="margin:5px 0 7px;padding:4px 6px;border:1px solid var(--ln);border-radius:6px;background:color-mix(in srgb,var(--ac) 9%,var(--bg))">
+  <span id="lbl_cest_append" style="font-weight:600;font-size:12px">Chất giọng (Append):</span>
+  <select id="cest_append" style="font-weight:600;padding:2px 6px;font-size:12px;border-color:var(--ac)">
+    <option value="0">Tiêu chuẩn (Default)</option>
+    <option value="1">Cest Nữ / Trẻ em (Child)</option>
+    <option value="2">Trưởng thành / Trầm (Mature)</option>
+    <option value="3">Dịu nhẹ / Yếu (Weak)</option>
+    <option value="4">Rõ âm / Trong sáng (Clear)</option>
+    <option value="5">Nội lực / Mạnh mẽ (Power)</option>
+    <option value="6">Thì thầm / Thoát khí (Whisper)</option>
+    <option value="7">Robot / Cơ khí (Robot)</option>
+  </select>
+</div>
 <div class=s>Độ sáng<input type=range data-v=b min=0 max=1 step=.05 value=.5></div>
 <div class=s>Hơi thở<input type=range data-v=br min=0 max=1 step=.05 value=.15></div>
 <div class=s>Rung<input type=range data-v=v min=0 max=1 step=.05 value=.4></div>
 <div class=s>Formant<input type=range data-v=f min=.7 max=1.4 step=.05 value=1></div><div class=s>Gender<input type=range data-v=g min=-1 max=1 step=.05 value=0></div><div class=s>Độ căng<input type=range data-v=t min=0 max=1 step=.05 value=.5></div>
 <div id=pgw><div id=pg></div></div><canvas id=wf width=280 height=36 style="width:100%"></canvas><div class=s><button id=pp>Phát trước</button><button id=rx>Dừng render</button></div><div class=s><label><input type=checkbox id=ar checked>Auto render</label><button id=cc>Xoá cache</button></div><small id=pt></small><br><small id=ms>Nhấp ô để thêm nốt · nhấp nốt để nhập lời · chuột phải để xoá · Space để phát</small></div>
-<div style="flex:1;min-width:0"><div class=s style="justify-content:flex-start;flex-wrap:wrap;gap:6px;padding:6px"><b title="Điểm: nhấp để thêm, kéo để di chuyển, chuột phải để xoá. Cọ: giữ chuột và vẽ.">Dụng cụ:</b><button id=t0 class=on>Nốt</button><button id=tPan title="Kéo 1 ngón để cuộn Piano Roll (rất tiện trên điện thoại)">🖐 Cuộn</button><button id=t1>Điểm tune</button><button id=t2>Cọ tune</button><button id=t3>Xoá nốt</button><button id=t4 title="Lasso (free selection): drag to select many notes at once">Lasso</button><button id=tc>Xoá tune</button><span class="tool-sep"></span><b id="lbl_mau_not" style="color:var(--ac);font-size:11px" title="Note color mode">Color:</b><select id=noteColorMode title="Note color mode"><option value=track>Track color</option><option value=pitch>Pitch rainbow</option><option value=custom>Custom color</option></select><div id=quickPalette style="display:inline-flex;align-items:center;gap:3px;padding:2px 5px;background:var(--bg);border:1px solid var(--ln);border-radius:5px" title="Click a color dot to color the selected notes (or the whole channel)"><span class=cp-dot data-col="#ff7eb6" style="background:#ff7eb6" title="Sakura Pink"></span><span class=cp-dot data-col="#2ee59d" style="background:#2ee59d" title="Mint Green"></span><span class=cp-dot data-col="#00e5ff" style="background:#00e5ff" title="Electric Cyan"></span><span class=cp-dot data-col="#ff9100" style="background:#ff9100" title="Sunset Orange"></span><span class=cp-dot data-col="#b388ff" style="background:#b388ff" title="Lavender Purple"></span><span class=cp-dot data-col="#ffd600" style="background:#ffd600" title="Amber Yellow"></span><span class=cp-dot data-col="#40c4ff" style="background:#40c4ff" title="Sky Blue"></span><span class=cp-dot data-col="#ff5252" style="background:#ff5252" title="Ruby Red"></span><input type=color id=noteCustomCol value="#ff7eb6" title="Pick any note color" style="width:20px;height:20px;padding:0;border:0;cursor:pointer;border-radius:3px"></div><label>Zoom <input type=range id=zm min=14 max=44 value=26></label><label title="Thu phóng dọc">Dọc <input type=range id=zv min=10 max=24 value=14></label><label>Swing<input type=range id=sw min=0 max=.6 step=.05 value=0></label><label>Vol<input type=range id=mv min=.2 max=1 step=.05 value=1></label><label><input type=checkbox id=mt>Metro</label><button id=tp>Tap</button><select id=sr title="Tần số lấy mẫu"><option value=1>44k<option value=2>22k<option value=4>11k<option value=6>7k</select><select id=cw title="Sóng Chip"><option value=square>square<option value=sawtooth>sawtooth<option value=triangle>triangle</select><select id=sc title="Thang âm"><option value=0>Chromatic<option value=1>Major<option value=2>Minor<option value=3>Pentatonic</select><select id=rt title="Chủ âm"></select><label><input type=checkbox id=sn>Snap</label><select id=qg title="Lưới nhịp / Grid Quantize" style="font-weight:600"><option value="1">Lưới 1/16</option><option value="2">Lưới 1/8</option><option value="4">Lưới 1/4</option><option value="0.5">Lưới 1/32</option><option value="0.25">Lưới 1/64</option><option value="1.3333">Lưới 1/8T</option><option value="0.6667">Lưới 1/16T</option></select><input type=checkbox id=aq checked style="display:none"><button id=btnQ title="Căn lưới toàn bộ nốt trên kênh (Q) để legato chuẩn nhịp">Quantize</button><button id=btnLegato title="Nối liền các nốt gần nhau để legato hoàn hảo">Nối Legato</button><button id=dc>Nhân đôi</button><button id=cl>Xoá hết</button><select id=ps title="Preset giọng"><option value=0>Cest mặc định<option value=1>Cest nữ<option value=2>Cest robot<option value=3>Cest thì thầm</select><small id=hv></small> <small id=sx></small></div><div id=rw><canvas id=r></canvas><input id=lb type=text></div></div></div>
+<div style="flex:1;min-width:0"><div class=s style="justify-content:flex-start;flex-wrap:wrap;gap:6px;padding:6px"><b title="Điểm: nhấp để thêm, kéo để di chuyển, chuột phải để xoá. Cọ: giữ chuột và vẽ.">Dụng cụ:</b><button id=t0 class=on>Nốt</button><button id=tPan title="Kéo 1 ngón để cuộn Piano Roll (rất tiện trên điện thoại)">Cuộn</button><button id=t1>Điểm tune</button><button id=t2>Cọ tune</button><button id=t3>Xoá nốt</button><button id=t4 title="Lasso (free selection): drag to select many notes at once">Lasso</button><button id=tc>Xoá tune</button><span class="tool-sep"></span><b id="lbl_mau_not" style="color:var(--ac);font-size:11px" title="Note color mode">Color:</b><select id=noteColorMode title="Note color mode"><option value=track>Track color</option><option value=pitch>Pitch rainbow</option><option value=custom>Custom color</option></select><div id=quickPalette style="display:inline-flex;align-items:center;gap:3px;padding:2px 5px;background:var(--bg);border:1px solid var(--ln);border-radius:5px" title="Click a color dot to color the selected notes (or the whole channel)"><span class=cp-dot data-col="#ff7eb6" style="background:#ff7eb6" title="Sakura Pink"></span><span class=cp-dot data-col="#2ee59d" style="background:#2ee59d" title="Mint Green"></span><span class=cp-dot data-col="#00e5ff" style="background:#00e5ff" title="Electric Cyan"></span><span class=cp-dot data-col="#ff9100" style="background:#ff9100" title="Sunset Orange"></span><span class=cp-dot data-col="#b388ff" style="background:#b388ff" title="Lavender Purple"></span><span class=cp-dot data-col="#ffd600" style="background:#ffd600" title="Amber Yellow"></span><span class=cp-dot data-col="#40c4ff" style="background:#40c4ff" title="Sky Blue"></span><span class=cp-dot data-col="#ff5252" style="background:#ff5252" title="Ruby Red"></span><input type=color id=noteCustomCol value="#ff7eb6" title="Pick any note color" style="width:20px;height:20px;padding:0;border:0;cursor:pointer;border-radius:3px"></div><label>Zoom <input type=range id=zm min=14 max=44 value=26></label><label title="Thu phóng dọc">Dọc <input type=range id=zv min=10 max=24 value=14></label><label>Swing<input type=range id=sw min=0 max=.6 step=.05 value=0></label><label>Vol<input type=range id=mv min=.2 max=1 step=.05 value=1></label><label><input type=checkbox id=mt>Metro</label><button id=tp style="display:none">Tap</button><select id=sr title="Tần số lấy mẫu"><option value=1>44k<option value=2>22k<option value=4>11k<option value=6>7k</select><select id=cw title="Sóng Chip"><option value=square>square<option value=sawtooth>sawtooth<option value=triangle>triangle</select><select id=sc title="Thang âm"><option value=0>Chromatic<option value=1>Major<option value=2>Minor<option value=3>Pentatonic</select><select id=rt title="Chủ âm"></select><label><input type=checkbox id=sn>Snap</label><select id=qg title="Lưới nhịp / Grid Quantize" style="font-weight:600"><option value="1">Lưới 1/16</option><option value="2">Lưới 1/8</option><option value="4">Lưới 1/4</option><option value="0.5">Lưới 1/32</option><option value="0.25">Lưới 1/64</option><option value="1.3333">Lưới 1/8T</option><option value="0.6667">Lưới 1/16T</option></select><input type=checkbox id=aq checked style="display:none"><button id=btnQ title="Căn lưới toàn bộ nốt trên kênh (Q) để legato chuẩn nhịp">Quantize</button><button id=btnLegato title="Nối liền các nốt gần nhau để legato hoàn hảo">Nối Legato</button><button id=dc>Nhân đôi</button><button id=cl>Xoá hết</button><small id=hv></small> <small id=sx></small></div><div id=rw><canvas id=r></canvas><input id=lb type=text></div></div></div>
 <script>
 // ----- adapt to the device: RAM, cores, mobile -> cache limits and WORLD thresholds (override: localStorage voicest_tier = low|mid|high) -----
 const DEV=(()=>{const n=navigator,mem=n.deviceMemory||0,cores=n.hardwareConcurrency||2,ua=n.userAgent||'',mob=/Android|iPhone|iPad|iPod|Mobile/i.test(ua)||(n.maxTouchPoints>1&&/Macintosh/.test(ua));let t='';try{t=localStorage.getItem('voicest_tier')||''}catch(e){}
@@ -199,9 +212,19 @@ Object.assign(X, {
   "open_close_all_tip": ["Đóng hoặc mở tất cả các nhóm", "Collapse or expand all sections", "すべてのグループを開閉します", "展开或收起所有分组", "모든 섹션을 접거나 펼칩니다"],
   "lbl_note_col": ["Màu:", "Color:", "色:", "颜色：", "색상:"],
   "del_btn": ["Xóa", "Del", "削除", "删除", "삭제"],
-  "close_btn": ["Đóng", "Close", "閉じる", "关闭", "닫기"]
+  "close_btn": ["Đóng", "Close", "閉じる", "关闭", "닫기"],
+  "lbl_cest_append": ["Chất giọng (Append):", "Vocal Append:", "声質 (Append):", "声线 (Append)：", "음색 (Append):"],
+  "app_default": ["Tiêu chuẩn (Default)", "Default", "標準 (Default)", "默认 (Default)", "기본 (Default)"],
+  "app_female": ["Cest Nữ / Trẻ em (Child)", "Female / Child", "女声 / 少女 (Child)", "女声 / 少女 (Child)", "여성 / 소녀 (Child)"],
+  "app_mature": ["Trưởng thành / Trầm (Mature)", "Mature / Deep", "大人 / 熟声 (Mature)", "成熟 / 低沉 (Mature)", "성숙 / 차분함 (Mature)"],
+  "app_weak": ["Dịu nhẹ / Yếu (Weak)", "Weak / Gentle", "優しい / 弱声 (Weak)", "柔和 / 弱声 (Weak)", "부드러움 / 약한 소리 (Weak)"],
+  "app_clear": ["Rõ âm / Trong sáng (Clear)", "Clear / Crisp", "クリア / 明瞭 (Clear)", "清晰 / 透亮 (Clear)", "또렷함 / 맑음 (Clear)"],
+  "app_power": ["Nội lực / Mạnh mẽ (Power)", "Power / Strong", "パワー / 力強い (Power)", "强力 / 爆发 (Power)", "파워 / 강렬함 (Power)"],
+  "app_whisper": ["Thì thầm / Thoát khí (Whisper)", "Whisper / Airy", "ささやき / 息声 (Whisper)", "低语 / 气声 (Whisper)", "속삭임 / 숨소리 (Whisper)"],
+  "app_robot": ["Robot / Cơ khí (Robot)", "Robot / Electronic", "ロボット / 電子音 (Robot)", "机器人 / 电子音 (Robot)", "로봇 / 전자음 (Robot)"]
 });
 Object.assign(M, {
+  "m_append_changed": ["Đã đổi chất giọng Cestloid sang: {0}", "Cestloid append set to: {0}", "Cestloidの声を切り替えました: {0}", "已切换 Cestloid 声线：{0}", "Cestloid 음색을 변경했습니다: {0}"],
   "m_quantized": ["Đã căn lưới {0} nốt ({1})!", "Quantized {0} notes ({1})!", "{0}個のノートを整列 ({1})！", "已量化 {0} 个音符 ({1})！", "{0}개의 음표를 정렬 ({1})!"],
   "m_legato_linked": ["Đã nối liền {0} đoạn legato hoàn hảo!", "Linked {0} legato transitions perfectly!", "{0}箇所のレガート接続を最適化！", "已完美衔接 {0} 处连音！", "{0}개의 레가토 구간을 연결했습니다!"],
   "m_inst_changed": ["Kênh {0}: đã đổi nhạc cụ sang {1}", "Track {0}: changed instrument to {1}", "トラック {0}: 楽器を {1} に変更", "轨道 {0}：已将乐器切换为 {1}", "트랙 {0}: 악기를 {1}(으)로 변경"],
@@ -297,6 +320,18 @@ function tl(){
     if(opts[4])opts[4].textContent=_T('qg_1_64');
     if(opts[5])opts[5].textContent=_T('qg_1_8t');
     if(opts[6])opts[6].textContent=_T('qg_1_16t');
+  }
+  if($('#lbl_cest_append'))$('#lbl_cest_append').textContent=_T('lbl_cest_append');
+  if($('#cest_append')){
+    const aopts=$('#cest_append').options;
+    if(aopts[0])aopts[0].textContent=_T('app_default');
+    if(aopts[1])aopts[1].textContent=_T('app_female');
+    if(aopts[2])aopts[2].textContent=_T('app_mature');
+    if(aopts[3])aopts[3].textContent=_T('app_weak');
+    if(aopts[4])aopts[4].textContent=_T('app_clear');
+    if(aopts[5])aopts[5].textContent=_T('app_power');
+    if(aopts[6])aopts[6].textContent=_T('app_whisper');
+    if(aopts[7])aopts[7].textContent=_T('app_robot');
   }
   if(typeof ui==='function'&&S&&S.ch)ui();
   if(typeof openRMFeat==='function'&&$('#rmo')&&$('#rmo').classList.contains('on'))openRMFeat();
@@ -750,7 +785,7 @@ const NM='C C# D D# E F F# G G# A A# B'.split(' ');
 $('#rt').innerHTML=NM.map((n,i)=>`<option value=${i}>${n}</option>`).join('');
 const fn=()=>(S.nm||'voicest').replace(/\W+/g,'_'),bind=(id,k,num,f)=>$('#'+id).oninput=e=>{S[k]=num?+e.target.value:e.target.value;if(f)f()};
 bind('sw','swing',1);bind('mv','mv',1);bind('sr','sr',1);bind('cw','cw');bind('sc','sc',1,draw);bind('rt','rt',1,draw);bind('pn','nm');
-$('#mt').onchange=e=>S.mt=e.target.checked;
+$('#mt').onchange=e=>{S.mt=e.target.checked;if(typeof broadcastState==='function')broadcastState()};
 $('#re').onclick=()=>{if(rdo.length){undo.push(JSON.stringify(S.ch));S.ch=JSON.parse(rdo.pop());sel=Math.min(sel,S.ch.length-1);ui();draw()}};$('#btnQ').onclick=()=>{const h=S.ch[sel];if(h){const c=quantizeTrack(h);msg(_T('m_quantized',c,$('#qg')?.selectedOptions[0]?.text||'1/16'))}};$('#btnLegato').onclick=()=>{const h=S.ch[sel];if(h){const c=quantizeTrack(h,null,true);msg(_T('m_legato_linked',c))}};$('#qg').onchange=()=>{draw();if(typeof broadcastState==='function')broadcastState()};$('#aq').onchange=()=>{if(typeof broadcastState==='function')broadcastState()};
 const PS=[
   {append:'default',b:.55,br:.10,v:.40,f:1.00,g:0,t:.55,cl:.85,pre:.48,asp:.42},
@@ -759,9 +794,29 @@ const PS=[
   {append:'weak',b:.38,br:.38,v:.28,f:1.04,g:.10,t:.22,cl:.75,pre:.40,asp:.28},
   {append:'clear',b:.75,br:.04,v:.38,f:1.00,g:0,t:.82,cl:1.00,pre:.50,asp:.45},
   {append:'power',b:.82,br:.05,v:.48,f:.96,g:-.15,t:.92,cl:.92,pre:.55,asp:.50},
-  {append:'whisper',b:.32,br:.68,v:.15,f:1.02,g:.15,t:.15,cl:.70,pre:.38,asp:.55}
+  {append:'whisper',b:.32,br:.68,v:.15,f:1.02,g:.15,t:.15,cl:.70,pre:.38,asp:.55},
+  {append:'robot',b:.45,br:.02,v:.00,f:1.00,g:0,t:.90,cl:.95,pre:.50,asp:.10}
 ];
-$('#ps').onchange=e=>{const p=PS[e.target.value];if(!p)return;Object.assign(S.vp,p);sync();try{cache.clear()}catch(x){}out=null;draw()};
+function setCestloidAppend(idx){
+  const p=PS[idx];if(!p)return;
+  const h=S.ch[sel];
+  if(h){
+    if(!h.vp)h.vp={...S.vp};
+    Object.assign(h.vp,p);
+  }
+  Object.assign(S.vp,p);
+  sync();
+  if(typeof rc==='function')rc();
+  try{cache.clear()}catch(x){}
+  out=null;
+  draw();
+  if(typeof broadcastState==='function')broadcastState();
+  const nameKeys=['app_default','app_female','app_mature','app_weak','app_clear','app_power','app_whisper','app_robot'];
+  const ak=nameKeys[idx]||'app_default';
+  msg(_T('m_append_changed',_T(ak)));
+}
+if($('#cest_append'))$('#cest_append').onchange=e=>setCestloidAppend(+e.target.value);
+if($('#ps'))$('#ps').onchange=e=>setCestloidAppend(+e.target.value);
 let tps=[];$('#tp').onclick=()=>{const n=Date.now();tps=tps.filter(t=>n-t<2500);tps.push(n);if(tps.length>1){S.bpm=Math.max(40,Math.min(240,Math.round(6e4/Math.max(1,(n-tps[0])/(tps.length-1)))));sync()}};
 $('#dc').onclick=()=>{const h=S.ch[sel];if(!h)return;snap();const c=JSON.parse(JSON.stringify(h));c.id=uid++;c.name+=' 2';if(bufs[h.id])bufs[c.id]=bufs[h.id];S.ch.splice(sel+1,0,c);sel++;ui();draw()};
 $('#cl').onclick=()=>{const h=S.ch[sel];if(h){snap();h.n=[];draw()}};
@@ -978,10 +1033,10 @@ const VJ={AA:'a',AE:'a',AH:'a',AY:'a',AW:'a',IY:'i',IH:'i',YU:'i',EH:'e',EY:'e',
 
 function vbAdd(name){for(const id of['vbs','ni']){const s=$('#'+id),v=id=='ni'?'VB:'+name:name;if(![...s.options].some(o=>o.value==v)){const o=document.createElement('option');o.value=v;o.textContent=id=='ni'?_T('voice')+' · '+name:name;s.appendChild(o)}}$('#ni').value='VB:'+name;tl()}
 const addCh0=addCh;addCh=function(k,n){if(typeof k=='string'&&k.startsWith('VB:')){const nm=k.slice(3);addCh0('Voice',n);const h=S.ch[sel];h.vb=nm;h.name=nm.slice(0,40);ui();return}addCh0(k,n)};
-function rc(){if(!$('#vbs'))return;const h=S.ch[sel];if(!h)return;const P=chVP(h);document.querySelectorAll('[data-v]').forEach(i=>i.value=P[i.dataset.v]);$('#cw').value=h.cw||'square';
-$('#vbs').value=h.vb&&[...$('#vbs').options].some(o=>o.value==h.vb)?h.vb:'';}
+function rc(){if(!$('#vbs'))return;const h=S.ch[sel];if(!h)return;const P=chVP(h);document.querySelectorAll('[data-v]').forEach(i=>{if(P[i.dataset.v]!=null)i.value=P[i.dataset.v]});if($('#cw'))$('#cw').value=h.cw||'square';
+$('#vbs').value=h.vb&&[...$('#vbs').options].some(o=>o.value==h.vb)?h.vb:'';
+if($('#cest_append')){const curAp=(P.append||'default').toLowerCase();const idx=PS.findIndex(p=>p.append.toLowerCase()===curAp);if(idx>=0)$('#cest_append').value=String(idx)}}
 const ui0=ui;ui=function(){ui0();rc()};
-
 $('#cw').oninput=e=>{const h=S.ch[sel];if(h)h.cw=e.target.value};
 try{const r=localStorage.getItem('voicest');let ok=false;if(r&&r.length>2){try{loadJSON(r);ok=true}catch(e){}}if(ok){try{localStorage.setItem('voicest_bak',r)}catch(e){}}else{const b=localStorage.getItem('voicest_bak');if(b&&b.length>2){try{loadJSON(b)}catch(e){}}}}catch(e){}
 $('#th').value='light';sync();tl();
@@ -995,11 +1050,11 @@ vbKey=function(a){a=a.trim();const p=a.split(/\s+/);if(p.length==2&&p[0]!='-'&&p
 
 // ---- UI ----
 {const h=document.createElement('div');h.innerHTML='<hr><div class=s>Rõ âm<input type=range data-v=cl min=0 max=1 step=.05 value=.85></div><div class=s>Vang<input type=range id=ec min=0 max=.6 step=.05 value=0></div><canvas id=vc width=280 height=120 style="width:100%" title="Biểu đồ nguyên âm F1/F2"></canvas>';$('#side').insertBefore(h,$('#pgw'))}
-$('#ps').insertAdjacentHTML('beforeend','<option value=4>Cest rõ âm');PS[4]={b:.7,br:.05,v:.4,f:1,g:0,t:.8,cl:1};
+if($('#ps'))try{$('#ps').insertAdjacentHTML('beforeend','<option value=4>Cest rõ âm')}catch(e){}
 $('[data-v=cl]').oninput=e=>chVP(S.ch[sel]).cl=+e.target.value;$('#ec').oninput=e=>S.echo=+e.target.value;
 const cur_=()=>S.ch[sel],sorted=h=>[...h.n].sort((a,b)=>a.s-b.s);
 addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();$('#sv').click();return}if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey)return;const k=e.key;if('1234'.includes(k)&&k)$('#t'+(k-1)).click();else if(k=='l')$('#lp').click();else if(k=='m'){$('#mt').click()}else if(k=='Home'){e.preventDefault();startAt=0;const r=$('#rw');if(r)r.scrollLeft=0;draw()}else if(k=='['||k==']'){const v=[1,2,4,8,16],i=Math.max(0,Math.min(4,v.indexOf(S.len)+(k==']'?1:-1)));S.len=v[i];$('#len').value=S.len}else if(k=='f'){const h=cur_(),o=h&&sorted(h)[0];if(o){const r=$('#rw');r.scrollLeft=KW+o.s*CW-100;r.scrollTop=(HI-o.p)*CH-150}}});
-$('#mt').onclick=()=>{S.mt=$('#mt').checked};
+$('#mt').onclick=()=>{S.mt=$('#mt').checked;if(typeof broadcastState==='function')broadcastState()};
 cvs.addEventListener('pointerdown',e=>{const r=cvs.getBoundingClientRect(),X=(e.clientX-r.left-KW)/CW;if(e.clientY-r.top<12&&X>=0){e.stopImmediatePropagation();startAt=Math.floor(X);draw()}},true);
 cvs.addEventListener('wheel',e=>{if(e.ctrlKey){e.preventDefault();CW=Math.max(5,Math.min(44,CW+(e.deltaY<0?2:-2)));$('#zm').value=CW;draw()}},{passive:false});
 // ---- visuals ----
@@ -1061,11 +1116,11 @@ if(u.length>1)msg(b.value.trim()+' → '+u.map(x=>x.w||x.t).join(' · '));draw()
 
 // ---- UI: remove Cestloid 2, Cestloid panel only for Cestloid channels ----
 {$('[data-v=v]').parentNode.remove();const sd=$('#side'),f0=$('[data-v=b]').parentNode,cp=document.createElement('div');cp.id='cp';f0.before(cp);
-const hb=[...sd.querySelectorAll('b')].find(b=>b.textContent=='Cestloid');cp.append(hb,' ',hb.nextElementSibling);['b','br','f','g','t'].forEach(k=>cp.append($('[data-v='+k+']').parentNode));cp.append($('[data-v=cl]').parentNode);
+const hb=[...sd.querySelectorAll('b')].find(b=>b.textContent=='Cestloid');cp.append(hb,' ',hb.nextElementSibling);if($('#cest_append'))cp.append($('#cest_append').closest('.s'));['b','br','f','g','t'].forEach(k=>cp.append($('[data-v='+k+']').parentNode));cp.append($('[data-v=cl]').parentNode);
 cp.insertAdjacentHTML('beforeend','<div class=s>Phụ âm<input type=range data-v=pre min=0 max=1.5 step=.05 value=.48></div><div class=s>Bật hơi<input type=range data-v=asp min=0 max=1.5 step=.05 value=.42></div>');
-cp.querySelectorAll('[data-v]').forEach(i=>i.oninput=()=>S.vp[i.dataset.v]=+i.value);
-$('#ps').innerHTML='<option value=0>Cestloid · Default<option value=1>Cestloid · Child<option value=2>Cestloid · Mature<option value=3>Cestloid · Weak<option value=4>Cestloid · Clear<option value=5>Cestloid · Power<option value=6>Cestloid · Whisper';
-rc=(r0=>function(){r0();const h=S.ch[sel],cest=h&&h.k=='Voice'&&!h.vb,vo=h&&h.k=='Voice';$('#cp').style.display=$('#ps').style.display=cest?'':'none';$('#kh').style.display=vo?'':'none'})(rc);
+cp.querySelectorAll('[data-v]').forEach(i=>i.oninput=()=>{const val=+i.value;S.vp[i.dataset.v]=val;const h=S.ch[sel];if(h){if(!h.vp)h.vp={...S.vp};h.vp[i.dataset.v]=val}});
+if($('#ps'))$('#ps').innerHTML='<option value=0>Cestloid · Default<option value=1>Cestloid · Child<option value=2>Cestloid · Mature<option value=3>Cestloid · Weak<option value=4>Cestloid · Clear<option value=5>Cestloid · Power<option value=6>Cestloid · Whisper<option value=7>Cestloid · Robot';
+rc=(r0=>function(){r0();const h=S.ch[sel],cest=h&&h.k=='Voice'&&!h.vb,vo=h&&h.k=='Voice';$('#cp').style.display=cest?'':'none';if($('#ps'))$('#ps').style.display=cest?'':'none';$('#kh').style.display=vo?'':'none'})(rc);
 $('#vbs').addEventListener('change',()=>rc());
 $('#sx').insertAdjacentHTML('afterend',' ');}
 // ---- Pitch-tuning style vibrato (part of the tune tools, editable per note) ----
@@ -1172,7 +1227,8 @@ function cestGlottalWave(c,T){
   m.set(b,w);return w;
 }
 voice=function(c,d,t,dur,p,txt,hh){
-  const O=curO||{p},P=chVP(hh),m=vm(txt),sd=ss(),T=P.t==null?.5:P.t,cl=Math.max(P.cl==null?.85:P.cl,.55),G=P.g||0,kf=P.f*(1+.2*G),f=fq(p),
+  const O=curO||{p},P=chVP(hh);
+  const m=vm(txt),sd=ss(),T=P.t==null?.5:P.t,cl=Math.max(P.cl==null?.85:P.cl,.55),G=P.g||0,kf=P.f*(1+.2*G),f=fq(p),
     asp=P.asp==null?.42:P.asp,pt=Math.max(.03,P.pt||.06),en=!!txt&&txt[0]=='~',ca=.55+.22*cl;
   const lk=hh&&curO?prevOf(hh,curO):null,nx=hh&&curO?nextOf(hh,curO):null,pcv=effPc(curO),pc=!!pcv;
   const nb0=nx&&vm(nx.t||'a').c,NASF=/^[bpm]/.test(nb0||'')?CG.m:/^[kg]/.test(nb0||'')?LOCX.N:CG.n;
@@ -1605,7 +1661,7 @@ function vbSplice0(r,Ltot,fT,map,t0,opt){
       let oi=Math.round(u*sr);
       if(!grid){const Tsec=Ts/sr,ph=((t0+u)%Tsec+Tsec)%Tsec;let sh=-ph;if(ph>Tsec/2)sh=Tsec-ph;u+=sh;oi=Math.round(u*sr);grid=true}  // follow the absolute phase grid: adjacent notes share the excitation phase
       let g=1;if(loop&&lp&&lp.E>0&&m0>=lp.ls*sr&&m0<=lp.le*sr){g=Math.min(1.4,Math.max(.7,lp.E/Math.max(an.E[k],1e-6)));g*=1+.012*nzf(u*1.7+3)}
-      g*=(an.sgn?an.sgn[k]:1);if(f<130)g*=Math.min(1.5,Math.pow(130/f,.25));{const al=opt.ga||1,L0=al==1?L:Math.max(4,Math.round(L/al)),L2=L0;for(let j=-L2;j<=L2;j++){const sf=m0+j*al,si=Math.floor(sf),di=oi+j;if(si<0||si+1>=x.length||di<0||di>=N)continue;const fr=sf-si,v=al==1?x[si]:x[si]+(x[si+1]-x[si])*fr,w=__fastWin(j,L2);o[di]+=v*w*g;ws[di]+=w}}
+      g*=(an.sgn?an.sgn[k]:1);if(f<130)g*=Math.min(1.5,Math.pow(130/f,.25));{const al=opt.ga||1,L0=al==1?L:Math.max(4,Math.round(L/al)),L2=L0;for(let j=-L2;j<=L2;j++){const sf=m0+j*al,si=Math.floor(sf),di=oi+j;if(si<0||si+1>=x.length||di<0||di>=N)continue;const fr=sf-si;let v;if(al==1){v=x[si]}else{const y0=si>0?x[si-1]:x[0],y1=x[si],y2=si+1<x.length?x[si+1]:y1,y3=si+2<x.length?x[si+2]:y2;const c0=y1,c1=.5*(y2-y0),c2=y0-2.5*y1+2*y2-.5*y3,c3=.5*(y3-y0)+1.5*(y1-y2);v=((c3*fr+c2)*fr+c1)*fr+c0}const w=__fastWin(j,L2);o[di]+=v*w*g;ws[di]+=w}}
       u+=Ts/sr}
     else{grid=false;const oi=Math.round(u*sr);for(let j=-Hh;j<Hh;j++){const si=xi+j,di=oi+j;if(si<0||si>=x.length||di<0||di>=N)continue;const w=__fastWin(j,Hh);o[di]+=x[si]*w;ws[di]+=w}u+=Hh/sr}}
   for(let i=0;i<N;i++)o[i]/=Math.max(ws[i],.35);   // normalize the window sum: flat amplitude even with large pitch shifts
@@ -2081,11 +2137,12 @@ vbvoice = function(c, d, t, dur, p, txt, hh) {
   });
   const sr = e.w.sr;
 
-  // Equal-power crossfade (equal-power quarter-sine)
+  // Equal-power crossfade + anti-click boundary micro-taper
   const fi_len = Math.round(fade_in_sec * sr);
   const fo_len = Math.round(fade_out_sec * sr);
   const n = w.length;
   const gn = e.an.gain;
+  const anti_click_len = Math.min(24, Math.floor(n / 4));
   for (let i = 0; i < n; i++) {
     let g = gn;
     if (i < fi_len) {
@@ -2096,6 +2153,12 @@ vbvoice = function(c, d, t, dur, p, txt, hh) {
     if (j < fo_len) {
       const r = j / Math.max(1, fo_len - 1);
       g *= Math.sin((Math.PI / 2) * r);
+    }
+    if (i < anti_click_len) {
+      g *= (0.5 - 0.5 * Math.cos(Math.PI * i / anti_click_len));
+    }
+    if (j < anti_click_len) {
+      g *= (0.5 - 0.5 * Math.cos(Math.PI * j / anti_click_len));
     }
     w[i] *= g;
   }
@@ -2189,22 +2252,101 @@ $('#pw b').insertAdjacentHTML('afterend','<span id=vkd style="font-size:11px;opa
 for(const n in VBK)if(VBK[n]&&VBK[n].A)vbClassify(VBK[n]);
 VBS.pl.clear();cache.clear();tl();draw()}
 
-// ===== v7.11 · Smooth playhead: separate overlay, the piano roll is not redrawn every frame =====
+// ===== v7.11 · OpenUTAU Playback Cursor / Position Marker (Persistent marker head, ruler scrubbing & M{bar}.{beat} badge) =====
 {
-  const rw=$('#rw'),cv=$('#r'),pl=document.createElement('div');pl.id='phl';rw.appendChild(pl);
-  let lastTm='',lastX=-1;
+  const rw=$('#rw'),cv=$('#r');
+  let pl=$('#phl');
+  if(!pl){pl=document.createElement('div');pl.id='phl';rw.appendChild(pl)}
+  pl.innerHTML='<div id="phb"></div><div id="phm" title="OpenUTAU Playhead"><svg viewBox="0 0 14 12" width="14" height="12"><polygon points="0,0 14,0 7,12"/></svg></div><div id="phtip">M1.1 · 0:00.0</div>';
+  const phm=pl.querySelector('#phm'),phtip=pl.querySelector('#phtip');
+  let lastTm='',lastX=-1,isScrubbing=false;
   const lat=()=>{try{return Math.min(.25,AC.outputLatency||AC.baseLatency||0)}catch(e){return 0}};
+
+  function formatOpenUtau(pos){
+    const s=pos*ss(),tx=(s/60|0)+':'+(s%60).toFixed(1).padStart(4,'0');
+    const bar=Math.floor(pos/16)+1;
+    const beat=Math.floor((pos%16)/4)+1;
+    return 'M'+bar+'.'+beat+' · '+tx;
+  }
+
   function movePh(){
     const h=cv.height;if(pl._h!==h){pl.style.height=h+'px';pl._h=h}
-    if(ph<0){if(pl.style.display!=='none'){pl.style.display='none'}lastX=-1;return}
-    const x=KW+ph*CW;
+    // OpenUTAU standard: playhead persists at startAt when stopped!
+    const pos=ph>=0?ph:(typeof startAt==='number'?startAt:0);
+    const x=KW+pos*CW;
     if(pl.style.display!=='block')pl.style.display='block';
+    if(ph>=0)pl.classList.add('playing');else pl.classList.remove('playing');
     if(x!==lastX){pl.style.transform='translate3d('+x+'px,0,0)';lastX=x}
+    if(phtip)phtip.textContent=formatOpenUtau(pos);
   }
+
   function clockPh(){
-    const s=(ph>=0?ph:startAt)*ss(),tx=(s/60|0)+':'+(s%60).toFixed(1).padStart(4,'0');
-    if(tx!==lastTm){lastTm=tx;$('#tm').textContent=tx}
+    const pos=ph>=0?ph:(typeof startAt==='number'?startAt:0);
+    const s=pos*ss(),tx=(s/60|0)+':'+(s%60).toFixed(1).padStart(4,'0');
+    if(tx!==lastTm){lastTm=tx;if($('#tm'))$('#tm').textContent=tx}
   }
+
+  const getScrubPos=(e)=>{
+    const r=cv.getBoundingClientRect();
+    const rawX=(e.clientX-r.left-KW)/CW;
+    if(rawX<0)return 0;
+    const maxSteps=typeof N==='function'?N():64;
+    const gStep=+($('#qg')?.value||1);
+    if(e.shiftKey)return Math.max(0,Math.min(maxSteps,rawX));
+    return Math.max(0,Math.min(maxSteps,Math.round(rawX/gStep)*gStep));
+  };
+
+  const onScrubPointerDown=(e)=>{
+    if(e.button!==0)return;
+    const r=cv.getBoundingClientRect();
+    const isMarker=e.target===phm||(phm&&phm.contains(e.target));
+    const isRulerTop=(e.clientY-r.top)<24;
+    if(!isMarker&&!isRulerTop)return;
+    e.preventDefault();
+    e.stopPropagation();
+    isScrubbing=true;
+    pl.classList.add('scrubbing');
+    const pos=getScrubPos(e);
+    startAt=pos;
+    if(src&&typeof stop==='function')stop();
+    movePh();
+    clockPh();
+    if(typeof draw==='function')draw();
+    if(typeof broadcastState==='function')broadcastState();
+
+    const onPointerMove=(ev)=>{
+      if(!isScrubbing)return;
+      ev.preventDefault();
+      const p=getScrubPos(ev);
+      startAt=p;
+      movePh();
+      clockPh();
+    };
+
+    const onPointerUp=()=>{
+      if(!isScrubbing)return;
+      isScrubbing=false;
+      pl.classList.remove('scrubbing');
+      window.removeEventListener('pointermove',onPointerMove);
+      window.removeEventListener('pointerup',onPointerUp);
+      window.removeEventListener('pointercancel',onPointerUp);
+      if(typeof draw==='function')draw();
+      if(typeof broadcastState==='function')broadcastState();
+    };
+
+    window.addEventListener('pointermove',onPointerMove);
+    window.addEventListener('pointerup',onPointerUp);
+    window.addEventListener('pointercancel',onPointerUp);
+  };
+
+  if(phm)phm.addEventListener('pointerdown',onScrubPointerDown);
+  cv.addEventListener('pointerdown',e=>{
+    const r=cv.getBoundingClientRect();
+    if(e.clientY-r.top<24){
+      onScrubPointerDown(e);
+    }
+  },true);
+
   {const d0=draw;draw=function(){d0();movePh()}}
   playBuf=function(b,lp,at){
     stop();src=AC.createBufferSource();src.buffer=b;
@@ -2927,6 +3069,7 @@ function broadcastState() {
         trackName: h ? h.name : 'Vocal',
         currentTime: curTime,
         isPlaying: typeof src !== 'undefined' && !!src,
+        metronome: typeof S !== 'undefined' ? !!S.mt : false,
         grid: +($('#qg')?.value || 1),
         autoQuantize: !!$('#aq')?.checked,
         lang: typeof LN !== 'undefined' ? LN : 'en'
@@ -2936,6 +3079,15 @@ function broadcastState() {
 }
 
 window.addEventListener('message', e => {
+  if (e.data && e.data.type === 'TOGGLE_METRONOME') {
+    if (typeof S !== 'undefined') {
+      S.mt = !S.mt;
+      const mt = document.getElementById('mt');
+      if (mt) mt.checked = !!S.mt;
+      if (typeof sync === 'function') sync();
+      if (typeof broadcastState === 'function') broadcastState();
+    }
+  }
   if (e.data && e.data.type === 'SET_LANGUAGE') {
     if (typeof LN !== 'undefined' && e.data.lang && LI[e.data.lang] !== undefined) {
       LN = e.data.lang;
@@ -3071,7 +3223,9 @@ if(tb){
    ['Phonemizer','EN2JA+','Cadlaxa (MIT)','https://github.com/Cadlaxa','Chuyển tiếng Anh sang kana; tích hợp trong phonemizer “En to Ja” của OpenUtau.','English → kana conversion; merged into OpenUtau’s “En to Ja” phonemizer.'],
    ['MP3 Encoder','lamejs','Janez Stupar (LGPL-3.0 / MIT)','https://github.com/zhuker/lamejs','Bộ mã hóa MP3 LAME thuần JavaScript chạy 100% trong trình duyệt.','Pure JavaScript LAME MP3 audio encoder running 100% in browser.'],
    ['Data Visualization','D3.js','Mike Bostock (ISC License)','https://d3js.org','Thư viện vẽ đường cong cao độ F0 và tọa độ thời gian thực.','Data visualization library powering the bottom F0 pitch visualizer.'],
-   ['Application','Voicest v1.5x','Gitbuo · Gemini · Claude · Devin (MIT)','','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép MIT.','Voicest v1.5x application codebase licensed under the MIT License.']
+   ['Cestloid Appends','Vocal Timbre Engine','Cestloid Project · Gitbuo','https://github.com/straycat-sound/openutau','Hệ thống 8 chất giọng (Default, Child, Mature, Weak, Clear, Power, Whisper, Robot) kèm Auto-tune thích ứng.','8 vocal timbre appends (Default, Child, Mature, Weak, Clear, Power, Whisper, Robot) with adaptive Auto-tune.'],
+   ['Playback Head','OpenUTAU Marker','OpenUTAU Project (MIT)','https://github.com/straycat-sound/openutau','Vạch phát nhạc cố định kèm đầu tam giác thước nhịp và hiển thị số ô nhịp M{bar}.{beat}.','Persistent playback position cursor with interactive ruler head and measure.beat readout.'],
+   ['Application','Voicest v1.5x','Gitbuo · Gemini · Claude · Devin (MIT)','https://github.com/straycat-sound/voicest-web','Bản quyền mã nguồn ứng dụng Voicest v1.5x theo giấy phép MIT.','Voicest v1.5x application codebase licensed under the MIT License.']
   ];
   const SC=[
    ['Space',T('Phát / dừng','Play / stop')],
@@ -4001,7 +4155,7 @@ async function render(){
   for(const rec of list){
     const row=document.createElement('div');row.className='s';row.style.justifyContent='space-between';
     const lab=document.createElement('span');lab.textContent=rec.name+' · '+mb(rec.size)+' MB';lab.style.overflow='hidden';lab.style.textOverflow='ellipsis';
-    const b=document.createElement('button');b.textContent='✕';b.title=_T('vbl_del');
+    const b=document.createElement('button');b.textContent='X';b.title=_T('vbl_del');
     b.onclick=async()=>{if(!confirm(_T('vbl_del_q',rec.name)))return;try{await delBank(rec.name)}catch(e){console.warn(e)}render()};
     row.append(lab,b);box.appendChild(row);
   }
@@ -4143,9 +4297,9 @@ async function render(){
     $('#vbot').textContent=_T('vbo_title');$('#vboa').textContent=_T('vbo_add');inp.title=_T('vbo_url_tip');
     const box=$('#vbol'),list=loadList(),rows=[];
     for(const url of list){const m=MF.get(url);if(!m)continue;const s=await cachedSize(url,m);
-      rows.push(row(`${m.name} · ${_T('vbo_cached',mb(s.n),mb(m.totalSize||0))}${s.full?' ✓':''}`,[
-        ...(s.full?[]:[['⤓',_T('vbo_offline'),()=>offline(url)]]),
-        ['✕',_T('vbo_del'),()=>{if(confirm(_T('vbo_del_q',m.name)))forget(url)}]]))}
+      rows.push(row(`${m.name} · ${_T('vbo_cached',mb(s.n),mb(m.totalSize||0))}${s.full?' [OK]':''}`,[
+        ...(s.full?[]:[['DL',_T('vbo_offline'),()=>offline(url)]]),
+        ['X',_T('vbo_del'),()=>{if(confirm(_T('vbo_del_q',m.name)))forget(url)}]]))}
     box.replaceChildren(...rows);
     const hb=$('#vboh'),hr=[];
     if(hosted&&hosted.length){const added=new Set(list);
@@ -4188,41 +4342,41 @@ try{if('serviceWorker' in navigator&&isSecureContext)navigator.serviceWorker.reg
     vi:{
       title:'Chào mừng đến với Voicest!',
       desc:'Bạn đang sử dụng thiết bị nào? Voicest sẽ tự động ghi nhớ lựa chọn này cho các lần mở sau.',
-      desk:'<b>🖥 Máy tính (PC / Laptop)</b><small>Giao diện DAW đầy đủ · Phím tắt (Space, Ctrl+S, Home) · Kéo thả file &amp; chuột phải xoá nốt</small>',
-      mob:'<b>📱 Điện thoại / Máy tính bảng</b><small>Nút bấm lớn dễ chạm · Chế độ vuốt cuộn Piano Roll · Thu gọn bảng điều khiển &amp; nhập MIDI/UST/UTAU VB 1 chạm</small>',
-      pc:'🖥 PC',mobile:'📱 Mobile',side:'☰ Bảng ĐK',imp:'📥 Nhập MIDI/UST',pan:'🖐 Cuộn',
+      desk:'<b>Máy tính (PC / Laptop)</b><small>Giao diện DAW đầy đủ · Phím tắt (Space, Ctrl+S, Home) · Kéo thả file &amp; chuột phải xoá nốt</small>',
+      mob:'<b>Điện thoại / Máy tính bảng</b><small>Nút bấm lớn dễ chạm · Chế độ vuốt cuộn Piano Roll · Thu gọn bảng điều khiển &amp; nhập MIDI/UST/UTAU VB 1 chạm</small>',
+      pc:'PC',mobile:'Mobile',side:'Bảng ĐK',imp:'Nhập MIDI/UST',pan:'Cuộn',
       vfiles:'Chọn file VB (.zip / .wav + oto.ini)'
     },
     en:{
       title:'Welcome to Voicest!',
       desc:'Which device are you using? Voicest will remember your choice for next time.',
-      desk:'<b>🖥 Desktop / Laptop</b><small>Full DAW layout · Keyboard shortcuts (Space, Ctrl+S, Home) · Drag &amp; drop files &amp; right-click delete</small>',
-      mob:'<b>📱 Phone / Tablet (Touch)</b><small>Larger touch buttons · 1-finger Piano Roll scroll · Collapsible panel &amp; 1-tap MIDI/UST/UTAU VB import</small>',
-      pc:'🖥 PC',mobile:'📱 Mobile',side:'☰ Panel',imp:'📥 Import MIDI/UST',pan:'🖐 Pan',
+      desk:'<b>Desktop / Laptop</b><small>Full DAW layout · Keyboard shortcuts (Space, Ctrl+S, Home) · Drag &amp; drop files &amp; right-click delete</small>',
+      mob:'<b>Phone / Tablet (Touch)</b><small>Larger touch buttons · 1-finger Piano Roll scroll · Collapsible panel &amp; 1-tap MIDI/UST/UTAU VB import</small>',
+      pc:'PC',mobile:'Mobile',side:'Panel',imp:'Import MIDI/UST',pan:'Pan',
       vfiles:'Select VB files (.zip / .wav + oto.ini)'
     },
     ja:{
       title:'Voicest へようこそ！',
       desc:'お使いのデバイスを選択してください。次回からは自動的に記憶されます。',
-      desk:'<b>🖥 パソコン (PC / Mac)</b><small>フルDAW画面 · ショートカットキー (Space, Ctrl+S, Home) · ドラッグ＆ドロップ対応</small>',
-      mob:'<b>📱 スマホ / タブレット</b><small>大きめボタン · 1本指でピアノロールスクロール · パネル折りたたみ＆ワンタップ読込</small>',
-      pc:'🖥 PC',mobile:'📱 モバイル',side:'☰ パネル',imp:'📥 MIDI/UST読込',pan:'🖐 スクロール',
+      desk:'<b>パソコン (PC / Mac)</b><small>フルDAW画面 · ショートカットキー (Space, Ctrl+S, Home) · ドラッグ＆ドロップ対応</small>',
+      mob:'<b>スマホ / タブレット</b><small>大きめボタン · 1本指でピアノロールスクロール · パネル折りたたみ＆ワンタップ読込</small>',
+      pc:'PC',mobile:'モバイル',side:'パネル',imp:'MIDI/UST読込',pan:'スクロール',
       vfiles:'音源ファイル選択 (.zip / .wav + oto.ini)'
     },
     zh:{
       title:'欢迎使用 Voicest！',
       desc:'您正在使用哪种设备？Voicest 会自动记住您的选择以便下次使用。',
-      desk:'<b>🖥 电脑 (PC / Laptop)</b><small>完整 DAW 界面 · 快捷键 (Space, Ctrl+S, Home) · 拖拽导入与右键删除</small>',
-      mob:'<b>📱 手机 / 平板 (触屏)</b><small>大号触控按钮 · 单指滑动卷帘 · 折叠面板与一键导入 MIDI/UST/UTAU 音源</small>',
-      pc:'🖥 电脑',mobile:'📱 手机',side:'☰ 面板',imp:'📥 导入 MIDI/UST',pan:'🖐 滚动',
+      desk:'<b>电脑 (PC / Laptop)</b><small>完整 DAW 界面 · 快捷键 (Space, Ctrl+S, Home) · 拖拽导入与右键删除</small>',
+      mob:'<b>手机 / 平板 (触屏)</b><small>大号触控按钮 · 单指滑动卷帘 · 折叠面板与一键导入 MIDI/UST/UTAU 音源</small>',
+      pc:'电脑',mobile:'手机',side:'面板',imp:'导入 MIDI/UST',pan:'滚动',
       vfiles:'选择音源文件 (.zip / .wav + oto.ini)'
     },
     ko:{
       title:'Voicest에 오신 것을 환영합니다!',
       desc:'사용 중인 기기를 선택해 주세요. 다음 실행 시 자동으로 기억됩니다.',
-      desk:'<b>🖥 컴퓨터 (PC / Laptop)</b><small>전체 DAW 레이아웃 · 단축키 (Space, Ctrl+S, Home) · 드래그 앤 드롭 및 우클릭 삭제</small>',
-      mob:'<b>📱 스마트폰 / 태블릿</b><small>큰 터치 버튼 · 한 손가락 피아노 롤 스크롤 · 패널 접기 및 원터치 MIDI/UST/UTAU 불러오기</small>',
-      pc:'🖥 PC',mobile:'📱 모바일',side:'☰ 패널',imp:'📥 MIDI/UST 불러오기',pan:'🖐 스크롤',
+      desk:'<b>컴퓨터 (PC / Laptop)</b><small>전체 DAW 레이아웃 · 단축키 (Space, Ctrl+S, Home) · 드래그 앤 드롭 및 우클릭 삭제</small>',
+      mob:'<b>스마트폰 / 태블릿</b><small>큰 터치 버튼 · 한 손가락 피아노 롤 스크롤 · 패널 접기 및 원터치 MIDI/UST/UTAU 불러오기</small>',
+      pc:'PC',mobile:'모바일',side:'패널',imp:'MIDI/UST 불러오기',pan:'스크롤',
       vfiles:'보이스뱅크 파일 선택 (.zip / .wav + oto.ini)'
     }
   };

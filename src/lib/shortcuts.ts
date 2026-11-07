@@ -12,6 +12,7 @@ export type ShortcutAction =
   | 'seek_forward'
   | 'prev_track'
   | 'next_track'
+  | 'toggle_metro'
   | 'toggle_help';
 
 export interface ShortcutEventLike {
@@ -35,9 +36,10 @@ export const SHORTCUT_DEFINITIONS: ShortcutDefinition[] = [
   { action: 'stop', keys: ['Esc'], labelKey: 'sc_stop' },
   { action: 'seek_home', keys: ['Home'], labelKey: 'sc_home' },
   { action: 'seek_end', keys: ['End'], labelKey: 'sc_end' },
-  { action: 'seek_back', keys: ['←', '→'], labelKey: 'sc_seek_step' },
+  { action: 'seek_back', keys: ['Left', 'Right'], labelKey: 'sc_seek_step' },
   { action: 'prev_track', keys: ['['], labelKey: 'sc_prev_track' },
   { action: 'next_track', keys: [']'], labelKey: 'sc_next_track' },
+  { action: 'toggle_metro', keys: ['M'], labelKey: 'sc_metro' },
   { action: 'toggle_help', keys: ['?'], labelKey: 'shortcuts_btn' },
 ];
 
@@ -79,6 +81,9 @@ export function matchGlobalShortcut(e: ShortcutEventLike): ShortcutAction | null
   }
   if (key === ']' || (e.altKey && key === 'ArrowDown')) {
     return 'next_track';
+  }
+  if (key === 'm' || key === 'M' || code === 'KeyM') {
+    return 'toggle_metro';
   }
   if (key === '?' || key === 'F1') {
     return 'toggle_help';

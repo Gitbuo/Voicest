@@ -8,7 +8,6 @@ import PitchVisualizer from './components/PitchVisualizer';
 import { VocalNote } from './lib/pitch-contour';
 import { Language, t } from './lib/i18n';
 import { matchGlobalShortcut, SHORTCUT_DEFINITIONS, ShortcutAction } from './lib/shortcuts';
-import { recordTapTempo } from './lib/tap-tempo';
 
 const LANGS: Language[] = ['vi', 'en', 'ja', 'zh', 'ko'];
 
@@ -18,6 +17,7 @@ interface VoicestState {
   trackName: string;
   currentTime: number;
   isPlaying: boolean;
+  metronome?: boolean;
   lang: Language;
 }
 
@@ -36,7 +36,6 @@ export default function App() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const sigRef = useRef('');
   const toastTimerRef = useRef<number | null>(null);
-  const tapTimesRef = useRef<number[]>([]);
 
   const [expanded, setExpanded] = useState(false);
   const [notes, setNotes] = useState<VocalNote[]>([]);
@@ -44,6 +43,7 @@ export default function App() {
   const [trackName, setTrackName] = useState('Vocal');
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [metronomeOn, setMetronomeOn] = useState(false);
   const [lang, setLang] = useState<Language>('en');
   const [toast, setToast] = useState<string | null>(null);
   const [showShortcuts, setShowShortcuts] = useState(false);
@@ -76,15 +76,14 @@ export default function App() {
     setCurrentTime(timeSec);
   }, [postToStudio]);
 
-  const handleTapTempo = useCallback(() => {
-    const res = recordTapTempo(tapTimesRef.current, performance.now());
-    tapTimesRef.current = res.timestamps;
-    if (res.bpm !== null) {
-      setBpm(res.bpm);
-      postToStudio({ type: 'SET_BPM', bpm: res.bpm });
-      showToast(`BPM: ${res.bpm}`);
-    }
-  }, [postToStudio, showToast]);
+  const handleToggleMetronome = useCallback(() => {
+    postToStudio({ type: 'TOGGLE_METRONOME' });
+    setMetronomeOn((prev) => {
+      const next = !prev;
+      showToast(t(next ? 'toast_metro_on' : 'toast_metro_off', lang));
+      return next;
+    });
+  }, [lang, postToStudio, showToast]);
 
   const executeShortcut = useCallback((action: ShortcutAction) => {
     const beatSec = 60 / (bpm || 120);
@@ -119,11 +118,14 @@ export default function App() {
       case 'next_track':
         postToStudio({ type: 'NEXT_TRACK' });
         break;
+      case 'toggle_metro':
+        handleToggleMetronome();
+        break;
       case 'toggle_help':
         setShowShortcuts((v) => !v);
         break;
     }
-  }, [bpm, currentTime, handleSeek, isPlaying, lang, postToStudio, showToast]);
+  }, [bpm, currentTime, handleSeek, handleToggleMetronome, isPlaying, lang, postToStudio, showToast]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -154,6 +156,7 @@ export default function App() {
         if (typeof incoming.bpm === 'number') setBpm(incoming.bpm);
         if (incoming.trackName) setTrackName(incoming.trackName);
         setIsPlaying(!!incoming.isPlaying);
+        if (typeof incoming.metronome === 'boolean') setMetronomeOn(incoming.metronome);
         setCurrentTime((prev) => (Math.abs(prev - incoming.currentTime) > 0.01 ? incoming.currentTime : prev));
         if (LANGS.includes(incoming.lang)) setLang(incoming.lang);
       } else if (d.type === 'VOICEST_LANG_CHANGE') {
@@ -286,7 +289,8 @@ export default function App() {
         expanded={expanded}
         onToggle={() => setExpanded((v) => !v)}
         onSeek={handleSeek}
-        onTapTempo={handleTapTempo}
+        metronomeOn={metronomeOn}
+        onToggleMetronome={handleToggleMetronome}
       />
     </div>
   );

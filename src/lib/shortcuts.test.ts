@@ -19,6 +19,8 @@ test('matchGlobalShortcut maps transport and navigation keys', () => {
   assert.equal(matchGlobalShortcut({ key: ']' }), 'next_track');
   assert.equal(matchGlobalShortcut({ key: 'ArrowUp', altKey: true }), 'prev_track');
   assert.equal(matchGlobalShortcut({ key: 'ArrowDown', altKey: true }), 'next_track');
+  assert.equal(matchGlobalShortcut({ key: 'm' }), 'toggle_metro');
+  assert.equal(matchGlobalShortcut({ key: 'M', code: 'KeyM' }), 'toggle_metro');
   assert.equal(matchGlobalShortcut({ key: '?' }), 'toggle_help');
 });
 
